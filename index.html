@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
@@ -18,598 +19,602 @@
     --unit-badge: #1565c0;
   }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Noto Sans JP', sans-serif;
-    min-height: 100vh;
-    padding: 2rem 1rem;
-  }
-
-  h1 {
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 2rem;
-    letter-spacing: 0.15em;
-    color: var(--blue-accent);
-    text-shadow: 0 0 20px var(--blue-glow);
-    margin-bottom: 2rem;
-    text-align: center;
-    text-transform: uppercase;
-  }
-
-  /* ── カードグリッド（横並び・画像のみ） ── */
-  .card-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-    gap: 8px;
-    max-width: 960px;
-    margin: 0 auto;
-  }
-
-  /* ── カードアイテム（画像のみ・正方形に近い縦長） ── */
-  .card-item {
-    position: relative;
-    border-radius: 6px;
-    overflow: hidden;
-    cursor: pointer;
-    aspect-ratio: 3 / 4;
-    background: #0d1b2e;
-    border: 1px solid var(--border);
-    transition: transform 0.15s, box-shadow 0.15s;
-  }
-
-  .card-item:hover { transform: scale(1.05); box-shadow: 0 4px 20px rgba(33,150,243,0.4); z-index: 1; }
-
-  .card-img-wrap {
-    width: 100%;
-    height: 100%;
-    position: relative;
-  }
-
-  .card-img-wrap img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-
-  .multi-badge {
-    position: absolute;
-    bottom: 4px;
-    right: 4px;
-    background: rgba(33,150,243,0.88);
-    color: #fff;
-    font-size: 0.58rem;
-    font-family: 'Rajdhani', sans-serif;
-    font-weight: 700;
-    padding: 1px 5px;
-    border-radius: 3px;
-    letter-spacing: 0.05em;
-  }
-
-  .card-info { display: flex; flex-direction: column; gap: 0.45rem; }
-  .card-header { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
-
-  .card-id {
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 0.75rem;
-    color: var(--text-muted);
-    letter-spacing: 0.1em;
-  }
-
-  .card-rarity {
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 0.7rem;
-    background: var(--gold);
-    color: #1a1000;
-    padding: 0 6px;
-    border-radius: 3px;
-    font-weight: 700;
-  }
-
-  .card-rarity.plus { background: linear-gradient(135deg, #ffd54f, #ff8f00); }
-
-  /* ① カード名：リストでは黒（白背景でも読める）、モーダル内は白に上書き */
-  .card-name { font-size: 1.05rem; font-weight: 700; color: #0d1b2e; line-height: 1.3; }
-  .modal-body .card-name { color: #fff; }
-
-  .card-badges { display: flex; gap: 0.4rem; flex-wrap: wrap; align-items: center; }
-
-  /* バッジ共通 */
-  .badge { font-size: 0.68rem; padding: 3px 9px; border-radius: 20px; font-weight: 700; letter-spacing: 0.03em; }
-  .badge-type    { background: var(--unit-badge); color: #90caf9; border: 1px solid #1565c0; }
-
-  /* ③ Blueバッジ：鮮やかな青い塗りつぶしアイコン風 */
-  .badge-color       { background: #1565c0; color: #fff; border: none; box-shadow: 0 0 8px rgba(21,101,192,0.7); }
-  /* Greenカードバッジ：緑の塗りつぶしアイコン風 */
-  .badge-color-green { background: #2e7d32; color: #fff; border: none; box-shadow: 0 0 8px rgba(46,125,50,0.7); }
-  /* Redカードバッジ：赤の塗りつぶしアイコン風 */
-  .badge-color-red   { background: #b71c1c; color: #fff; border: none; box-shadow: 0 0 8px rgba(183,28,28,0.7); }
-  /* Whiteカードバッジ：白系のアイコン風 */
-  .badge-color-white  { background: #e0e0e0; color: #222; border: none; box-shadow: 0 0 8px rgba(200,200,200,0.5); }
-  /* Purpleカードバッジ：紫の塗りつぶしアイコン風 */
-  .badge-color-purple { background: #6a1b9a; color: #fff; border: none; box-shadow: 0 0 8px rgba(106,27,154,0.7); }
-  /* トークンバッジ：グレーのアイコン風 */
-  .badge-color-token  { background: #455a64; color: #fff; border: none; }
-  /* Whiteカードバッジ：白地に濃いグレー文字 */
-  .badge-color-white { background: #e0e0e0; color: #1a1a2e; border: none; box-shadow: 0 0 8px rgba(220,220,220,0.5); }
-
-  .badge-terrain { background: #1a1a2e; color: #ce93d8; border: 1px solid #6a1b9a; }
-
-  .card-stats { display: flex; gap: 1rem; font-family: 'Rajdhani', sans-serif; }
-  .stat { display: flex; gap: 0.3rem; align-items: center; }
-  .stat-label { color: var(--text-muted); font-size: 0.75rem; }
-  .stat-value { color: var(--gold); font-weight: 700; font-size: 1rem; }
-
-  /* ② リスト上では効果を非表示（モーダルでのみ表示） */
-  .card-effect  { font-size: 0.78rem; color: #b0c4de; line-height: 1.6; border-left: 2px solid var(--border); padding-left: 0.6rem; }
-  .card-item .card-effect { display: none; }
-
-  .card-feature { font-size: 0.72rem; color: var(--text-muted); }
-  .card-source  { font-size: 0.68rem; color: var(--text-muted); margin-top: auto; }
-
-  /* ── フィルターエリア ── */
-  .filter-area {
-    max-width: 960px;
-    margin: 0 auto 1.2rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
-  }
-
-  /* ── 検索行（検索欄＋クリアボタン） ── */
-  .search-row {
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
-  }
-
-  .search-row .search-wrap {
-    flex: 1;
-    margin: 0;
-    max-width: none;
-  }
-
-  /* ── クリアボタン ── */
-  .clear-btn {
-    flex-shrink: 0;
-    padding: 0.7rem 1.1rem;
-    background: #1e3a5f;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    color: var(--text);
-    font-size: 0.82rem;
-    font-family: 'Noto Sans JP', sans-serif;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: background 0.2s;
-  }
-
-  .clear-btn:hover { background: #c0392b; border-color: #c0392b; }
-
-  /* ── 検索欄 ── */
-  .search-wrap {
-    position: relative;
-  }
-
-  #search-input {
-    width: 100%;
-    padding: 0.75rem 1rem 0.75rem 2.8rem;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    color: var(--text);
-    font-size: 0.9rem;
-    font-family: 'Noto Sans JP', sans-serif;
-    outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%237a8daa' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398l3.85 3.85a1 1 0 0 0 1.415-1.415l-3.868-3.833zm-5.242 1.156a5 5 0 1 1 0-10 5 5 0 0 1 0 10z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: 0.9rem center;
-  }
-
-  #search-input:focus { border-color: var(--blue-accent); box-shadow: 0 0 0 3px var(--blue-glow); }
-  #search-input::placeholder { color: var(--text-muted); }
-
-  /* ── プルダウン（select）共通スタイル ── */
-  .filter-selects {
-    display: grid;
-    gap: 0.5rem;
-    grid-template-columns: repeat(4, 1fr);
-  }
-
-  /* 行3は3列 */
-  .filter-selects.row3 {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  .filter-select {
-    width: 100%;
-    padding: 0.55rem 0.8rem;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    color: var(--text);
-    font-size: 0.82rem;
-    font-family: 'Noto Sans JP', sans-serif;
-    outline: none;
-    cursor: pointer;
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%237a8daa'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 0.7rem center;
-    padding-right: 2rem;
-  }
-
-  .filter-select:focus { border-color: var(--blue-accent); box-shadow: 0 0 0 3px var(--blue-glow); }
-
-  /* ── 件数・空状態 ── */
-  .empty-state {
-    text-align: center;
-    color: var(--text-muted);
-    padding: 4rem 1rem;
-    font-size: 0.9rem;
-    grid-column: 1 / -1;
-  }
-
-  .result-bar {
-    max-width: 960px;
-    margin: 0 auto 0.6rem;
-    font-size: 0.75rem;
-    color: var(--text-muted);
-    font-family: 'Rajdhani', sans-serif;
-    letter-spacing: 0.05em;
-  }
-
-  .search-count {
-    position: absolute;
-    right: 1rem;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 0.72rem;
-    color: var(--text-muted);
-    font-family: 'Rajdhani', sans-serif;
-    pointer-events: none;
-  }
-
-  /* ── ブロックアイコン ── */
-  .block-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 18px;
-    height: 18px;
-    border-radius: 4px;
-    background: #2a3650;
-    border: 1px solid #3d5080;
-    color: #90caf9;
-    font-size: 0.65rem;
-    font-family: 'Rajdhani', sans-serif;
-    font-weight: 700;
-    line-height: 1;
-    flex-shrink: 0;
-  }
-  .modal-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(5,8,18,0.92);
-    z-index: 1000;
-    align-items: center;
-    justify-content: center;
-    backdrop-filter: blur(6px);
-  }
-  .modal-overlay.open { display: flex; }
-
-  .modal {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    width: min(92vw, 480px);
-    max-height: 90vh;
-    overflow-y: auto;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 40px var(--blue-glow);
-    animation: modalIn 0.22s ease;
-    position: relative;
-  }
-
-  @keyframes modalIn {
-    from { opacity:0; transform:translateY(20px) scale(0.97); }
-    to   { opacity:1; transform:translateY(0) scale(1); }
-  }
-
-  .modal-close {
-    position: absolute;
-    top: 10px;
-    right: 12px;
-    background: rgba(10,14,26,0.8);
-    border: 1px solid var(--border);
-    color: var(--text);
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    font-size: 1rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 10;
-    line-height: 1;
-  }
-  .modal-close:hover { background: #c0392b; border-color: #c0392b; }
-
-  /* スライダー */
-  .modal-slider {
-    position: relative;
-    overflow: hidden;
-    border-radius: 10px 10px 0 0;
-    background: #060c18;
-    touch-action: pan-y;
-  }
-
-  .slider-track {
-    display: flex;
-    transition: transform 0.32s cubic-bezier(0.4,0,0.2,1);
-    will-change: transform;
-  }
-
-  .slider-track img {
-    min-width: 100%;
-    width: 100%;
-    max-height: 340px;
-    object-fit: contain;
-    display: block;
-    user-select: none;
-    -webkit-user-drag: none;
-  }
-
-  .slider-dots {
-    position: absolute;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 6px;
-  }
-
-  .dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.3);
-    transition: background 0.2s, transform 0.2s;
-  }
-  .dot.active { background: var(--blue-accent); transform: scale(1.35); }
-
-  .slider-arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(10,14,26,0.7);
-    border: 1px solid var(--border);
-    color: var(--text);
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    font-size: 1.2rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.2s;
-    z-index: 2;
-  }
-  .slider-arrow:hover { background: var(--blue-accent); }
-  .slider-arrow.prev { left: 8px; }
-  .slider-arrow.next { right: 8px; }
-  .slider-arrow.hidden { display: none; }
-
-  /* モーダル本文 */
-  .modal-body {
-    padding: 1.2rem 1.4rem 1.6rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.65rem;
-  }
-
-  .modal-body .card-name  { font-size: 1.35rem; }
-  .modal-body .card-effect { font-size: 0.82rem; }
-
-  /* ── タブ ── */
-  .tabs {
-    display: flex;
-    max-width: 960px;
-    margin: 0 auto 1rem;
-    border-bottom: 2px solid var(--border);
-  }
-
-  .tab-btn {
-    flex: 1;
-    padding: 0.7rem 1rem;
-    background: none;
-    border: none;
-    border-bottom: 3px solid transparent;
-    margin-bottom: -2px;
-    color: var(--text-muted);
-    font-size: 0.95rem;
-    font-family: 'Noto Sans JP', sans-serif;
-    font-weight: 700;
-    cursor: pointer;
-    letter-spacing: 0.05em;
-    transition: color 0.2s, border-color 0.2s;
-  }
-
-  .tab-btn.active {
-    color: var(--blue-accent);
-    border-bottom-color: var(--blue-accent);
-  }
-
-  /* ── タブコンテンツ ── */
-  .tab-content { display: none; }
-  .tab-content.active { display: block; }
-
-  /* ── カードアイテム（検索タブ：＋／－ボタン付き） ── */
-  .card-wrap {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-  }
-
-  .card-count-row {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
-  }
-
-  .deck-btn {
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
-    border: none;
-    font-size: 1.1rem;
-    line-height: 1;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    transition: background 0.15s, transform 0.1s;
-    flex-shrink: 0;
-  }
-
-  .deck-btn.minus {
-    background: #37474f;
-    color: #fff;
-  }
-
-  .deck-btn.plus {
-    background: var(--blue-accent);
-    color: #fff;
-  }
-
-  .deck-btn:disabled {
-    opacity: 0.3;
-    cursor: not-allowed;
-  }
-
-  .deck-btn:not(:disabled):active { transform: scale(0.9); }
-
-  .card-count-num {
-    font-family: 'Rajdhani', sans-serif;
-    font-weight: 700;
-    font-size: 0.85rem;
-    color: var(--gold);
-    min-width: 14px;
-    text-align: center;
-  }
-
-  /* ── デッキタブ ── */
-  .deck-header {
-    max-width: 960px;
-    margin: 0 auto 0.8rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.5rem;
-  }
-
-  .deck-count-bar {
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--gold);
-    letter-spacing: 0.05em;
-  }
-
-  .deck-clear-btn {
-    padding: 0.4rem 0.9rem;
-    background: #37474f;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    color: var(--text);
-    font-size: 0.78rem;
-    font-family: 'Noto Sans JP', sans-serif;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-
-  .deck-clear-btn:hover { background: #c0392b; border-color: #c0392b; }
-
-  /* デッキグリッドはcard-listと同じグリッドを再利用 */
-  .deck-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-    gap: 8px;
-    max-width: 960px;
-    margin: 0 auto;
-  }
-
-  /* デッキカードアイテム */
-  .deck-card-wrap {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-  }
-
-  .deck-card-item {
-    position: relative;
-    border-radius: 6px;
-    overflow: hidden;
-    aspect-ratio: 3 / 4;
-    background: #0d1b2e;
-    border: 1px solid var(--border);
-    cursor: pointer;
-  }
-
-  .deck-card-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-
-  .deck-card-count {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
-  }
-
-  .deck-card-count .deck-btn { width: 22px; height: 22px; font-size: 1rem; }
-
-  .deck-card-qty {
-    font-family: 'Rajdhani', sans-serif;
-    font-weight: 700;
-    font-size: 0.85rem;
-    color: var(--gold);
-    min-width: 14px;
-    text-align: center;
-  }
-
-  @media (max-width: 480px) {
-    .card-list { grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 6px; }
-    .deck-grid  { grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 6px; }
-    .slider-track img { max-height: 260px; }
-  }
+- { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+background: var(–bg);
+color: var(–text);
+font-family: ‘Noto Sans JP’, sans-serif;
+min-height: 100vh;
+padding: 2rem 1rem;
+}
+
+h1 {
+font-family: ‘Rajdhani’, sans-serif;
+font-size: 2rem;
+letter-spacing: 0.15em;
+color: var(–blue-accent);
+text-shadow: 0 0 20px var(–blue-glow);
+margin-bottom: 2rem;
+text-align: center;
+text-transform: uppercase;
+}
+
+/* ── カードグリッド（横並び・画像のみ） ── */
+.card-list {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+gap: 8px;
+max-width: 960px;
+margin: 0 auto;
+}
+
+/* ── カードアイテム（画像のみ・正方形に近い縦長） ── */
+.card-item {
+position: relative;
+border-radius: 6px;
+overflow: hidden;
+cursor: pointer;
+aspect-ratio: 3 / 4;
+background: #0d1b2e;
+border: 1px solid var(–border);
+transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.card-item:hover { transform: scale(1.05); box-shadow: 0 4px 20px rgba(33,150,243,0.4); z-index: 1; }
+
+.card-img-wrap {
+width: 100%;
+height: 100%;
+position: relative;
+}
+
+.card-img-wrap img {
+width: 100%;
+height: 100%;
+object-fit: cover;
+display: block;
+}
+
+.multi-badge {
+position: absolute;
+bottom: 4px;
+right: 4px;
+background: rgba(33,150,243,0.88);
+color: #fff;
+font-size: 0.58rem;
+font-family: ‘Rajdhani’, sans-serif;
+font-weight: 700;
+padding: 1px 5px;
+border-radius: 3px;
+letter-spacing: 0.05em;
+}
+
+.card-info { display: flex; flex-direction: column; gap: 0.45rem; }
+.card-header { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+
+.card-id {
+font-family: ‘Rajdhani’, sans-serif;
+font-size: 0.75rem;
+color: var(–text-muted);
+letter-spacing: 0.1em;
+}
+
+.card-rarity {
+font-family: ‘Rajdhani’, sans-serif;
+font-size: 0.7rem;
+background: var(–gold);
+color: #1a1000;
+padding: 0 6px;
+border-radius: 3px;
+font-weight: 700;
+}
+
+.card-rarity.plus { background: linear-gradient(135deg, #ffd54f, #ff8f00); }
+
+/* ① カード名：リストでは黒（白背景でも読める）、モーダル内は白に上書き */
+.card-name { font-size: 1.05rem; font-weight: 700; color: #0d1b2e; line-height: 1.3; }
+.modal-body .card-name { color: #fff; }
+
+.card-badges { display: flex; gap: 0.4rem; flex-wrap: wrap; align-items: center; }
+
+/* バッジ共通 */
+.badge { font-size: 0.68rem; padding: 3px 9px; border-radius: 20px; font-weight: 700; letter-spacing: 0.03em; }
+.badge-type    { background: var(–unit-badge); color: #90caf9; border: 1px solid #1565c0; }
+
+/* ③ Blueバッジ：鮮やかな青い塗りつぶしアイコン風 */
+.badge-color       { background: #1565c0; color: #fff; border: none; box-shadow: 0 0 8px rgba(21,101,192,0.7); }
+/* Greenカードバッジ：緑の塗りつぶしアイコン風 */
+.badge-color-green { background: #2e7d32; color: #fff; border: none; box-shadow: 0 0 8px rgba(46,125,50,0.7); }
+/* Redカードバッジ：赤の塗りつぶしアイコン風 */
+.badge-color-red   { background: #b71c1c; color: #fff; border: none; box-shadow: 0 0 8px rgba(183,28,28,0.7); }
+/* Whiteカードバッジ：白系のアイコン風 */
+.badge-color-white  { background: #e0e0e0; color: #222; border: none; box-shadow: 0 0 8px rgba(200,200,200,0.5); }
+/* Purpleカードバッジ：紫の塗りつぶしアイコン風 */
+.badge-color-purple { background: #6a1b9a; color: #fff; border: none; box-shadow: 0 0 8px rgba(106,27,154,0.7); }
+/* トークンバッジ：グレーのアイコン風 */
+.badge-color-token  { background: #455a64; color: #fff; border: none; }
+/* Whiteカードバッジ：白地に濃いグレー文字 */
+.badge-color-white { background: #e0e0e0; color: #1a1a2e; border: none; box-shadow: 0 0 8px rgba(220,220,220,0.5); }
+
+.badge-terrain { background: #1a1a2e; color: #ce93d8; border: 1px solid #6a1b9a; }
+
+.card-stats { display: flex; gap: 1rem; font-family: ‘Rajdhani’, sans-serif; }
+.stat { display: flex; gap: 0.3rem; align-items: center; }
+.stat-label { color: var(–text-muted); font-size: 0.75rem; }
+.stat-value { color: var(–gold); font-weight: 700; font-size: 1rem; }
+
+/* ② リスト上では効果を非表示（モーダルでのみ表示） */
+.card-effect  { font-size: 0.78rem; color: #b0c4de; line-height: 1.6; border-left: 2px solid var(–border); padding-left: 0.6rem; }
+.card-item .card-effect { display: none; }
+
+.card-feature { font-size: 0.72rem; color: var(–text-muted); }
+.card-source  { font-size: 0.68rem; color: var(–text-muted); margin-top: auto; }
+
+/* ── フィルターエリア ── */
+.filter-area {
+max-width: 960px;
+margin: 0 auto 1.2rem;
+display: flex;
+flex-direction: column;
+gap: 0.6rem;
+}
+
+/* ── 検索行（検索欄＋クリアボタン） ── */
+.search-row {
+display: flex;
+gap: 0.5rem;
+align-items: center;
+}
+
+.search-row .search-wrap {
+flex: 1;
+margin: 0;
+max-width: none;
+}
+
+/* ── クリアボタン ── */
+.clear-btn {
+flex-shrink: 0;
+padding: 0.7rem 1.1rem;
+background: #1e3a5f;
+border: 1px solid var(–border);
+border-radius: 8px;
+color: var(–text);
+font-size: 0.82rem;
+font-family: ‘Noto Sans JP’, sans-serif;
+cursor: pointer;
+white-space: nowrap;
+transition: background 0.2s;
+}
+
+.clear-btn:hover { background: #c0392b; border-color: #c0392b; }
+
+/* ── 検索欄 ── */
+.search-wrap {
+position: relative;
+}
+
+#search-input {
+width: 100%;
+padding: 0.75rem 1rem 0.75rem 2.8rem;
+background: var(–surface);
+border: 1px solid var(–border);
+border-radius: 8px;
+color: var(–text);
+font-size: 0.9rem;
+font-family: ‘Noto Sans JP’, sans-serif;
+outline: none;
+transition: border-color 0.2s, box-shadow 0.2s;
+background-image: url(“data:image/svg+xml,%3Csvg xmlns=‘http://www.w3.org/2000/svg’ width=‘16’ height=‘16’ fill=’%237a8daa’ viewBox=‘0 0 16 16’%3E%3Cpath d=‘M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398l3.85 3.85a1 1 0 0 0 1.415-1.415l-3.868-3.833zm-5.242 1.156a5 5 0 1 1 0-10 5 5 0 0 1 0 10z’/%3E%3C/svg%3E”);
+background-repeat: no-repeat;
+background-position: 0.9rem center;
+}
+
+#search-input:focus { border-color: var(–blue-accent); box-shadow: 0 0 0 3px var(–blue-glow); }
+#search-input::placeholder { color: var(–text-muted); }
+
+/* ── プルダウン（select）共通スタイル ── */
+.filter-selects {
+display: grid;
+gap: 0.5rem;
+grid-template-columns: repeat(4, 1fr);
+}
+
+/* 行3は3列 */
+.filter-selects.row3 {
+grid-template-columns: repeat(3, 1fr);
+}
+
+.filter-select {
+width: 100%;
+padding: 0.55rem 0.8rem;
+background: var(–surface);
+border: 1px solid var(–border);
+border-radius: 8px;
+color: var(–text);
+font-size: 0.82rem;
+font-family: ‘Noto Sans JP’, sans-serif;
+outline: none;
+cursor: pointer;
+appearance: none;
+background-image: url(“data:image/svg+xml,%3Csvg xmlns=‘http://www.w3.org/2000/svg’ width=‘10’ height=‘6’ viewBox=‘0 0 10 6’%3E%3Cpath d=‘M0 0l5 6 5-6z’ fill=’%237a8daa’/%3E%3C/svg%3E”);
+background-repeat: no-repeat;
+background-position: right 0.7rem center;
+padding-right: 2rem;
+}
+
+.filter-select:focus { border-color: var(–blue-accent); box-shadow: 0 0 0 3px var(–blue-glow); }
+
+/* ── 件数・空状態 ── */
+.empty-state {
+text-align: center;
+color: var(–text-muted);
+padding: 4rem 1rem;
+font-size: 0.9rem;
+grid-column: 1 / -1;
+}
+
+.result-bar {
+max-width: 960px;
+margin: 0 auto 0.6rem;
+font-size: 0.75rem;
+color: var(–text-muted);
+font-family: ‘Rajdhani’, sans-serif;
+letter-spacing: 0.05em;
+}
+
+.search-count {
+position: absolute;
+right: 1rem;
+top: 50%;
+transform: translateY(-50%);
+font-size: 0.72rem;
+color: var(–text-muted);
+font-family: ‘Rajdhani’, sans-serif;
+pointer-events: none;
+}
+
+/* ── ブロックアイコン ── */
+.block-icon {
+display: inline-flex;
+align-items: center;
+justify-content: center;
+width: 18px;
+height: 18px;
+border-radius: 4px;
+background: #2a3650;
+border: 1px solid #3d5080;
+color: #90caf9;
+font-size: 0.65rem;
+font-family: ‘Rajdhani’, sans-serif;
+font-weight: 700;
+line-height: 1;
+flex-shrink: 0;
+}
+.modal-overlay {
+display: none;
+position: fixed;
+inset: 0;
+background: rgba(5,8,18,0.92);
+z-index: 1000;
+align-items: center;
+justify-content: center;
+backdrop-filter: blur(6px);
+}
+.modal-overlay.open { display: flex; }
+
+.modal {
+background: var(–surface);
+border: 1px solid var(–border);
+border-radius: 12px;
+width: min(92vw, 480px);
+max-height: 90vh;
+overflow-y: auto;
+box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 40px var(–blue-glow);
+animation: modalIn 0.22s ease;
+position: relative;
+}
+
+@keyframes modalIn {
+from { opacity:0; transform:translateY(20px) scale(0.97); }
+to   { opacity:1; transform:translateY(0) scale(1); }
+}
+
+.modal-close {
+position: absolute;
+top: 10px;
+right: 12px;
+background: rgba(10,14,26,0.8);
+border: 1px solid var(–border);
+color: var(–text);
+width: 28px;
+height: 28px;
+border-radius: 50%;
+font-size: 1rem;
+cursor: pointer;
+display: flex;
+align-items: center;
+justify-content: center;
+z-index: 10;
+line-height: 1;
+}
+.modal-close:hover { background: #c0392b; border-color: #c0392b; }
+
+/* スライダー */
+.modal-slider {
+position: relative;
+overflow: hidden;
+border-radius: 10px 10px 0 0;
+background: #060c18;
+touch-action: pan-y;
+}
+
+.slider-track {
+display: flex;
+transition: transform 0.32s cubic-bezier(0.4,0,0.2,1);
+will-change: transform;
+}
+
+.slider-track img {
+min-width: 100%;
+width: 100%;
+max-height: 340px;
+object-fit: contain;
+display: block;
+user-select: none;
+-webkit-user-drag: none;
+}
+
+.slider-dots {
+position: absolute;
+bottom: 10px;
+left: 50%;
+transform: translateX(-50%);
+display: flex;
+gap: 6px;
+}
+
+.dot {
+width: 7px;
+height: 7px;
+border-radius: 50%;
+background: rgba(255,255,255,0.3);
+transition: background 0.2s, transform 0.2s;
+}
+.dot.active { background: var(–blue-accent); transform: scale(1.35); }
+
+.slider-arrow {
+position: absolute;
+top: 50%;
+transform: translateY(-50%);
+background: rgba(10,14,26,0.7);
+border: 1px solid var(–border);
+color: var(–text);
+width: 34px;
+height: 34px;
+border-radius: 50%;
+font-size: 1.2rem;
+cursor: pointer;
+display: flex;
+align-items: center;
+justify-content: center;
+transition: background 0.2s;
+z-index: 2;
+}
+.slider-arrow:hover { background: var(–blue-accent); }
+.slider-arrow.prev { left: 8px; }
+.slider-arrow.next { right: 8px; }
+.slider-arrow.hidden { display: none; }
+
+/* モーダル本文 */
+.modal-body {
+padding: 1.2rem 1.4rem 1.6rem;
+display: flex;
+flex-direction: column;
+gap: 0.65rem;
+}
+
+.modal-body .card-name  { font-size: 1.35rem; }
+.modal-body .card-effect { font-size: 0.82rem; }
+
+/* ── タブ ── */
+.tabs {
+display: flex;
+max-width: 960px;
+margin: 0 auto 1rem;
+border-bottom: 2px solid var(–border);
+}
+
+.tab-btn {
+flex: 1;
+padding: 0.7rem 1rem;
+background: none;
+border: none;
+border-bottom: 3px solid transparent;
+margin-bottom: -2px;
+color: var(–text-muted);
+font-size: 0.95rem;
+font-family: ‘Noto Sans JP’, sans-serif;
+font-weight: 700;
+cursor: pointer;
+letter-spacing: 0.05em;
+transition: color 0.2s, border-color 0.2s;
+}
+
+.tab-btn.active {
+color: var(–blue-accent);
+border-bottom-color: var(–blue-accent);
+}
+
+/* ── タブコンテンツ ── */
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* ── カードアイテム（検索タブ：＋／－ボタン付き） ── */
+.card-wrap {
+display: flex;
+flex-direction: column;
+gap: 3px;
+}
+
+.card-count-row {
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 4px;
+}
+
+.deck-btn {
+width: 26px;
+height: 26px;
+border-radius: 50%;
+border: none;
+font-size: 1.1rem;
+line-height: 1;
+cursor: pointer;
+display: flex;
+align-items: center;
+justify-content: center;
+font-weight: 700;
+transition: background 0.15s, transform 0.1s;
+flex-shrink: 0;
+}
+
+.deck-btn.minus {
+background: #37474f;
+color: #fff;
+}
+
+.deck-btn.plus {
+background: var(–blue-accent);
+color: #fff;
+}
+
+.deck-btn:disabled {
+opacity: 0.3;
+cursor: not-allowed;
+}
+
+.deck-btn:not(:disabled):active { transform: scale(0.9); }
+
+.card-count-num {
+font-family: ‘Rajdhani’, sans-serif;
+font-weight: 700;
+font-size: 0.85rem;
+color: var(–gold);
+min-width: 14px;
+text-align: center;
+}
+
+/* ── デッキタブ ── */
+.deck-header {
+max-width: 960px;
+margin: 0 auto 0.8rem;
+display: flex;
+align-items: center;
+justify-content: space-between;
+gap: 0.5rem;
+}
+
+.deck-count-bar {
+font-family: ‘Rajdhani’, sans-serif;
+font-size: 1rem;
+font-weight: 700;
+color: var(–gold);
+letter-spacing: 0.05em;
+}
+
+.deck-clear-btn {
+padding: 0.4rem 0.9rem;
+background: #37474f;
+border: 1px solid var(–border);
+border-radius: 6px;
+color: var(–text);
+font-size: 0.78rem;
+font-family: ‘Noto Sans JP’, sans-serif;
+cursor: pointer;
+transition: background 0.2s;
+}
+
+.deck-clear-btn:hover { background: #c0392b; border-color: #c0392b; }
+
+/* デッキグリッドはcard-listと同じグリッドを再利用 */
+.deck-grid {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+gap: 8px;
+max-width: 960px;
+margin: 0 auto;
+}
+
+/* デッキカードアイテム */
+.deck-card-wrap {
+display: flex;
+flex-direction: column;
+gap: 3px;
+}
+
+.deck-card-item {
+position: relative;
+border-radius: 6px;
+overflow: hidden;
+aspect-ratio: 3 / 4;
+background: #0d1b2e;
+border: 1px solid var(–border);
+cursor: pointer;
+}
+
+.deck-card-item img {
+width: 100%;
+height: 100%;
+object-fit: cover;
+display: block;
+}
+
+.deck-card-count {
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 4px;
+}
+
+.deck-card-count .deck-btn { width: 22px; height: 22px; font-size: 1rem; }
+
+.deck-card-qty {
+font-family: ‘Rajdhani’, sans-serif;
+font-weight: 700;
+font-size: 0.85rem;
+color: var(–gold);
+min-width: 14px;
+text-align: center;
+}
+
+@media (max-width: 480px) {
+.card-list { grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 6px; }
+.deck-grid  { grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 6px; }
+.slider-track img { max-height: 260px; }
+}
 </style>
+
 </head>
 <body>
 
 <h1>Card List</h1>
 
 <!-- ── タブ ── -->
+
 <div class="tabs">
   <button class="tab-btn active" id="tab-search">🔍 検索</button>
   <button class="tab-btn" id="tab-deck">📋 デッキ <span id="tab-deck-count"></span></button>
 </div>
 
 <!-- ── 検索タブ ── -->
+
 <div class="tab-content active" id="content-search">
 
 <!-- フィルターエリア -->
+
 <div class="filter-area">
   <!-- 行1：検索欄 ＋ クリアボタン -->
   <div class="search-row">
@@ -691,6 +696,7 @@
 </div><!-- /content-search -->
 
 <!-- ── デッキタブ ── -->
+
 <div class="tab-content" id="content-deck">
   <div class="deck-header">
     <div class="deck-count-bar" id="deck-count-bar">0 / 50枚</div>
@@ -705,6 +711,7 @@
 </div><!-- /content-deck -->
 
 <!-- モーダル -->
+
 <div class="modal-overlay" id="modal-overlay">
   <div class="modal" id="modal">
     <button class="modal-close" id="modal-close">✕</button>
@@ -8637,21 +8644,19 @@ deckClearBtn.addEventListener("click", () => {
   renderList();
 });
 
-// ── URLエンコード・デコード ──
-// フォーマット: ?deck=GD01-001x2,GD01-003x1,...
-function deckToUrl() {
-  const parts = Object.entries(deck)
+// ── Firebase Realtime Database でURL短縮 ──
+const FIREBASE_URL = "https://acg-original-default-rtdb.firebaseio.com";
+
+function encodeDeck() {
+  return Object.entries(deck)
     .filter(([, qty]) => qty > 0)
-    .map(([id, qty]) => `${id}x${qty}`);
-  if (parts.length === 0) return location.href.split("?")[0];
-  return location.href.split("?")[0] + "?deck=" + parts.join(",");
+    .map(([id, qty]) => `${id}x${qty}`)
+    .join(",");
 }
 
-function loadDeckFromUrl() {
-  const params = new URLSearchParams(location.search);
-  const deckParam = params.get("deck");
-  if (!deckParam) return;
-  deckParam.split(",").forEach(part => {
+function decodeDeck(str) {
+  if (!str) return;
+  str.split(",").forEach(part => {
     const m = part.match(/^(.+)x(\d)$/);
     if (!m) return;
     const [, id, qty] = m;
@@ -8664,25 +8669,67 @@ function loadDeckFromUrl() {
 }
 
 const deckUrlBtn = document.getElementById("deck-url-btn");
-deckUrlBtn.addEventListener("click", () => {
-  const url = deckToUrl();
-  navigator.clipboard.writeText(url).then(() => {
-    deckUrlBtn.textContent = "✅ コピーしました";
-    setTimeout(() => { deckUrlBtn.textContent = "🔗 URLをコピー"; }, 2000);
-  }).catch(() => {
-    // フォールバック：テキスト選択
-    const ta = document.createElement("textarea");
-    ta.value = url;
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand("copy");
-    document.body.removeChild(ta);
-    deckUrlBtn.textContent = "✅ コピーしました";
-    setTimeout(() => { deckUrlBtn.textContent = "🔗 URLをコピー"; }, 2000);
-  });
+deckUrlBtn.addEventListener("click", async () => {
+  if (Object.keys(deck).length === 0) {
+    alert("デッキにカードがありません");
+    return;
+  }
+  deckUrlBtn.textContent = "⏳ 生成中...";
+  deckUrlBtn.disabled = true;
+  try {
+    const res = await fetch(`${FIREBASE_URL}/gcg_decks.json`, {
+      method: "POST",
+      body: JSON.stringify({ data: encodeDeck(), created: Date.now() })
+    });
+    const json = await res.json();
+    const id = json.name;
+    const shortUrl = `${location.origin}${location.pathname}?id=${id}`;
+    navigator.clipboard.writeText(shortUrl).then(() => {
+      deckUrlBtn.textContent = "✅ コピーしました";
+    }).catch(() => {
+      prompt("このURLをコピーしてください：", shortUrl);
+      deckUrlBtn.textContent = "✅ コピーしました";
+    });
+  } catch(e) {
+    alert("URL生成に失敗しました");
+    console.error(e);
+    deckUrlBtn.textContent = "🔗 URLをコピー";
+  } finally {
+    deckUrlBtn.disabled = false;
+    setTimeout(() => { deckUrlBtn.textContent = "🔗 URLをコピー"; }, 3000);
+  }
 });
 
 // ── 起動時にURLからデッキを復元 ──
+async function loadDeckFromUrl() {
+  const params = new URLSearchParams(location.search);
+
+  // Firebase IDから復元
+  const id = params.get("id");
+  if (id) {
+    try {
+      const res = await fetch(`${FIREBASE_URL}/gcg_decks/${id}.json`);
+      const json = await res.json();
+      if (json && json.data) {
+        decodeDeck(json.data);
+        renderList();
+        // デッキタブを自動で開く
+        tabDeck.click();
+        renderDeck();
+      }
+    } catch(e) {
+      console.error("デッキ復元失敗:", e);
+    }
+    return;
+  }
+
+  // 旧フォーマット（?deck=...）からの復元も残しておく
+  const deckParam = params.get("deck");
+  if (deckParam) {
+    decodeDeck(deckParam);
+    renderList();
+  }
+}
 loadDeckFromUrl();
 
 // ── クリアボタン：全フィルターをリセット ──
