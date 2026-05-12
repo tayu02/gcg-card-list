@@ -168,15 +168,15 @@ align-items: center;
 }
 
 .search-row .search-wrap {
-flex: 1;
+flex: 0 0 60%;
 margin: 0;
 max-width: none;
 }
 
 /* ── クリアボタン ── */
 .clear-btn {
-flex-shrink: 0;
-padding: 0.7rem 1.1rem;
+flex: 1;
+padding: 0.7rem 0.5rem;
 background: #1e3a5f;
 border: 1px solid var(–border);
 border-radius: 8px;
@@ -186,6 +186,7 @@ font-family: ‘Noto Sans JP’, sans-serif;
 cursor: pointer;
 white-space: nowrap;
 transition: background 0.2s;
+text-align: center;
 }
 
 .clear-btn:hover { background: #c0392b; border-color: #c0392b; }
@@ -217,7 +218,7 @@ background-position: 0.9rem center;
 /* ── プルダウン（select）共通スタイル ── */
 .filter-selects {
 display: grid;
-gap: 0.5rem;
+gap: 0.4rem;
 grid-template-columns: repeat(4, 1fr);
 }
 
@@ -228,20 +229,22 @@ grid-template-columns: repeat(3, 1fr);
 
 .filter-select {
 width: 100%;
-padding: 0.55rem 0.8rem;
+padding: 0.5rem 1.6rem 0.5rem 0.5rem;
 background: var(–surface);
 border: 1px solid var(–border);
 border-radius: 8px;
 color: var(–text);
-font-size: 0.82rem;
+font-size: 0.72rem;
 font-family: ‘Noto Sans JP’, sans-serif;
 outline: none;
 cursor: pointer;
 appearance: none;
-background-image: url(“data:image/svg+xml,%3Csvg xmlns=‘http://www.w3.org/2000/svg’ width=‘10’ height=‘6’ viewBox=‘0 0 10 6’%3E%3Cpath d=‘M0 0l5 6 5-6z’ fill=’%237a8daa’/%3E%3C/svg%3E”);
+background-image: url(“data:image/svg+xml,%3Csvg xmlns=‘http://www.w3.org/2000/svg’ width=‘8’ height=‘5’ viewBox=‘0 0 10 6’%3E%3Cpath d=‘M0 0l5 6 5-6z’ fill=’%237a8daa’/%3E%3C/svg%3E”);
 background-repeat: no-repeat;
-background-position: right 0.7rem center;
-padding-right: 2rem;
+background-position: right 0.5rem center;
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
 }
 
 .filter-select:focus { border-color: var(–blue-accent); box-shadow: 0 0 0 3px var(–blue-glow); }
@@ -627,7 +630,7 @@ text-align: center;
   <!-- 行2：色1、色2、タイプ、キーワード -->
   <div class="filter-selects">
     <select class="filter-select" id="filter-color1">
-      <option value="">色1（すべて）</option>
+      <option value="">色1</option>
       <option value="Blue">青 / Blue</option>
       <option value="Green">緑 / Green</option>
       <option value="Red">赤 / Red</option>
@@ -635,7 +638,7 @@ text-align: center;
       <option value="White">白 / White</option>
     </select>
     <select class="filter-select" id="filter-color2">
-      <option value="">色2（すべて）</option>
+      <option value="">色2</option>
       <option value="Blue">青 / Blue</option>
       <option value="Green">緑 / Green</option>
       <option value="Red">赤 / Red</option>
@@ -643,7 +646,7 @@ text-align: center;
       <option value="White">白 / White</option>
     </select>
     <select class="filter-select" id="filter-type">
-      <option value="">タイプ（すべて）</option>
+      <option value="">タイプ</option>
       <option value="UNIT">UNIT</option>
       <option value="PILOT">PILOT</option>
       <option value="COMMAND">COMMAND</option>
@@ -651,7 +654,7 @@ text-align: center;
       <option value="UNIT TOKEN">UNIT TOKEN</option>
     </select>
     <select class="filter-select" id="filter-keyword">
-      <option value="">キーワード（すべて）</option>
+      <option value="">キーワード</option>
       <option value="リペア">リペア</option>
       <option value="突破">突破</option>
       <option value="先制攻撃">先制攻撃</option>
@@ -664,7 +667,7 @@ text-align: center;
   <!-- 行3：宇宙世紀、アナザー世紀、発売弾 -->
   <div class="filter-selects row3">
     <select class="filter-select" id="filter-uc">
-      <option value="">宇宙世紀（すべて）</option>
+      <option value="">宇宙世紀</option>
       <option value="機動戦士ガンダム">機動戦士ガンダム</option>
       <option value="機動戦士Zガンダム">機動戦士Zガンダム</option>
       <option value="機動戦士Vガンダム">機動戦士Vガンダム</option>
@@ -673,7 +676,7 @@ text-align: center;
       <option value="機動戦士ガンダム 閃光のハサウェイ">機動戦士ガンダム 閃光のハサウェイ</option>
     </select>
     <select class="filter-select" id="filter-another">
-      <option value="">アナザー世紀（すべて）</option>
+      <option value="">アナザー世紀</option>
       <option value="新機動戦記ガンダムW">新機動戦記ガンダムW</option>
       <option value="機動新世紀ガンダムX">機動新世紀ガンダムX</option>
       <option value="∀ガンダム">∀ガンダム</option>
@@ -686,7 +689,7 @@ text-align: center;
       <option value="機動戦士Gundam GQuuuuuuX(ジークアクス)">機動戦士Gundam GQuuuuuuX</option>
     </select>
     <select class="filter-select" id="filter-pack">
-      <option value="">発売弾（すべて）</option>
+      <option value="">発売弾</option>
     </select>
   </div>
 </div>
