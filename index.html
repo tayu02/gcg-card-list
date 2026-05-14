@@ -168,7 +168,7 @@ align-items: center;
 }
 
 .search-row .search-wrap {
-flex: 0 0 55%;
+flex: 0 0 60%;
 margin: 0;
 max-width: none;
 }
@@ -176,12 +176,12 @@ max-width: none;
 /* ── クリアボタン ── */
 .clear-btn {
 flex: 1;
-padding: 0.7rem 0.5rem;
-background: #1e3a5f;
+padding: 0.5rem 0.4rem;
+background: var(–surface);
 border: 1px solid var(–border);
 border-radius: 8px;
 color: var(–text);
-font-size: 0.82rem;
+font-size: 0.72rem;
 font-family: ‘Noto Sans JP’, sans-serif;
 cursor: pointer;
 white-space: nowrap;
@@ -740,6 +740,7 @@ text-align: center;
 const BASE   = "https://www.gundam-gcg.com/jp/images/cards/card/";
 const QS     = "?260424";
 const imgUrl = id => `${BASE}${id}.webp${QS}`;
+
 
 
 
@@ -8576,6 +8577,218 @@ const cards = [
     images: ["ST02-016", "ST02-016_p1"],
   },
 
+  // ── ST03 ──
+  {
+    id: "ST03-001", block: 1,
+    rarity: "LR", rarityPlus: false,
+    name: "シナンジュ",
+    type: "UNIT", color: "Red",
+    lv: 6, cost: 5, ap: 5, hp: 4,
+    terrain: "宇宙 / 地球",
+    effect: "【セット中】このユニットは《高機動》を得る。\n(このユニットはブロックされない)\n自分のターン中、このユニットがバトルダメージで相手のシールドエリアのカードを破壊したとき、相手のユニット1つを選ぶ。それに2ダメージを与える。",
+    feature: "〔ネオ・ジオン〕",
+    link: "「フル・フロンタル」",
+    source: "機動戦士ガンダムUC",
+    pack: "Zeon's Rush [ST03]",
+    images: ["ST03-001", "ST03-001_p1"],
+  },
+  {
+    id: "ST03-002", block: 1,
+    rarity: "C", rarityPlus: false,
+    name: "ギラ・ズール（アンジェロ・ザウパー専用機）",
+    type: "UNIT", color: "Red",
+    lv: 4, cost: 3, ap: 3, hp: 3,
+    terrain: "宇宙 / 地球",
+    effect: "【起動・メイン】《援護2》(レストにすることで、このターン中、他の味方のユニット1つをAP+(指定の数)する)",
+    feature: "〔ネオ・ジオン〕",
+    link: "「アンジェロ・ザウパー」",
+    source: "機動戦士ガンダムUC",
+    pack: "Zeon's Rush [ST03]",
+    images: ["ST03-002", "ST03-002_p1"],
+  },
+  {
+    id: "ST03-003", block: 1,
+    rarity: "C", rarityPlus: false,
+    name: "ギラ・ズール",
+    type: "UNIT", color: "Red",
+    lv: 3, cost: 2, ap: 3, hp: 2,
+    terrain: "宇宙 / 地球",
+    effect: "",
+    feature: "〔ネオ・ジオン〕",
+    link: "特徴〔ネオ・ジオン〕",
+    source: "機動戦士ガンダムUC",
+    pack: "Zeon's Rush [ST03]",
+    images: ["ST03-003", "ST03-003_p1"],
+  },
+  {
+    id: "ST03-004", block: 1,
+    rarity: "C", rarityPlus: false,
+    name: "ガザD（袖付き仕様）",
+    type: "UNIT", color: "Red",
+    lv: 2, cost: 2, ap: 2, hp: 1,
+    terrain: "宇宙 / 地球",
+    effect: "【起動・メイン】《援護2》(レストにすることで、このターン中、他の味方のユニット1つをAP+(指定の数)する)",
+    feature: "〔ネオ・ジオン〕",
+    link: "-",
+    source: "機動戦士ガンダムUC",
+    pack: "Zeon's Rush [ST03]",
+    images: ["ST03-004", "ST03-004_p1"],
+  },
+  {
+    id: "ST03-006", block: 1,
+    rarity: "LR", rarityPlus: false,
+    name: "ザクⅡ（シャア・アズナブル機）",
+    type: "UNIT", color: "Green",
+    lv: 3, cost: 2, ap: 3, hp: 2,
+    terrain: "宇宙 / 地球",
+    effect: "【破壊時】自分のデッキを上から3枚見て、その中の、〔ジオン〕/〔ネオ・ジオン〕のユニットカード1枚を公開して手札に加えてもよい。残ったカードは無作為に下に戻す。",
+    feature: "〔ジオン〕",
+    link: "「シャア・アズナブル」",
+    source: "機動戦士ガンダム",
+    pack: "Zeon's Rush [ST03]",
+    images: ["ST03-006", "ST03-006_p1"],
+  },
+  {
+    id: "ST03-007", block: 1,
+    rarity: "C", rarityPlus: false,
+    name: "ザクⅠ",
+    type: "UNIT", color: "Green",
+    lv: 1, cost: 1, ap: 1, hp: 2,
+    terrain: "宇宙 / 地球",
+    effect: "",
+    feature: "〔ジオン〕",
+    link: "-",
+    source: "機動戦士ガンダム",
+    pack: "Zeon's Rush [ST03]",
+    images: ["ST03-007", "ST03-007_p1"],
+  },
+  {
+    id: "ST03-008", block: 1,
+    rarity: "C", rarityPlus: false,
+    name: "ザクⅡ",
+    type: "UNIT", color: "Green",
+    lv: 2, cost: 1, ap: 1, hp: 2,
+    terrain: "宇宙 / 地球",
+    effect: "【アタック時】このターン中、このユニットをAP+2する。",
+    feature: "〔ジオン〕",
+    link: "-",
+    source: "機動戦士ガンダム",
+    pack: "Zeon's Rush [ST03]",
+    images: ["ST03-008", "ST03-008_p1"],
+  },
+  {
+    id: "ST03-009", block: 1,
+    rarity: "C", rarityPlus: false,
+    name: "グフ",
+    type: "UNIT", color: "Green",
+    lv: 3, cost: 3, ap: 2, hp: 3,
+    terrain: "地球",
+    effect: "【配備時】「ザクⅡ」(〔ジオン〕・AP1・HP1)のユニットトークン1つをレストで配備する。",
+    feature: "〔ジオン〕",
+    link: "「ランバ・ラル」",
+    source: "機動戦士ガンダム",
+    pack: "Zeon's Rush [ST03]",
+    images: ["ST03-009", "ST03-009_p1"],
+  },
+  {
+    id: "ST03-010", block: 1,
+    rarity: "C", rarityPlus: false,
+    name: "フル・フロンタル",
+    type: "PILOT", color: "Red",
+    lv: 6, cost: 1, ap: 2, hp: 2,
+    terrain: "-",
+    effect: "【バースト】このカードを手札に加える。\n【セット時】自分の手札の、Lv.4以下の、〔ネオ・ジオン〕/〔ジオン〕のユニットカード1枚を配備してもよい。",
+    feature: "〔ネオ・ジオン〕〔強化人間〕",
+    link: "-",
+    source: "機動戦士ガンダムUC",
+    pack: "Zeon's Rush [ST03]",
+    images: ["ST03-010", "ST03-010_p1"],
+  },
+  {
+    id: "ST03-011", block: 1,
+    rarity: "C", rarityPlus: false,
+    name: "シャア・アズナブル",
+    type: "PILOT", color: "Green",
+    lv: 3, cost: 1, ap: 1, hp: 1,
+    terrain: "-",
+    effect: "【バースト】このカードを手札に加える。\n【アタック時】このターン中、このユニットをAP+1し、これがリンクユニットなら、これは《高機動》を得る。\n(このユニットはブロックされない)",
+    feature: "〔ジオン〕〔ニュータイプ〕",
+    link: "-",
+    source: "機動戦士ガンダム",
+    pack: "Zeon's Rush [ST03]",
+    images: ["ST03-011", "ST03-011_p1"],
+  },
+  {
+    id: "ST03-012", block: 1,
+    rarity: "C", rarityPlus: false,
+    name: "激昂",
+    type: "PILOT/COMMAND", color: "Red",
+    lv: 2, cost: 1, ap: 1, hp: 0,
+    terrain: "-",
+    effect: "【メイン】/【アクション】味方のユニット1つを選ぶ。このターン中、それをAP+2する。\n【パイロット】「アンジェロ・ザウパー」",
+    feature: "〔ネオ・ジオン〕",
+    link: "-",
+    source: "機動戦士ガンダムUC",
+    pack: "Zeon's Rush [ST03]",
+    images: ["ST03-012", "ST03-012_p1"],
+  },
+  {
+    id: "ST03-013", block: 1,
+    rarity: "C", rarityPlus: false,
+    name: "格闘戦",
+    type: "COMMAND", color: "Red",
+    lv: 2, cost: 2, ap: 0, hp: 0,
+    terrain: "-",
+    effect: "【バースト】このカードの【メイン】を発動する。\n【メイン】/【アクション】相手のユニット1つを選ぶ。それに2ダメージを与える。",
+    feature: "-",
+    link: "-",
+    source: "機動戦士ガンダムUC",
+    pack: "Zeon's Rush [ST03]",
+    images: ["ST03-013", "ST03-013_p1"],
+  },
+  {
+    id: "ST03-014", block: 1,
+    rarity: "C", rarityPlus: false,
+    name: "青い巨星",
+    type: "PILOT/COMMAND", color: "Green",
+    lv: 4, cost: 1, ap: 1, hp: 1,
+    terrain: "-",
+    effect: "【アクション】味方のユニット1つを選ぶ。このバトル中、それはAP2以下の相手のユニットからバトルダメージを受けない。\n【パイロット】「ランバ・ラル」",
+    feature: "〔ジオン〕",
+    link: "-",
+    source: "機動戦士ガンダム",
+    pack: "Zeon's Rush [ST03]",
+    images: ["ST03-014", "ST03-014_p1"],
+  },
+  {
+    id: "ST03-015", block: 1,
+    rarity: "C", rarityPlus: false,
+    name: "レウルーラ",
+    type: "BASE", color: "Red",
+    lv: 3, cost: 2, ap: 0, hp: 5,
+    terrain: "宇宙",
+    effect: "【バースト】このカードを配備する。\n【配備時】自分のシールド1つを手札に加える。その後、AP5以下の相手のユニット1つを選ぶ。それに1ダメージを与える。",
+    feature: "〔ネオ・ジオン〕〔艦船〕",
+    link: "-",
+    source: "機動戦士ガンダムUC",
+    pack: "Zeon's Rush [ST03]",
+    images: ["ST03-015", "ST03-015_p1"],
+  },
+  {
+    id: "ST03-016", block: 1,
+    rarity: "C", rarityPlus: false,
+    name: "ファルメル",
+    type: "BASE", color: "Green",
+    lv: 3, cost: 2, ap: 0, hp: 5,
+    terrain: "宇宙",
+    effect: "【バースト】このカードを配備する。\n【配備時】自分のシールド1つを手札に加える。その後、自分のターンなら、「ザクⅡ（シャア・アズナブル機）」(〔ジオン〕・AP3・HP1)のユニットトークン1つをレストで配備する。",
+    feature: "〔ジオン〕〔艦船〕",
+    link: "-",
+    source: "機動戦士ガンダム",
+    pack: "Zeon's Rush [ST03]",
+    images: ["ST03-016", "ST03-016_p1"],
+  },
+
   // ── ST04 ──
   {
     id: "ST04-001", block: 1,
@@ -8706,6 +8919,34 @@ const cards = [
     source: "新機動戦記ガンダムW",
     pack: "Wings of Advance [ST02]",
     images: ["T-005"],
+  },
+  {
+    id: "T-006", block: 1,
+    rarity: "C", rarityPlus: false,
+    name: "ザクⅡ（シャア・アズナブル機）",
+    type: "UNIT TOKEN", color: "-",
+    lv: "-", cost: "-", ap: 3, hp: 1,
+    terrain: "-",
+    effect: "",
+    feature: "〔ジオン〕",
+    link: "-",
+    source: "機動戦士ガンダム",
+    pack: "Zeon's Rush [ST03]",
+    images: ["T-006"],
+  },
+  {
+    id: "T-007", block: 1,
+    rarity: "C", rarityPlus: false,
+    name: "ザクⅡ",
+    type: "UNIT TOKEN", color: "-",
+    lv: "-", cost: "-", ap: 1, hp: 1,
+    terrain: "-",
+    effect: "",
+    feature: "〔ジオン〕",
+    link: "-",
+    source: "機動戦士ガンダム",
+    pack: "Zeon's Rush [ST03]",
+    images: ["T-007"],
   },
   {
     id: "T-011", block: 1,
@@ -8890,6 +9131,7 @@ const cards = [
     images: ["T-023"],
   },
 ];
+
 
 
 
