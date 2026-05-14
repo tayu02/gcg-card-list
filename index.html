@@ -167,16 +167,15 @@ gap: 0.5rem;
 align-items: center;
 }
 
-.search-row .search-wrap {
-flex: 0 0 60%;
-margin: 0;
-max-width: none;
+/* ── クリアボタン行 ── */
+.clear-row {
+display: flex;
+justify-content: flex-end;
 }
 
 /* ── クリアボタン ── */
 .clear-btn {
-flex: 1;
-padding: 0.5rem 0.4rem;
+padding: 0.5rem 0.8rem;
 background: var(–surface);
 border: 1px solid var(–border);
 border-radius: 8px;
@@ -186,12 +185,11 @@ font-family: ‘Noto Sans JP’, sans-serif;
 cursor: pointer;
 white-space: nowrap;
 transition: background 0.2s;
-text-align: center;
 }
 
 .clear-btn:hover { background: #c0392b; border-color: #c0392b; }
 
-/* ── 検索欄 ── */
+/* ── 検索欄（全幅） ── */
 .search-wrap {
 position: relative;
 }
