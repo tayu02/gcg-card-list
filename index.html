@@ -787,6 +787,13 @@ body { padding: 2rem 2rem; }
 /* プルダウン行2：3列そのまま（広がる） */
 .filter-selects.row3 { grid-template-columns: repeat(3, 1fr); }
 
+/* デスクトップではプルダウンを大きく */
+.filter-select { font-size: 0.9rem; padding: 0.6rem 1.8rem 0.6rem 0.7rem; }
+.num-label { font-size: 1rem; }
+.num-select { font-size: 0.9rem; width: 64px; padding: 0.5rem 0.3rem; }
+.num-sep { font-size: 0.95rem; }
+#search-input, #link-input { font-size: 1rem; }
+
 /* カードグリッドをもう少し細かく */
 .card-list { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
 .deck-grid  { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
@@ -966,8 +973,7 @@ body { padding: 2rem 2rem; }
     </div>
   </div>
 
-  <!-- 画像チェックツール -->
-
+  <!-- 画像チェックツール（非表示中）
   <div style="max-width:960px;margin:0 auto 1rem;text-align:right;">
     <button class="deck-clear-btn" id="img-check-btn">🔍 画像チェック</button>
   </div>
@@ -975,6 +981,8 @@ body { padding: 2rem 2rem; }
     background:rgba(13,21,37,0.85);border:1px solid var(--border);border-radius:10px;padding:1rem;
     font-size:0.78rem;font-family:'Rajdhani',sans-serif;line-height:1.8;">
   </div>
+  -->
+
   <div class="deck-grid" id="deck-grid">
     <div class="empty-state" style="grid-column:1/-1">デッキにカードがありません</div>
   </div>
@@ -10934,7 +10942,7 @@ deckClearBtn.addEventListener("click", () => {
   renderList();
 });
 
-// ── 画像チェック ──
+/* ── 画像チェック（非表示中）──
 document.getElementById("img-check-btn").addEventListener("click", async () => {
   const btn = document.getElementById("img-check-btn");
   const result = document.getElementById("img-check-result");
@@ -10943,7 +10951,6 @@ document.getElementById("img-check-btn").addEventListener("click", async () => {
   result.style.display = "block";
   result.innerHTML = "チェック中です。しばらくお待ちください…";
 
-  // 全画像IDを収集
   const allImages = [];
   cards.forEach(c => c.images.forEach(id => allImages.push(id)));
 
@@ -10973,6 +10980,9 @@ document.getElementById("img-check-btn").addEventListener("click", async () => {
     `;
   }
 });
+*/
+
+// ── Firebase Realtime Database でURL短縮 ──
 const FIREBASE_URL = "https://acg-original-default-rtdb.firebaseio.com";
 
 function encodeDeck() {
