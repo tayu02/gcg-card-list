@@ -443,6 +443,87 @@ gap: 0.65rem;
 .modal-body .card-feature { color: #a0b4cc; }
 .modal-body .card-source  { color: #7a8daa; }
 
+/* ── モーダル内 絵柄サムネイル ── */
+.art-thumbs {
+display: flex;
+gap: 6px;
+flex-wrap: wrap;
+margin-top: 0.2rem;
+}
+
+.art-thumb {
+width: 52px;
+aspect-ratio: 3/4;
+border-radius: 4px;
+overflow: hidden;
+border: 2px solid transparent;
+cursor: pointer;
+flex-shrink: 0;
+transition: border-color 0.15s, transform 0.1s;
+}
+
+.art-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.art-thumb.active { border-color: var(–blue-accent); }
+.art-thumb:hover { transform: scale(1.08); }
+
+/* ── モーダル内 絵柄デッキ追加ボタン ── */
+.modal-deck-row {
+display: flex;
+align-items: center;
+gap: 0.6rem;
+margin-top: 0.4rem;
+background: rgba(30, 58, 95, 0.5);
+border: 1px solid var(–border);
+border-radius: 8px;
+padding: 0.5rem 0.8rem;
+}
+
+.modal-deck-label {
+font-size: 0.72rem;
+color: var(–text);
+white-space: nowrap;
+}
+
+.modal-deck-btn {
+width: 30px;
+height: 30px;
+border-radius: 50%;
+border: none;
+font-size: 1.2rem;
+font-weight: 700;
+cursor: pointer;
+display: flex;
+align-items: center;
+justify-content: center;
+transition: background 0.15s, transform 0.1s;
+flex-shrink: 0;
+}
+
+.modal-deck-btn.minus { background: #37474f; color: #fff; }
+.modal-deck-btn.plus  { background: var(–blue-accent); color: #fff; }
+.modal-deck-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+.modal-deck-btn:not(:disabled):active { transform: scale(0.9); }
+
+.modal-deck-qty {
+font-family: ‘Rajdhani’, sans-serif;
+font-weight: 700;
+font-size: 1.1rem;
+color: var(–gold);
+min-width: 20px;
+text-align: center;
+}
+
+/* ── デッキタブの＋－ボタン ── */
+.deck-card-count .deck-btn.plus {
+background: var(–blue-accent);
+opacity: 1;
+}
+
+.deck-card-count .deck-btn.plus:disabled {
+background: #37474f;
+opacity: 0.4;
+}
+
 /* ── タブ ── */
 .tabs {
 display: flex;
@@ -950,7 +1031,7 @@ const cards = [
   {
     id: "GD01-005",
     block: 1,
-    rarity: "R", rarityPlus: false,
+    rarity: "P", rarityPlus: false,
     name: "ユニコーンガンダム（ユニコーンモード）",
     type: "UNIT", color: "Blue",
     lv: 5, cost: 4, ap: 4, hp: 3,
@@ -959,8 +1040,8 @@ const cards = [
     feature: "〔民間〕",
     link: "「バナージ・リンクス」",
     source: "機動戦士ガンダムUC",
-    pack: "Newtype Rising [GD01]",
-    images: ["GD01-005", "GD01-005_p1"],
+    pack: "Newtype Rising [GD01] / ブースターパックリリースイベント [GD01] リンクユニットセット",
+    images: ["GD01-005", "GD01-005_p1", "GD01-005_p3"],
   },
   {
     id: "GD01-006",
@@ -1004,8 +1085,8 @@ const cards = [
     feature: "〔地球連邦〕〔WB隊〕",
     link: "-",
     source: "機動戦士ガンダム",
-    pack: "Newtype Rising [GD01]",
-    images: ["GD01-008"],
+    pack: "Newtype Rising [GD01] / チャンピオンシップ 参加賞パック 01",
+    images: ["GD01-008", "GD01-008_p2"],
   },
   {
     id: "GD01-009",
@@ -1079,8 +1160,8 @@ const cards = [
     feature: "〔地球連邦〕〔WB隊〕",
     link: "「アムロ・レイ」",
     source: "機動戦士ガンダム",
-    pack: "Newtype Rising [GD01]",
-    images: ["GD01-013"],
+    pack: "Newtype Rising [GD01] / ビギナーズバトル 2025 SEASON1参加記念 / WORLD CHAMPIONSHIPS 26-27 参加賞パック Vol.1",
+    images: ["GD01-013", "GD01-013_p2", "GD01-013_p3"],
   },
   {
     id: "GD01-014",
@@ -1124,8 +1205,8 @@ const cards = [
     feature: "〔地球連邦〕",
     link: "-",
     source: "機動戦士ガンダムUC",
-    pack: "Newtype Rising [GD01]",
-    images: ["GD01-016"],
+    pack: "Newtype Rising [GD01] / ショップバトル 2025 SEASON1 参加者パック01 / ショップバトル 2025 SEASON1 優勝者パック01",
+    images: ["GD01-016", "GD01-016_p2", "GD01-016_p3"],
   },
   {
     id: "GD01-017",
@@ -1244,8 +1325,8 @@ const cards = [
     feature: "〔Gチーム〕",
     link: "「ヒイロ・ユイ」",
     source: "新機動戦記ガンダムW",
-    pack: "Newtype Rising [GD01]",
-    images: ["GD01-024", "GD01-024_p1"],
+    pack: "Newtype Rising [GD01] / チャンピオンシップ優勝賞カード01",
+    images: ["GD01-024", "GD01-024_p1", "GD01-024_p2"],
   },
   {
     id: "GD01-025",
@@ -1589,8 +1670,8 @@ const cards = [
     feature: "〔ジオン〕",
     link: "特徴〔ニュータイプ〕 特徴〔強化人間〕",
     source: "機動戦士ガンダムUC",
-    pack: "Newtype Rising [GD01]",
-    images: ["GD01-047", "GD01-047_p1"],
+    pack: "Newtype Rising [GD01] / チャンピオンシップ 参加賞パック 01",
+    images: ["GD01-047", "GD01-047_p1", "GD01-047_p2"],
   },
   {
     id: "GD01-048",
@@ -1649,8 +1730,8 @@ const cards = [
     feature: "〔ネオ・ジオン〕",
     link: "特徴〔強化人間〕",
     source: "機動戦士ガンダムUC",
-    pack: "Newtype Rising [GD01]",
-    images: ["GD01-051"],
+    pack: "Newtype Rising [GD01] / ショップバトル 2025 SEASON1 参加者パック01 / ショップバトル 2025 SEASON1 優勝者パック01",
+    images: ["GD01-051", "GD01-051_p1", "GD01-051_p2"],
   },
   {
     id: "GD01-052",
@@ -1858,8 +1939,8 @@ const cards = [
     feature: "〔三隻同盟〕",
     link: "「キラ・ヤマト」",
     source: "機動戦士ガンダムSEED",
-    pack: "Newtype Rising [GD01]",
-    images: ["GD01-065", "GD01-065_p1"],
+    pack: "Newtype Rising [GD01] / ニュータイプチャレンジ 2026 MISSION1 優勝記念",
+    images: ["GD01-065", "GD01-065_p1", "GD01-065_p2"],
   },
   {
     id: "GD01-066", block: 1,
@@ -1877,7 +1958,7 @@ const cards = [
   },
   {
     id: "GD01-067", block: 1,
-    rarity: "LR", rarityPlus: false,
+    rarity: "P", rarityPlus: false,
     name: "ガンダム・エアリアル（改修型）",
     type: "UNIT", color: "White",
     lv: 6, cost: 5, ap: 5, hp: 4,
@@ -1886,8 +1967,8 @@ const cards = [
     feature: "〔学園〕",
     link: "「スレッタ・マーキュリー」",
     source: "機動戦士ガンダム 水星の魔女",
-    pack: "Newtype Rising [GD01]",
-    images: ["GD01-067", "GD01-067_p1", "GD01-067_p2"],
+    pack: "Newtype Rising [GD01] / ニュータイプチャレンジ 2025 MISSION1優勝記念",
+    images: ["GD01-067", "GD01-067_p1", "GD01-067_p2", "GD01-067_p3"],
   },
   {
     id: "GD01-068", block: 1,
@@ -1928,8 +2009,8 @@ const cards = [
     feature: "〔学園〕",
     link: "「スレッタ・マーキュリー」",
     source: "機動戦士ガンダム 水星の魔女",
-    pack: "Newtype Rising [GD01]",
-    images: ["GD01-070"],
+    pack: "Newtype Rising [GD01] / ショップバトル 2025 SEASON1 参加者パック01 / ショップバトル 2025 SEASON1 優勝者パック01",
+    images: ["GD01-070", "GD01-070_p3", "GD01-070_p4"],
   },
   {
     id: "GD01-071", block: 1,
@@ -2152,8 +2233,8 @@ const cards = [
     feature: "〔ヴァナディース機関〕",
     link: "-",
     source: "機動戦士ガンダム 水星の魔女",
-    pack: "Newtype Rising [GD01] / プレミアムカードコレクション01 [EVX05]",
-    images: ["GD01-086", "GD01-086_p2"],
+    pack: "Newtype Rising [GD01] / プレミアムカードコレクション01 [EVX05] / チャンピオンシップ 参加賞パック 01",
+    images: ["GD01-086", "GD01-086_p2", "GD01-086_p1"],
   },
   {
     id: "GD01-087", block: 1,
@@ -2166,12 +2247,12 @@ const cards = [
     feature: "〔地球連邦〕〔WB隊〕〔ニュータイプ〕",
     link: "-",
     source: "機動戦士ガンダム",
-    pack: "Newtype Rising [GD01]",
-    images: ["GD01-087", "GD01-087_p1"],
+    pack: "Newtype Rising [GD01] / ショップバトル 2025 SEASON1 参加者パック01 / ショップバトル 2025 SEASON1 優勝者パック01",
+    images: ["GD01-087", "GD01-087_p1", "GD01-087_p2", "GD01-087_p3"],
   },
   {
     id: "GD01-088", block: 1,
-    rarity: "U", rarityPlus: false,
+    rarity: "P", rarityPlus: false,
     name: "バナージ・リンクス",
     type: "PILOT", color: "Blue",
     lv: 5, cost: 1, ap: 2, hp: 2,
@@ -2180,8 +2261,8 @@ const cards = [
     feature: "〔民間〕〔ニュータイプ〕",
     link: "-",
     source: "機動戦士ガンダムUC",
-    pack: "Newtype Rising [GD01]",
-    images: ["GD01-088"],
+    pack: "Newtype Rising [GD01] / ブースターパックリリースイベント [GD01] リンクユニットセット",
+    images: ["GD01-088", "GD01-088_p3"],
   },
   {
     id: "GD01-089", block: 1,
@@ -2208,8 +2289,8 @@ const cards = [
     feature: "〔オペレーション・メテオ〕",
     link: "-",
     source: "新機動戦記ガンダムW",
-    pack: "Newtype Rising [GD01]",
-    images: ["GD01-090", "GD01-090_p1"],
+    pack: "Newtype Rising [GD01] / ショップバトル 2025 SEASON1 参加者パック01 / ショップバトル 2025 SEASON1 優勝者パック01",
+    images: ["GD01-090", "GD01-090_p1", "GD01-090_p2", "GD01-090_p3"],
   },
   {
     id: "GD01-091", block: 1,
@@ -2292,8 +2373,8 @@ const cards = [
     feature: "〔オーブ〕",
     link: "-",
     source: "機動戦士ガンダムSEED",
-    pack: "Newtype Rising [GD01]",
-    images: ["GD01-096", "GD01-096_p1"],
+    pack: "Newtype Rising [GD01] / チャンピオンシップ 参加賞パック 01",
+    images: ["GD01-096", "GD01-096_p1", "GD01-096_p2"],
   },
   {
     id: "GD01-097", block: 1,
@@ -2432,8 +2513,8 @@ const cards = [
     feature: "〔ジオン〕",
     link: "-",
     source: "機動戦士ガンダム",
-    pack: "Newtype Rising [GD01]",
-    images: ["GD01-106"],
+    pack: "Newtype Rising [GD01] / チャンピオンシップ 参加賞パック 01",
+    images: ["GD01-106", "GD01-106_p1"],
   },
   {
     id: "GD01-107", block: 1,
@@ -2812,8 +2893,8 @@ const cards = [
     feature: "〔ティターンズ〕",
     link: "特徴〔ティターンズ〕",
     source: "機動戦士Zガンダム",
-    pack: "Dual Impact [GD02]",
-    images: ["GD02-003", "GD02-003_p1"],
+    pack: "Dual Impact [GD02] / ショップバトル2025 SEASON2 参加者パック / ショップバトル2025 SEASON2 優勝者パック",
+    images: ["GD02-003", "GD02-003_p1", "GD02-003_p2", "GD02-003_p3"],
   },
   {
     id: "GD02-004", block: 1,
@@ -2854,8 +2935,8 @@ const cards = [
     feature: "〔地球連合〕",
     link: "特徴〔生体CPU〕",
     source: "機動戦士ガンダムSEED",
-    pack: "Dual Impact [GD02]",
-    images: ["GD02-006"],
+    pack: "Dual Impact [GD02] / ショップバトル2026 SEASON2 参加者パック / ショップバトル2026 SEASON2 優勝者パック",
+    images: ["GD02-006", "GD02-006_p1", "GD02-006_p2"],
   },
   {
     id: "GD02-007", block: 1,
@@ -3176,8 +3257,8 @@ const cards = [
     feature: "〔地球連邦〕〔AGEシステム〕",
     link: "特徴〔アスノ家〕",
     source: "機動戦士ガンダムAGE",
-    pack: "Dual Impact [GD02]",
-    images: ["GD02-029"],
+    pack: "Dual Impact [GD02] / ショップバトル2025 SEASON2 参加者パック / ショップバトル2025 SEASON2 優勝者パック / ブースターパックリリースイベント [GD02]",
+    images: ["GD02-029", "GD02-029_p1", "GD02-029_p2", "GD02-029_p3"],
   },
   {
     id: "GD02-030", block: 1,
@@ -3274,8 +3355,8 @@ const cards = [
     feature: "〔ネオ・ジオン〕",
     link: "「ハマーン・カーン」",
     source: "機動戦士Zガンダム",
-    pack: "Dual Impact [GD02]",
-    images: ["GD02-036", "GD02-036_p1"],
+    pack: "Dual Impact [GD02] / ニュータイプチャレンジ 2025 MISSION3 優勝記念",
+    images: ["GD02-036", "GD02-036_p1", "GD02-036_p2"],
   },
   {
     id: "GD02-037", block: 1,
@@ -3316,8 +3397,8 @@ const cards = [
     feature: "〔ネオ・ジオン〕",
     link: "「ハマーン・カーン」",
     source: "機動戦士Zガンダム",
-    pack: "Dual Impact [GD02]",
-    images: ["GD02-039"],
+    pack: "Dual Impact [GD02] / ショップバトル2026 SEASON2 参加者パック / ショップバトル2026 SEASON2 優勝者パック",
+    images: ["GD02-039", "GD02-039_p1", "GD02-039_p2"],
   },
   {
     id: "GD02-040", block: 1,
@@ -3442,8 +3523,8 @@ const cards = [
     feature: "〔ネオ・ジオン〕",
     link: "特徴〔ネオ・ジオン〕",
     source: "機動戦士ガンダムUC",
-    pack: "Dual Impact [GD02]",
-    images: ["GD02-048"],
+    pack: "Dual Impact [GD02] / ショップバトル2025 SEASON2 参加者パック / ショップバトル2025 SEASON2 優勝者パック",
+    images: ["GD02-048", "GD02-048_p1", "GD02-048_p2"],
   },
   {
     id: "GD02-049", block: 1,
@@ -3554,8 +3635,8 @@ const cards = [
     feature: "〔バルチャー〕",
     link: "「ガロード・ラン」",
     source: "機動新世紀ガンダムX",
-    pack: "Dual Impact [GD02]",
-    images: ["GD02-056"],
+    pack: "Dual Impact [GD02] / ショップバトル2025 SEASON2 参加者パック / ショップバトル2025 SEASON2 優勝者パック",
+    images: ["GD02-056", "GD02-056_p1", "GD02-056_p2"],
   },
   {
     id: "GD02-057", block: 1,
@@ -3582,8 +3663,8 @@ const cards = [
     feature: "〔鉄華団〕",
     link: "特徴〔鉄華団〕",
     source: "機動戦士ガンダム 鉄血のオルフェンズ",
-    pack: "Dual Impact [GD02]",
-    images: ["GD02-058"],
+    pack: "Dual Impact [GD02] / ニュータイプチャレンジ 2026 MISSION 3 上位入賞記念",
+    images: ["GD02-058", "GD02-058_p1"],
   },
   {
     id: "GD02-059", block: 1,
@@ -8278,8 +8359,8 @@ const cards = [
     feature: "〔地球連邦〕〔WB隊〕",
     link: "「アムロ・レイ」",
     source: "機動戦士ガンダム",
-    pack: "Heroic Beginnings [ST01] / プレミアムカードコレクション01 [EVX05]",
-    images: ["ST01-001", "ST01-001_p1", "ST01-001_p3"],
+    pack: "Heroic Beginnings [ST01] / プレミアムカードコレクション01 [EVX05] / WORLD CHAMPIONSHIPS 25-26 JAPAN FINAL順位記念",
+    images: ["ST01-001", "ST01-001_p1", "ST01-001_p3", "ST01-001_p5", "ST01-001_p6", "ST01-001_p7"],
   },
   {
     id: "ST01-002", block: 1,
@@ -8404,12 +8485,12 @@ const cards = [
     feature: "〔地球連邦〕〔WB隊〕〔ニュータイプ〕",
     link: "-",
     source: "機動戦士ガンダム",
-    pack: "Heroic Beginnings [ST01]",
-    images: ["ST01-010", "ST01-010_p1"],
+    pack: "Heroic Beginnings [ST01] / WORLD CHAMPIONSHIPS 25-26 JAPAN FINAL参加記念",
+    images: ["ST01-010", "ST01-010_p1", "ST01-010_p3"],
   },
   {
     id: "ST01-011", block: 1,
-    rarity: "C", rarityPlus: false,
+    rarity: "P", rarityPlus: false,
     name: "スレッタ・マーキュリー",
     type: "PILOT", color: "White",
     lv: 4, cost: 1, ap: 1, hp: 2,
@@ -8418,8 +8499,8 @@ const cards = [
     feature: "〔学園〕",
     link: "-",
     source: "機動戦士ガンダム 水星の魔女",
-    pack: "Heroic Beginnings [ST01]",
-    images: ["ST01-011", "ST01-011_p1"],
+    pack: "Heroic Beginnings [ST01] / ニュータイプチャレンジ 2025 MISSION1",
+    images: ["ST01-011", "ST01-011_p1", "ST01-011_p4"],
   },
   {
     id: "ST01-012", block: 1,
@@ -8460,7 +8541,7 @@ const cards = [
     feature: "-",
     link: "-",
     source: "機動戦士ガンダム 水星の魔女 / 機動戦士ガンダムSEED / 機動戦士ガンダム 鉄血のオルフェンズ / 機動戦士ガンダムSEED DESTINY / 機動戦士ガンダムUC",
-    pack: "Heroic Beginnings [ST01] / Iron Bloom [ST05] / Destiny Ignition [ST09]",
+    pack: "Heroic Beginnings [ST01] / Iron Bloom [ST05] / Destiny Ignition [ST09] / ショップバトル 2025 SEASON1 参加者パック01 / GCG EXPO来場記念",
     images: ["ST01-014", "ST01-014_p1", "ST01-014_p2", "ST01-014_p3", "ST01-014_p4", "ST01-014_p5", "ST01-014_p6", "ST01-014_p7"],
   },
   {
@@ -8518,8 +8599,8 @@ const cards = [
     feature: "〔オペレーション・メテオ〕",
     link: "「ヒイロ・ユイ」",
     source: "新機動戦記ガンダムW",
-    pack: "Wings of Advance [ST02]",
-    images: ["ST02-002", "ST02-002_p1"],
+    pack: "Wings of Advance [ST02] / ショップバトル 2025 SEASON1 参加者パック01",
+    images: ["ST02-002", "ST02-002_p1", "ST02-002_p3", "ST02-002_p4"],
   },
   {
     id: "ST02-003", block: 1,
@@ -8630,8 +8711,8 @@ const cards = [
     feature: "〔オペレーション・メテオ〕",
     link: "-",
     source: "新機動戦記ガンダムW",
-    pack: "Wings of Advance [ST02] / プレミアムグッズセット-新機動戦記ガンダムW- [PB01]",
-    images: ["ST02-010", "ST02-010_p1", "ST02-010_p4"],
+    pack: "Wings of Advance [ST02] / プレミアムグッズセット-新機動戦記ガンダムW- [PB01] / チャンピオンシップ上位賞カード01",
+    images: ["ST02-010", "ST02-010_p1", "ST02-010_p4", "ST02-010_p3"],
   },
   {
     id: "ST02-011", block: 1,
@@ -8644,8 +8725,8 @@ const cards = [
     feature: "〔OZ〕",
     link: "-",
     source: "新機動戦記ガンダムW",
-    pack: "Wings of Advance [ST02]",
-    images: ["ST02-011", "ST02-011_p1"],
+    pack: "Wings of Advance [ST02] / チャンピオンシップ 参加賞パック 01",
+    images: ["ST02-011", "ST02-011_p1", "ST02-011_p2"],
   },
   {
     id: "ST02-012", block: 1,
@@ -8800,8 +8881,8 @@ const cards = [
     feature: "〔ジオン〕",
     link: "「シャア・アズナブル」",
     source: "機動戦士ガンダム",
-    pack: "Zeon's Rush [ST03]",
-    images: ["ST03-006", "ST03-006_p1"],
+    pack: "Zeon's Rush [ST03] / WORLD CHAMPIONSHIPS 25-26 GRAND FINAL 参加記念",
+    images: ["ST03-006", "ST03-006_p1", "ST03-006_p2"],
   },
   {
     id: "ST03-007", block: 1,
@@ -8828,8 +8909,8 @@ const cards = [
     feature: "〔ジオン〕",
     link: "-",
     source: "機動戦士ガンダム",
-    pack: "Zeon's Rush [ST03] / プレミアムカードコレクション01 [EVX05]",
-    images: ["ST03-008", "ST03-008_p1", "ST03-008_p4"],
+    pack: "Zeon's Rush [ST03] / プレミアムカードコレクション01 [EVX05] / チャンピオンシップ 参加賞パック 01",
+    images: ["ST03-008", "ST03-008_p1", "ST03-008_p4", "ST03-008_p3"],
   },
   {
     id: "ST03-009", block: 1,
@@ -8898,7 +8979,7 @@ const cards = [
     feature: "-",
     link: "-",
     source: "機動戦士ガンダムUC / 機動戦士Gundam GQuuuuuuX(ジークアクス)",
-    pack: "Zeon's Rush [ST03] / Clan Unity [ST06]",
+    pack: "Zeon's Rush [ST03] / Clan Unity [ST06] / チャンピオンシップ 参加賞パック 01",
     images: ["ST03-013", "ST03-013_p1", "ST03-013_p2", "ST03-013_p3"],
   },
   {
@@ -8961,7 +9042,7 @@ const cards = [
   },
   {
     id: "ST04-002", block: 1,
-    rarity: "C", rarityPlus: false,
+    rarity: "P", rarityPlus: false,
     name: "ストライクガンダム",
     type: "UNIT", color: "White",
     lv: 4, cost: 2, ap: 3, hp: 3,
@@ -8970,7 +9051,7 @@ const cards = [
     feature: "〔地球連合〕",
     link: "「キラ・ヤマト」",
     source: "機動戦士ガンダムSEED",
-    pack: "SEED Strike [ST04] / Destiny Ignition [ST09]",
+    pack: "SEED Strike [ST04] / Destiny Ignition [ST09] / スタートデッキリリースイベント [ST01-ST04] リンクユニットセット",
     images: ["ST04-002", "ST04-002_p1", "ST04-002_p2", "ST04-002_p3", "ST04-002_p4"],
   },
   {
@@ -9073,7 +9154,7 @@ const cards = [
   },
   {
     id: "ST04-010", block: 1,
-    rarity: "C", rarityPlus: false,
+    rarity: "P", rarityPlus: false,
     name: "キラ・ヤマト",
     type: "PILOT", color: "White",
     lv: 4, cost: 1, ap: 2, hp: 1,
@@ -9082,7 +9163,7 @@ const cards = [
     feature: "〔地球連合〕〔コーディネイター〕",
     link: "-",
     source: "機動戦士ガンダムSEED",
-    pack: "SEED Strike [ST04] / Destiny Ignition [ST09]",
+    pack: "SEED Strike [ST04] / Destiny Ignition [ST09] / スタートデッキリリースイベント [ST01-ST04] リンクユニットセット",
     images: ["ST04-010", "ST04-010_p1", "ST04-010_p2", "ST04-010_p3", "ST04-010_p4", "ST04-010_p5"],
   },
   {
@@ -9096,7 +9177,7 @@ const cards = [
     feature: "〔ザフト〕〔コーディネイター〕",
     link: "-",
     source: "機動戦士ガンダムSEED",
-    pack: "SEED Strike [ST04] / Destiny Ignition [ST09]",
+    pack: "SEED Strike [ST04] / Destiny Ignition [ST09] / ショップバトル 2025 SEASON1 パック01",
     images: ["ST04-011", "ST04-011_p1", "ST04-011_p2", "ST04-011_p3", "ST04-011_p4"],
   },
   {
@@ -9143,7 +9224,7 @@ const cards = [
   },
   {
     id: "ST04-015", block: 1,
-    rarity: "C", rarityPlus: false,
+    rarity: "C", rarityPlus: true,
     name: "アークエンジェル",
     type: "BASE", color: "White",
     lv: 3, cost: 1, ap: 0, hp: 5,
@@ -9152,8 +9233,8 @@ const cards = [
     feature: "〔地球連合〕〔艦船〕",
     link: "-",
     source: "機動戦士ガンダムSEED",
-    pack: "SEED Strike [ST04] / Destiny Ignition [ST09]",
-    images: ["ST04-015", "ST04-015_p1", "ST04-015_p2", "ST04-015_p3"],
+    pack: "SEED Strike [ST04] / Destiny Ignition [ST09] / ショップバトル2026 SEASON2",
+    images: ["ST04-015", "ST04-015_p1", "ST04-015_p2", "ST04-015_p3", "ST04-015_p5"],
   },
   {
     id: "ST04-016", block: 1,
@@ -9196,8 +9277,8 @@ const cards = [
     feature: "〔鉄華団〕〔ガンダム・フレーム〕",
     link: "「三日月・オーガス」",
     source: "機動戦士ガンダム 鉄血のオルフェンズ",
-    pack: "Iron Bloom [ST05] / プレミアムカードコレクション01 [EVX05]",
-    images: ["ST05-002", "ST05-002_p1", "ST05-002_p3"],
+    pack: "Iron Bloom [ST05] / プレミアムカードコレクション01 [EVX05] / スタートデッキリリースイベント [ST05]",
+    images: ["ST05-002", "ST05-002_p1", "ST05-002_p3", "ST05-002_p2"],
   },
   {
     id: "ST05-003", block: 1,
@@ -9299,7 +9380,7 @@ const cards = [
   },
   {
     id: "ST05-010", block: 1,
-    rarity: "C", rarityPlus: false,
+    rarity: "P", rarityPlus: false,
     name: "三日月・オーガス",
     type: "PILOT", color: "Purple",
     lv: 4, cost: 1, ap: 2, hp: 1,
@@ -9308,8 +9389,8 @@ const cards = [
     feature: "〔鉄華団〕〔阿頼耶識〕",
     link: "-",
     source: "機動戦士ガンダム 鉄血のオルフェンズ",
-    pack: "Steel Requiem [GD03] / Iron Bloom [ST05]",
-    images: ["ST05-010", "ST05-010_p1"],
+    pack: "Steel Requiem [GD03] / Iron Bloom [ST05] / Vジャンプ 12月特大号 付録カード",
+    images: ["ST05-010", "ST05-010_p1", "ST05-010_p2"],
   },
   {
     id: "ST05-011", block: 1,
@@ -9350,8 +9431,8 @@ const cards = [
     feature: "-",
     link: "-",
     source: "機動戦士ガンダム 鉄血のオルフェンズ",
-    pack: "Steel Requiem [GD03] / Iron Bloom [ST05]",
-    images: ["ST05-013", "ST05-013_p1"],
+    pack: "Steel Requiem [GD03] / Iron Bloom [ST05] / スタートデッキリリースイベント [ST05]",
+    images: ["ST05-013", "ST05-013_p1", "ST05-013_p2"],
   },
   {
     id: "ST05-014", block: 1,
@@ -9378,8 +9459,8 @@ const cards = [
     feature: "〔鉄華団〕〔艦船〕",
     link: "-",
     source: "機動戦士ガンダム 鉄血のオルフェンズ",
-    pack: "Iron Bloom [ST05]",
-    images: ["ST05-015", "ST05-015_p1"],
+    pack: "Iron Bloom [ST05] / ニュータイプチャレンジ 2026 MISSION 3 参加記念",
+    images: ["ST05-015", "ST05-015_p1", "ST05-015_p2"],
   },
 
   // ── ST06 ──
@@ -9408,8 +9489,8 @@ const cards = [
     feature: "〔クラン〕",
     link: "「アマテ・ユズリハ（マチュ）」",
     source: "機動戦士Gundam GQuuuuuuX(ジークアクス)",
-    pack: "Clan Unity [ST06] / プレミアムカードコレクション01 [EVX05]",
-    images: ["ST06-002", "ST06-002_p1", "ST06-002_p3"],
+    pack: "Clan Unity [ST06] / プレミアムカードコレクション01 [EVX05] / 10枚まで入れ替えOK！スタートデッキカスタムバトル！",
+    images: ["ST06-002", "ST06-002_p1", "ST06-002_p3", "ST06-002_p2"],
   },
   {
     id: "ST06-003", block: 1,
@@ -9464,8 +9545,8 @@ const cards = [
     feature: "〔クラン〕",
     link: "「シュウジ・イトウ」",
     source: "機動戦士Gundam GQuuuuuuX(ジークアクス)",
-    pack: "Clan Unity [ST06]",
-    images: ["ST06-006", "ST06-006_p1"],
+    pack: "Clan Unity [ST06] / ビギナーズバトル2025 SEASON2 参加記念",
+    images: ["ST06-006", "ST06-006_p1", "ST06-006_p2"],
   },
   {
     id: "ST06-007", block: 1,
@@ -9506,8 +9587,8 @@ const cards = [
     feature: "〔クラン〕〔ニュータイプ〕",
     link: "-",
     source: "機動戦士Gundam GQuuuuuuX(ジークアクス)",
-    pack: "Clan Unity [ST06]",
-    images: ["ST06-009", "ST06-009_p1"],
+    pack: "Clan Unity [ST06] / 10枚まで入れ替えOK！スタートデッキカスタムバトル！ / WORLD CHAMPIONSHIPS 26-27 店舗予選 優勝記念 / WORLD CHAMPIONSHIPS 26-27 Season 1上位入賞記念",
+    images: ["ST06-009", "ST06-009_p1", "ST06-009_p2", "ST06-009_p3", "ST06-009_p4"],
   },
   {
     id: "ST06-010", block: 1,
@@ -9520,8 +9601,8 @@ const cards = [
     feature: "〔クラン〕〔ニュータイプ〕",
     link: "-",
     source: "機動戦士Gundam GQuuuuuuX(ジークアクス)",
-    pack: "Clan Unity [ST06]",
-    images: ["ST06-010", "ST06-010_p1"],
+    pack: "Clan Unity [ST06] / ショップバトル2025 SEASON2 参加者パック / ショップバトル2025 SEASON2 優勝者パック",
+    images: ["ST06-010", "ST06-010_p1", "ST06-010_p2", "ST06-010_p3"],
   },
   {
     id: "ST06-011", block: 1,
@@ -9620,8 +9701,8 @@ const cards = [
     feature: "〔CB〕〔GNドライヴ〕",
     link: "「刹那・F・セイエイ」",
     source: "機動戦士ガンダム00",
-    pack: "Celestial Drive [ST07]",
-    images: ["ST07-002", "ST07-002_p1"],
+    pack: "Celestial Drive [ST07] / スタートデッキそのままバトル！ [ST07][ST08]",
+    images: ["ST07-002", "ST07-002_p1", "ST07-002_p2"],
   },
   {
     id: "ST07-003", block: 1,
@@ -9662,8 +9743,8 @@ const cards = [
     feature: "〔CB〕〔GNドライヴ〕",
     link: "「ロックオン・ストラトス」",
     source: "機動戦士ガンダム00",
-    pack: "Celestial Drive [ST07]",
-    images: ["ST07-005", "ST07-005_p1"],
+    pack: "Celestial Drive [ST07] / ニュータイプチャレンジ 2026 MISSION2 優勝記念",
+    images: ["ST07-005", "ST07-005_p1", "ST07-005_p2"],
   },
   {
     id: "ST07-006", block: 1,
@@ -9718,8 +9799,8 @@ const cards = [
     feature: "〔CB〕",
     link: "-",
     source: "機動戦士ガンダム00",
-    pack: "Celestial Drive [ST07]",
-    images: ["ST07-009", "ST07-009_p1"],
+    pack: "Celestial Drive [ST07] / スタートデッキそのままバトル！ [ST07][ST08]",
+    images: ["ST07-009", "ST07-009_p1", "ST07-009_p2"],
   },
   {
     id: "ST07-010", block: 1,
@@ -9732,8 +9813,8 @@ const cards = [
     feature: "〔CB〕〔イノベイド〕",
     link: "-",
     source: "機動戦士ガンダム00",
-    pack: "Celestial Drive [ST07]",
-    images: ["ST07-010", "ST07-010_p1"],
+    pack: "Celestial Drive [ST07] / ショップバトル 2026 SEASON1 参加者パック03 / ショップバトル 2026 SEASON1 優勝者パック03",
+    images: ["ST07-010", "ST07-010_p1", "ST07-010_p2", "ST07-010_p3"],
   },
   {
     id: "ST07-011", block: 1,
@@ -9746,8 +9827,8 @@ const cards = [
     feature: "〔CB〕",
     link: "-",
     source: "機動戦士ガンダム00",
-    pack: "Celestial Drive [ST07]",
-    images: ["ST07-011", "ST07-011_p1"],
+    pack: "Celestial Drive [ST07] / ニュータイプチャレンジ 2026 MISSION2 上位入賞記念",
+    images: ["ST07-011", "ST07-011_p1", "ST07-011_p2"],
   },
   {
     id: "ST07-012", block: 1,
@@ -9788,8 +9869,8 @@ const cards = [
     feature: "-",
     link: "-",
     source: "機動戦士ガンダム00",
-    pack: "Celestial Drive [ST07]",
-    images: ["ST07-014", "ST07-014_p1"],
+    pack: "Celestial Drive [ST07] / ショップバトル 2026 SEASON1 参加者パック03 / ショップバトル 2026 SEASON1 優勝者パック03",
+    images: ["ST07-014", "ST07-014_p1", "ST07-014_p2", "ST07-014_p3"],
   },
   {
     id: "ST07-015", block: 1,
@@ -9832,8 +9913,8 @@ const cards = [
     feature: "〔マフティー〕",
     link: "「ハサウェイ・ノア」",
     source: "機動戦士ガンダム 閃光のハサウェイ",
-    pack: "Flash of Radiance [ST08]",
-    images: ["ST08-002", "ST08-002_p1"],
+    pack: "Flash of Radiance [ST08] / スタートデッキそのままバトル！ [ST07][ST08]",
+    images: ["ST08-002", "ST08-002_p1", "ST08-002_p2"],
   },
   {
     id: "ST08-003", block: 1,
@@ -9944,8 +10025,8 @@ const cards = [
     feature: "〔マフティー〕〔ニュータイプ〕",
     link: "-",
     source: "機動戦士ガンダム 閃光のハサウェイ",
-    pack: "Flash of Radiance [ST08]",
-    images: ["ST08-010", "ST08-010_p1"],
+    pack: "Flash of Radiance [ST08] / スタートデッキそのままバトル！ [ST07][ST08]",
+    images: ["ST08-010", "ST08-010_p1", "ST08-010_p2"],
   },
   {
     id: "ST08-011", block: 1,
@@ -10633,20 +10714,23 @@ function renderList() {
 
     // トークンはデッキ追加不可
     if (!isToken) {
+      const cardTotal = deckCardTotal(c.id);
       const row = document.createElement("div");
       row.className = "card-count-row";
       row.innerHTML = `
-        <button class="deck-btn minus" ${qty === 0 ? "disabled" : ""}>－</button>
-        <span class="card-count-num">${qty > 0 ? qty : "·"}</span>
-        <button class="deck-btn plus" ${qty >= 4 || totalDeck >= 50 ? "disabled" : ""}>＋</button>
+        <button class="deck-btn minus" ${cardTotal === 0 ? "disabled" : ""}>－</button>
+        <span class="card-count-num">${cardTotal > 0 ? cardTotal : "·"}</span>
+        <button class="deck-btn plus" ${cardTotal >= 4 || totalDeck >= 50 ? "disabled" : ""}>＋</button>
       `;
       row.querySelector(".minus").addEventListener("click", e => {
         e.stopPropagation();
-        deckRemove(c.id);
+        // 一番最後に追加した絵柄から1枚減らす
+        const keys = Object.keys(deck).filter(k => k.startsWith(c.id + ":"));
+        if (keys.length) deckRemove(c, parseInt(keys[keys.length - 1].split(":")[1]));
       });
       row.querySelector(".plus").addEventListener("click", e => {
         e.stopPropagation();
-        deckAdd(c);
+        deckAdd(c, 0); // リストからは絵柄0で追加（モーダルで変更可）
       });
       wrap.appendChild(row);
     }
@@ -10684,29 +10768,41 @@ tabDeck.addEventListener("click", () => {
 });
 
 // ── デッキ管理 ──
-// deck = { cardId: 枚数 }
+// deck = { "cardId:imgIdx": 枚数 }
 const deck = {};
 
 function deckTotal() {
   return Object.values(deck).reduce((a, b) => a + b, 0);
 }
 
-function deckAdd(c) {
-  if (c.type === "UNIT TOKEN") return;
-  const qty = deck[c.id] || 0;
-  if (qty >= 4) return;
-  if (deckTotal() >= 50) return;
-  deck[c.id] = qty + 1;
-  updateDeckBadge();
-  renderList(); // ボタン状態を更新
+// キーからcardIdとimgIdxを取得
+function deckKey(cardId, imgIdx) { return `${cardId}:${imgIdx}`; }
+function deckCardTotal(cardId) {
+  return Object.entries(deck)
+    .filter(([k]) => k.startsWith(cardId + ":"))
+    .reduce((a, [, v]) => a + v, 0);
 }
 
-function deckRemove(id) {
-  if (!deck[id]) return;
-  deck[id]--;
-  if (deck[id] === 0) delete deck[id];
+function deckAdd(c, imgIdx) {
+  if (c.type === "UNIT TOKEN") return;
+  const key = deckKey(c.id, imgIdx);
+  const cardTotal = deckCardTotal(c.id);
+  if (cardTotal >= 4) return;
+  if (deckTotal() >= 50) return;
+  deck[key] = (deck[key] || 0) + 1;
   updateDeckBadge();
   renderList();
+  updateModalDeckRow(c);
+}
+
+function deckRemove(c, imgIdx) {
+  const key = deckKey(c.id, imgIdx);
+  if (!deck[key]) return;
+  deck[key]--;
+  if (deck[key] === 0) delete deck[key];
+  updateDeckBadge();
+  renderList();
+  updateModalDeckRow(c);
 }
 
 function updateDeckBadge() {
@@ -10729,38 +10825,42 @@ function renderDeck() {
     return;
   }
 
-  // デッキに入っているカードをcardsの順番で表示
+  // cardsの順番で、各絵柄エントリを表示
   cards.forEach(c => {
-    if (!deck[c.id]) return;
-    const qty = deck[c.id];
+    c.images.forEach((imgId, idx) => {
+      const key = deckKey(c.id, idx);
+      const qty = deck[key];
+      if (!qty) return;
 
-    const wrap = document.createElement("div");
-    wrap.className = "deck-card-wrap";
+      const wrap = document.createElement("div");
+      wrap.className = "deck-card-wrap";
 
-    const item = document.createElement("div");
-    item.className = "deck-card-item";
-    item.innerHTML = `<img src="${imgUrl(c.images[0])}" alt="${c.name}" loading="lazy">`;
-    item.addEventListener("click", () => openModal(c));
+      const item = document.createElement("div");
+      item.className = "deck-card-item";
+      item.innerHTML = `<img src="${imgUrl(imgId)}" alt="${c.name}" loading="lazy">`;
+      item.addEventListener("click", () => openModal(c, idx));
 
-    const countRow = document.createElement("div");
-    countRow.className = "deck-card-count";
-    countRow.innerHTML = `
-      <button class="deck-btn minus" ${qty === 0 ? "disabled" : ""}>－</button>
-      <span class="deck-card-qty">${qty}</span>
-      <button class="deck-btn plus" ${qty >= 4 || total >= 50 ? "disabled" : ""}>＋</button>
-    `;
-    countRow.querySelector(".minus").addEventListener("click", () => {
-      deckRemove(c.id);
-      renderDeck();
+      const countRow = document.createElement("div");
+      countRow.className = "deck-card-count";
+      const cardTotal = deckCardTotal(c.id);
+      countRow.innerHTML = `
+        <button class="deck-btn minus">－</button>
+        <span class="deck-card-qty">${qty}</span>
+        <button class="deck-btn plus" ${cardTotal >= 4 || total >= 50 ? "disabled" : ""}>＋</button>
+      `;
+      countRow.querySelector(".minus").addEventListener("click", () => {
+        deckRemove(c, idx);
+        renderDeck();
+      });
+      countRow.querySelector(".plus").addEventListener("click", () => {
+        deckAdd(c, idx);
+        renderDeck();
+      });
+
+      wrap.appendChild(item);
+      wrap.appendChild(countRow);
+      deckGrid.appendChild(wrap);
     });
-    countRow.querySelector(".plus").addEventListener("click", () => {
-      deckAdd(c);
-      renderDeck();
-    });
-
-    wrap.appendChild(item);
-    wrap.appendChild(countRow);
-    deckGrid.appendChild(wrap);
   });
 }
 
@@ -10777,20 +10877,32 @@ const FIREBASE_URL = "https://acg-original-default-rtdb.firebaseio.com";
 function encodeDeck() {
   return Object.entries(deck)
     .filter(([, qty]) => qty > 0)
-    .map(([id, qty]) => `${id}x${qty}`)
+    .map(([key, qty]) => `${key}x${qty}`)
     .join(",");
 }
 
 function decodeDeck(str) {
   if (!str) return;
   str.split(",").forEach(part => {
-    const m = part.match(/^(.+)x(\d)$/);
-    if (!m) return;
-    const [, id, qty] = m;
-    const card = cards.find(c => c.id === id && c.type !== "UNIT TOKEN");
-    if (!card) return;
-    const n = parseInt(qty);
-    if (n >= 1 && n <= 4) deck[id] = n;
+    // 新フォーマット: "GD01-001:1x2" (cardId:imgIdx x qty)
+    const mNew = part.match(/^(.+):(\d+)x(\d)$/);
+    if (mNew) {
+      const [, cardId, imgIdx, qty] = mNew;
+      const card = cards.find(c => c.id === cardId && c.type !== "UNIT TOKEN");
+      if (!card) return;
+      const n = parseInt(qty);
+      if (n >= 1 && n <= 4) deck[deckKey(cardId, parseInt(imgIdx))] = n;
+      return;
+    }
+    // 旧フォーマット: "GD01-001x2" → imgIdx=0として復元
+    const mOld = part.match(/^(.+)x(\d)$/);
+    if (mOld) {
+      const [, cardId, qty] = mOld;
+      const card = cards.find(c => c.id === cardId && c.type !== "UNIT TOKEN");
+      if (!card) return;
+      const n = parseInt(qty);
+      if (n >= 1 && n <= 4) deck[deckKey(cardId, 0)] = n;
+    }
   });
   updateDeckBadge();
 }
@@ -10956,16 +11068,42 @@ const arrowPrev = document.getElementById("arrow-prev");
 const arrowNext = document.getElementById("arrow-next");
 const modalBody = document.getElementById("modal-body");
 
-function openModal(c) {
+let currentCard = null;
+
+function openModal(c, startIdx = 0) {
+  currentCard   = c;
   currentImages = c.images;
-  currentSlide  = 0;
+  currentSlide  = startIdx;
 
   track.innerHTML = currentImages
     .map(id => `<img src="${imgUrl(id)}" alt="${c.name}" draggable="false">`)
     .join("");
 
   dotsWrap.innerHTML = currentImages.length > 1
-    ? currentImages.map((_, i) => `<div class="dot${i===0?" active":""}"></div>`).join("")
+    ? currentImages.map((_, i) => `<div class="dot${i===startIdx?" active":""}"></div>`).join("")
+    : "";
+
+  const isToken = c.type === "UNIT TOKEN";
+
+  // サムネイル（2枚以上のとき表示）
+  const thumbsHTML = currentImages.length > 1
+    ? `<div class="art-thumbs">
+        ${currentImages.map((imgId, i) =>
+          `<div class="art-thumb${i===startIdx?" active":""}" data-idx="${i}">
+            <img src="${imgUrl(imgId)}" alt="${i===0?"通常":"p"+i}">
+          </div>`
+        ).join("")}
+       </div>`
+    : "";
+
+  // デッキ追加行（トークン以外）
+  const deckRowHTML = !isToken
+    ? `<div class="modal-deck-row" id="modal-deck-row">
+        <span class="modal-deck-label">この絵柄をデッキに：</span>
+        <button class="modal-deck-btn minus" id="modal-minus">－</button>
+        <span class="modal-deck-qty" id="modal-qty">·</span>
+        <button class="modal-deck-btn plus" id="modal-plus">＋</button>
+       </div>`
     : "";
 
   modalBody.innerHTML = `
@@ -10976,11 +11114,44 @@ function openModal(c) {
     <div class="card-effect">${c.effect.replace(/\n/g,"<br>")}</div>
     <div class="card-feature">特徴：${c.feature}　リンク：${c.link}</div>
     <div class="card-source">${c.source} ／ ${c.pack}</div>
+    ${thumbsHTML}
+    ${deckRowHTML}
   `;
+
+  // サムネイルクリックで絵柄切り替え
+  modalBody.querySelectorAll(".art-thumb").forEach(el => {
+    el.addEventListener("click", () => {
+      const idx = parseInt(el.dataset.idx);
+      goTo(idx);
+      modalBody.querySelectorAll(".art-thumb").forEach(t => t.classList.toggle("active", parseInt(t.dataset.idx) === idx));
+      updateModalDeckRow(c);
+    });
+  });
+
+  // デッキ操作ボタン
+  if (!isToken) {
+    updateModalDeckRow(c);
+    document.getElementById("modal-minus").addEventListener("click", () => deckRemove(c, currentSlide));
+    document.getElementById("modal-plus").addEventListener("click",  () => deckAdd(c, currentSlide));
+  }
 
   updateSlider();
   overlay.classList.add("open");
   document.body.style.overflow = "hidden";
+}
+
+// モーダル内のデッキ数表示を更新
+function updateModalDeckRow(c) {
+  const qtyEl  = document.getElementById("modal-qty");
+  const minusEl = document.getElementById("modal-minus");
+  const plusEl  = document.getElementById("modal-plus");
+  if (!qtyEl) return;
+  const key = deckKey(c.id, currentSlide);
+  const qty = deck[key] || 0;
+  const cardTotal = deckCardTotal(c.id);
+  qtyEl.textContent  = qty > 0 ? qty : "·";
+  minusEl.disabled   = qty === 0;
+  plusEl.disabled    = cardTotal >= 4 || deckTotal() >= 50;
 }
 
 function closeModal() {
@@ -11000,6 +11171,13 @@ function updateSlider() {
 function goTo(n) {
   currentSlide = Math.max(0, Math.min(n, currentImages.length - 1));
   updateSlider();
+  // サムネイルのactive更新
+  if (currentCard) {
+    document.querySelectorAll(".art-thumb").forEach(t =>
+      t.classList.toggle("active", parseInt(t.dataset.idx) === currentSlide)
+    );
+    updateModalDeckRow(currentCard);
+  }
 }
 
 // ボタン
