@@ -8,8 +8,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0a0e1a;
-    --surface: #111827;
+    --bg: #04080f;
+    --surface: #0d1525;
     --border: #1e3a5f;
     --blue-accent: #2196f3;
     --blue-glow: rgba(33,150,243,0.3);
@@ -21,13 +21,27 @@
 
 - { box-sizing: border-box; margin: 0; padding: 0; }
 
+/* ── 宇宙背景キャンバス ── */
+#space-canvas {
+position: fixed;
+inset: 0;
+width: 100%;
+height: 100%;
+z-index: 0;
+pointer-events: none;
+}
+
 body {
 background: var(–bg);
 color: var(–text);
 font-family: ‘Noto Sans JP’, sans-serif;
 min-height: 100vh;
 padding: 2rem 1rem;
+position: relative;
 }
+
+/* bodyの直接の子を前面に */
+body > * { position: relative; z-index: 1; }
 
 h1 {
 font-family: ‘Rajdhani’, sans-serif;
@@ -113,7 +127,7 @@ font-weight: 700;
 .card-rarity.plus { background: linear-gradient(135deg, #ffd54f, #ff8f00); }
 
 /* ① カード名：リストでは黒（白背景でも読める）、モーダル内は白に上書き */
-.card-name { font-size: 1.05rem; font-weight: 700; color: #0d1b2e; line-height: 1.3; }
+.card-name { font-size: 1.05rem; font-weight: 700; color: var(–text); line-height: 1.3; }
 .modal-body .card-name { color: #fff; }
 
 .card-badges { display: flex; gap: 0.4rem; flex-wrap: wrap; align-items: center; }
@@ -158,6 +172,11 @@ margin: 0 auto 1.2rem;
 display: flex;
 flex-direction: column;
 gap: 0.6rem;
+background: rgba(13, 21, 37, 0.75);
+backdrop-filter: blur(10px);
+border: 1px solid rgba(30, 58, 95, 0.6);
+border-radius: 12px;
+padding: 0.8rem;
 }
 
 /* ── 検索行（検索欄＋クリアボタン） ── */
@@ -192,16 +211,19 @@ transition: background 0.2s;
 /* ── 検索欄（全幅） ── */
 .search-wrap {
 position: relative;
+width: 100%;
+box-sizing: border-box;
 }
 
-#search-input {
+#search-input, #link-input {
 width: 100%;
-padding: 0.75rem 1rem 0.75rem 2.8rem;
+box-sizing: border-box;
+padding: 0.5rem 1rem 0.5rem 2.8rem;
 background: var(–surface);
 border: 1px solid var(–border);
 border-radius: 8px;
 color: var(–text);
-font-size: 0.9rem;
+font-size: 0.85rem;
 font-family: ‘Noto Sans JP’, sans-serif;
 outline: none;
 transition: border-color 0.2s, box-shadow 0.2s;
@@ -210,8 +232,8 @@ background-repeat: no-repeat;
 background-position: 0.9rem center;
 }
 
-#search-input:focus { border-color: var(–blue-accent); box-shadow: 0 0 0 3px var(–blue-glow); }
-#search-input::placeholder { color: var(–text-muted); }
+#search-input:focus, #link-input:focus { border-color: var(–blue-accent); box-shadow: 0 0 0 3px var(–blue-glow); }
+#search-input::placeholder, #link-input::placeholder { color: var(–text-muted); }
 
 /* ── プルダウン（select）共通スタイル ── */
 .filter-selects {
@@ -418,6 +440,8 @@ gap: 0.65rem;
 
 .modal-body .card-name  { font-size: 1.35rem; }
 .modal-body .card-effect { font-size: 0.82rem; }
+.modal-body .card-feature { color: #a0b4cc; }
+.modal-body .card-source  { color: #7a8daa; }
 
 /* ── タブ ── */
 .tabs {
@@ -425,6 +449,10 @@ display: flex;
 max-width: 960px;
 margin: 0 auto 1rem;
 border-bottom: 2px solid var(–border);
+background: rgba(13, 21, 37, 0.7);
+backdrop-filter: blur(8px);
+border-radius: 10px 10px 0 0;
+padding: 0 0.5rem;
 }
 
 .tab-btn {
@@ -596,10 +624,43 @@ text-align: center;
 .deck-grid  { grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 6px; }
 .slider-track img { max-height: 260px; }
 }
+
+/* ── デスクトップレイアウト ── */
+@media (min-width: 768px) {
+body { padding: 2rem 2rem; }
+
+```
+/* 検索欄2つを横並び */
+.search-row-desktop {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+/* プルダウン行1：5列（色1/色2/タイプ/発売弾 + 余白） */
+.filter-selects { grid-template-columns: repeat(4, 1fr); }
+
+/* プルダウン行2：3列そのまま（広がる） */
+.filter-selects.row3 { grid-template-columns: repeat(3, 1fr); }
+
+/* カードグリッドをもう少し細かく */
+.card-list { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
+.deck-grid  { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
+
+/* モーダルを少し広げる */
+.modal { width: min(80vw, 600px); }
+.slider-track img { max-height: 420px; }
+```
+
+}
 </style>
 
 </head>
 <body>
+
+<!-- ── 宇宙背景 ── -->
+
+<canvas id="space-canvas"></canvas>
 
 <h1>Card List</h1>
 
@@ -621,10 +682,15 @@ text-align: center;
   <div class="clear-row">
     <button class="clear-btn" id="clear-btn">クリア</button>
   </div>
-  <!-- 行2：検索欄（全幅） -->
-  <div class="search-wrap">
-    <input type="text" id="search-input" placeholder="カード名・効果・特徴で検索…" autocomplete="off">
-    <span class="search-count" id="search-count"></span>
+  <!-- 行2：検索欄（全幅／デスクトップは横並び） -->
+  <div class="search-row-desktop">
+    <div class="search-wrap">
+      <input type="text" id="search-input" placeholder="カード名・効果・特徴で検索…" autocomplete="off">
+      <span class="search-count" id="search-count"></span>
+    </div>
+    <div class="search-wrap">
+      <input type="text" id="link-input" placeholder="リンク（パイロット名）で検索…" autocomplete="off">
+    </div>
   </div>
   <!-- 行2：色1、色2、タイプ、発売弾 -->
   <div class="filter-selects">
@@ -728,6 +794,76 @@ text-align: center;
 </div>
 
 <script>
+// ── 宇宙背景（星空）描画 ──
+(function() {
+  const canvas = document.getElementById("space-canvas");
+  const ctx = canvas.getContext("2d");
+  let stars = [], nebula = [];
+
+  function resize() {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+    init();
+  }
+
+  function init() {
+    // 星を生成
+    stars = Array.from({ length: 220 }, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 1.4 + 0.2,
+      a: Math.random() * 0.7 + 0.3,
+      speed: Math.random() * 0.3 + 0.05,
+      twinkle: Math.random() * Math.PI * 2,
+    }));
+    // 星雲（淡いぼんやり光）
+    nebula = Array.from({ length: 5 }, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 180 + 80,
+      hue: [220, 240, 200, 260, 180][Math.floor(Math.random() * 5)],
+    }));
+  }
+
+  function draw(t) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // 背景グラデーション
+    const bg = ctx.createLinearGradient(0, 0, canvas.width * 0.5, canvas.height);
+    bg.addColorStop(0, "#020510");
+    bg.addColorStop(0.5, "#050d1e");
+    bg.addColorStop(1, "#030812");
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // 星雲
+    nebula.forEach(n => {
+      const g = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, n.r);
+      g.addColorStop(0, `hsla(${n.hue}, 80%, 60%, 0.04)`);
+      g.addColorStop(1, "transparent");
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+      ctx.fill();
+    });
+
+    // 星
+    stars.forEach(s => {
+      s.twinkle += s.speed * 0.02;
+      const alpha = s.a * (0.6 + 0.4 * Math.sin(s.twinkle));
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(200, 220, 255, ${alpha})`;
+      ctx.fill();
+    });
+
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener("resize", resize);
+  resize();
+  requestAnimationFrame(draw);
+})();
 // ─────────────────────────────────────────────
 // カードデータ
 // images: 画像IDの配列
@@ -1764,8 +1900,8 @@ const cards = [
     feature: "〔三隻同盟〕",
     link: "特徴〔地球連合〕",
     source: "機動戦士ガンダムSEED",
-    pack: "Newtype Rising [GD01]",
-    images: ["GD01-068"],
+    pack: "Newtype Rising [GD01] / プレミアムカードコレクション01 [EVX05]",
+    images: ["GD01-068", "GD01-068_p2"],
   },
   {
     id: "GD01-069", block: 1,
@@ -2016,8 +2152,8 @@ const cards = [
     feature: "〔ヴァナディース機関〕",
     link: "-",
     source: "機動戦士ガンダム 水星の魔女",
-    pack: "Newtype Rising [GD01]",
-    images: ["GD01-086"],
+    pack: "Newtype Rising [GD01] / プレミアムカードコレクション01 [EVX05]",
+    images: ["GD01-086", "GD01-086_p2"],
   },
   {
     id: "GD01-087", block: 1,
@@ -5128,8 +5264,8 @@ const cards = [
     feature: "〔ジオン〕",
     link: "「ニャアン」",
     source: "機動戦士Gundam GQuuuuuuX(ジークアクス)",
-    pack: "Steel Requiem [GD03]",
-    images: ["GD03-048"],
+    pack: "Steel Requiem [GD03] / プレミアムカードコレクション ガンダムアッセンブルセット - 機動戦士Gundam GQuuuuuuX - [PC02A]",
+    images: ["GD03-048", "GD03-048_p1"],
   },
   {
     id: "GD03-049", block: 1,
@@ -5296,8 +5432,8 @@ const cards = [
     feature: "〔鉄華団〕",
     link: "-",
     source: "機動戦士ガンダム 鉄血のオルフェンズ",
-    pack: "Steel Requiem [GD03]",
-    images: ["GD03-060"],
+    pack: "Steel Requiem [GD03] / プレミアムカードコレクション ガンダムアッセンブルセット - 機動戦士ガンダム 鉄血のオルフェンズ - [PC01A]",
+    images: ["GD03-060", "GD03-060_p1"],
   },
   {
     id: "GD03-061", block: 1,
@@ -5940,8 +6076,8 @@ const cards = [
     feature: "-",
     link: "-",
     source: "機動戦士Gundam GQuuuuuuX(ジークアクス)",
-    pack: "Steel Requiem [GD03]",
-    images: ["GD03-106"],
+    pack: "Steel Requiem [GD03] / プレミアムカードコレクション ガンダムアッセンブルセット - 機動戦士Gundam GQuuuuuuX - [PC02A]",
+    images: ["GD03-106", "GD03-106_p1"],
   },
   {
     id: "GD03-107", block: 1,
@@ -6094,8 +6230,8 @@ const cards = [
     feature: "-",
     link: "-",
     source: "機動戦士ガンダム 鉄血のオルフェンズ",
-    pack: "Steel Requiem [GD03]",
-    images: ["GD03-117"],
+    pack: "Steel Requiem [GD03] / プレミアムカードコレクション ガンダムアッセンブルセット - 機動戦士ガンダム 鉄血のオルフェンズ - [PC01A]",
+    images: ["GD03-117", "GD03-117_p1"],
   },
   {
     id: "GD03-118", block: 1,
@@ -8142,8 +8278,8 @@ const cards = [
     feature: "〔地球連邦〕〔WB隊〕",
     link: "「アムロ・レイ」",
     source: "機動戦士ガンダム",
-    pack: "Heroic Beginnings [ST01]",
-    images: ["ST01-001", "ST01-001_p1"],
+    pack: "Heroic Beginnings [ST01] / プレミアムカードコレクション01 [EVX05]",
+    images: ["ST01-001", "ST01-001_p1", "ST01-001_p3"],
   },
   {
     id: "ST01-002", block: 1,
@@ -8494,8 +8630,8 @@ const cards = [
     feature: "〔オペレーション・メテオ〕",
     link: "-",
     source: "新機動戦記ガンダムW",
-    pack: "Wings of Advance [ST02]",
-    images: ["ST02-010", "ST02-010_p1"],
+    pack: "Wings of Advance [ST02] / プレミアムグッズセット-新機動戦記ガンダムW- [PB01]",
+    images: ["ST02-010", "ST02-010_p1", "ST02-010_p4"],
   },
   {
     id: "ST02-011", block: 1,
@@ -8692,8 +8828,8 @@ const cards = [
     feature: "〔ジオン〕",
     link: "-",
     source: "機動戦士ガンダム",
-    pack: "Zeon's Rush [ST03]",
-    images: ["ST03-008", "ST03-008_p1"],
+    pack: "Zeon's Rush [ST03] / プレミアムカードコレクション01 [EVX05]",
+    images: ["ST03-008", "ST03-008_p1", "ST03-008_p4"],
   },
   {
     id: "ST03-009", block: 1,
@@ -9046,8 +9182,8 @@ const cards = [
     feature: "〔鉄華団〕〔ガンダム・フレーム〕",
     link: "「三日月・オーガス」",
     source: "機動戦士ガンダム 鉄血のオルフェンズ",
-    pack: "Iron Bloom [ST05]",
-    images: ["ST05-001", "ST05-001_p1"],
+    pack: "Iron Bloom [ST05] / プレミアムカードコレクション ガンダムアッセンブルセット - 機動戦士ガンダム 鉄血のオルフェンズ - [PC01A]",
+    images: ["ST05-001", "ST05-001_p1", "ST05-001_p2"],
   },
   {
     id: "ST05-002", block: 1,
@@ -9060,8 +9196,8 @@ const cards = [
     feature: "〔鉄華団〕〔ガンダム・フレーム〕",
     link: "「三日月・オーガス」",
     source: "機動戦士ガンダム 鉄血のオルフェンズ",
-    pack: "Iron Bloom [ST05]",
-    images: ["ST05-002", "ST05-002_p1"],
+    pack: "Iron Bloom [ST05] / プレミアムカードコレクション01 [EVX05]",
+    images: ["ST05-002", "ST05-002_p1", "ST05-002_p3"],
   },
   {
     id: "ST05-003", block: 1,
@@ -9130,8 +9266,8 @@ const cards = [
     feature: "〔ギャラルホルン〕",
     link: "「マクギリス・ファリド」",
     source: "機動戦士ガンダム 鉄血のオルフェンズ",
-    pack: "Iron Bloom [ST05]",
-    images: ["ST05-007", "ST05-007_p1"],
+    pack: "Iron Bloom [ST05] / プレミアムカードコレクション ガンダムアッセンブルセット - 機動戦士ガンダム 鉄血のオルフェンズ - [PC01A]",
+    images: ["ST05-007", "ST05-007_p1", "ST05-007_p2"],
   },
   {
     id: "ST05-008", block: 1,
@@ -9258,8 +9394,8 @@ const cards = [
     feature: "〔クラン〕",
     link: "「アマテ・ユズリハ（マチュ）」",
     source: "機動戦士Gundam GQuuuuuuX(ジークアクス)",
-    pack: "Clan Unity [ST06]",
-    images: ["ST06-001", "ST06-001_p1"],
+    pack: "Clan Unity [ST06] / プレミアムカードコレクション ガンダムアッセンブルセット - 機動戦士Gundam GQuuuuuuX - [PC02A]",
+    images: ["ST06-001", "ST06-001_p1", "ST06-001_p2"],
   },
   {
     id: "ST06-002", block: 1,
@@ -9272,8 +9408,8 @@ const cards = [
     feature: "〔クラン〕",
     link: "「アマテ・ユズリハ（マチュ）」",
     source: "機動戦士Gundam GQuuuuuuX(ジークアクス)",
-    pack: "Clan Unity [ST06]",
-    images: ["ST06-002", "ST06-002_p1"],
+    pack: "Clan Unity [ST06] / プレミアムカードコレクション01 [EVX05]",
+    images: ["ST06-002", "ST06-002_p1", "ST06-002_p3"],
   },
   {
     id: "ST06-003", block: 1,
@@ -9314,8 +9450,8 @@ const cards = [
     feature: "〔クラン〕",
     link: "「シュウジ・イトウ」",
     source: "機動戦士Gundam GQuuuuuuX(ジークアクス)",
-    pack: "Clan Unity [ST06]",
-    images: ["ST06-005", "ST06-005_p1"],
+    pack: "Clan Unity [ST06] / プレミアムカードコレクション ガンダムアッセンブルセット - 機動戦士Gundam GQuuuuuuX - [PC02A]",
+    images: ["ST06-005", "ST06-005_p1", "ST06-005_p2"],
   },
   {
     id: "ST06-006", block: 1,
@@ -10232,8 +10368,8 @@ const cards = [
     feature: "〔鉄華団〕",
     link: "-",
     source: "機動戦士ガンダム 鉄血のオルフェンズ",
-    pack: "Steel Requiem [GD03]",
-    images: ["T-015"],
+    pack: "Steel Requiem [GD03] / プレミアムカードコレクション ガンダムアッセンブルセット - 機動戦士ガンダム 鉄血のオルフェンズ - [PC01A]",
+    images: ["T-015", "T-015_p1"],
   },
   {
     id: "T-016", block: 1,
@@ -10246,8 +10382,8 @@ const cards = [
     feature: "〔鉄華団〕",
     link: "-",
     source: "機動戦士ガンダム 鉄血のオルフェンズ",
-    pack: "Steel Requiem [GD03]",
-    images: ["T-016"],
+    pack: "Steel Requiem [GD03] / プレミアムカードコレクション ガンダムアッセンブルセット - 機動戦士ガンダム 鉄血のオルフェンズ - [PC01A]",
+    images: ["T-016", "T-016_p1"],
   },
   {
     id: "T-017", block: 1,
@@ -10260,8 +10396,8 @@ const cards = [
     feature: "〔鉄華団〕",
     link: "-",
     source: "機動戦士ガンダム 鉄血のオルフェンズ",
-    pack: "Steel Requiem [GD03]",
-    images: ["T-017"],
+    pack: "Steel Requiem [GD03] / プレミアムカードコレクション ガンダムアッセンブルセット - 機動戦士ガンダム 鉄血のオルフェンズ - [PC01A]",
+    images: ["T-017", "T-017_p1"],
   },
   {
     id: "T-018", block: 1,
@@ -10274,8 +10410,8 @@ const cards = [
     feature: "〔クラン〕",
     link: "-",
     source: "機動戦士Gundam GQuuuuuuX(ジークアクス)",
-    pack: "Steel Requiem [GD03]",
-    images: ["T-018"],
+    pack: "Steel Requiem [GD03] / プレミアムカードコレクション ガンダムアッセンブルセット - 機動戦士Gundam GQuuuuuuX - [PC02A]",
+    images: ["T-018", "T-018_p1"],
   },
   {
     id: "T-019", block: 1,
@@ -10288,8 +10424,8 @@ const cards = [
     feature: "〔クラン〕",
     link: "-",
     source: "機動戦士Gundam GQuuuuuuX(ジークアクス)",
-    pack: "Steel Requiem [GD03]",
-    images: ["T-019"],
+    pack: "Steel Requiem [GD03] / プレミアムカードコレクション ガンダムアッセンブルセット - 機動戦士Gundam GQuuuuuuX - [PC02A]",
+    images: ["T-019", "T-019_p1"],
   },
   {
     id: "T-020", block: 1,
@@ -10302,8 +10438,8 @@ const cards = [
     feature: "〔ジオン〕",
     link: "-",
     source: "機動戦士Gundam GQuuuuuuX(ジークアクス)",
-    pack: "Steel Requiem [GD03]",
-    images: ["T-020"],
+    pack: "Steel Requiem [GD03] / プレミアムカードコレクション ガンダムアッセンブルセット - 機動戦士Gundam GQuuuuuuX - [PC02A]",
+    images: ["T-020", "T-020_p1"],
   },
   {
     id: "T-021", block: 1,
@@ -10363,6 +10499,7 @@ const cards = [
 const list        = document.getElementById("card-list");
 const searchInput = document.getElementById("search-input");
 const searchCount = document.getElementById("search-count");
+const linkInput   = document.getElementById("link-input");
 const resultBar   = document.getElementById("result-bar");
 const filterColor1  = document.getElementById("filter-color1");
 const filterColor2  = document.getElementById("filter-color2");
@@ -10396,6 +10533,7 @@ function buildSelects() {
 // ── フィルター判定 ──
 function matchCard(c) {
   const q       = searchInput.value.trim().toLowerCase();
+  const lq      = linkInput.value.trim().toLowerCase();
   const color1  = filterColor1.value;
   const color2  = filterColor2.value;
   const type    = filterType.value;
@@ -10409,6 +10547,9 @@ function matchCard(c) {
     const searchStr = [c.name, c.effect, c.feature].join(" ").toLowerCase();
     if (!searchStr.includes(q)) return false;
   }
+
+  // リンク検索
+  if (lq && !c.link.toLowerCase().includes(lq)) return false;
 
   // 色フィルター（OR条件：選んだ色のどちらかに一致）
   if (color1 || color2) {
@@ -10448,6 +10589,7 @@ function renderList() {
   list.innerHTML = "";
 
   const q       = searchInput.value.trim();
+  const lq      = linkInput.value.trim();
   const color1  = filterColor1.value;
   const color2  = filterColor2.value;
   const type    = filterType.value;
@@ -10455,7 +10597,7 @@ function renderList() {
   const uc      = filterUC.value;
   const another = filterAnother.value;
   const pack    = filterPack.value;
-  const hasFilter = q || color1 || color2 || type || keyword || uc || another || pack;
+  const hasFilter = q || lq || color1 || color2 || type || keyword || uc || another || pack;
 
   if (!hasFilter) {
     list.innerHTML = `<div class="empty-state">検索・フィルターを設定するとカードが表示されます</div>`;
@@ -10720,6 +10862,7 @@ loadDeckFromUrl();
 // ── クリアボタン：全フィルターをリセット ──
 clearBtn.addEventListener("click", () => {
   searchInput.value = "";
+  linkInput.value = "";
   filterColor1.value = "";
   filterColor2.value = "";
   filterType.value = "";
@@ -10732,6 +10875,7 @@ clearBtn.addEventListener("click", () => {
 
 // ── イベント登録 ──
 searchInput.addEventListener("input", renderList);
+linkInput.addEventListener("input", renderList);
 filterColor1.addEventListener("change", renderList);
 filterColor2.addEventListener("change", renderList);
 filterType.addEventListener("change", renderList);
