@@ -31,6 +31,9 @@ height: 100%;
 object-fit: cover;
 z-index: -1;
 filter: brightness(0.5);
+/* iOS Safari対応 */
+-webkit-transform: translateZ(0);
+transform: translateZ(0);
 }
 
 body {
@@ -302,7 +305,8 @@ padding: 0.5rem 1.6rem 0.5rem 0.5rem;
 background: rgba(4, 8, 15, 0.85);
 border: 1px solid var(–border);
 border-radius: 8px;
-color: var(–text);
+color: #ffffff !important;
+-webkit-text-fill-color: #ffffff !important;
 font-size: 0.72rem;
 font-family: ‘Noto Sans JP’, sans-serif;
 outline: none;
