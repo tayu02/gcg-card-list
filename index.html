@@ -892,6 +892,19 @@ body { padding: 2rem 2rem; }
     </select>
     <select class="filter-select" id="filter-pack">
       <option value="">発売弾</option>
+      <option value="GD01">Newtype Rising [GD01]</option>
+      <option value="GD02">Dual Impact [GD02]</option>
+      <option value="GD03">Steel Requiem [GD03]</option>
+      <option value="GD04">Phantom Aria [GD04]</option>
+      <option value="ST01">Heroic Beginnings [ST01]</option>
+      <option value="ST02">Wings of Advance [ST02]</option>
+      <option value="ST03">Zeon's Rush [ST03]</option>
+      <option value="ST04">SEED Strike [ST04]</option>
+      <option value="ST05">Iron Bloom [ST05]</option>
+      <option value="ST06">Clan Unity [ST06]</option>
+      <option value="ST07">Celestial Drive [ST07]</option>
+      <option value="ST08">Flash of Radiance [ST08]</option>
+      <option value="ST09">Destiny Ignition [ST09]</option>
     </select>
   </div>
   <!-- 行4：宇宙世紀、アナザー世紀、キーワード -->
@@ -10785,7 +10798,7 @@ function matchCard(c) {
   if (another && !c.source.split(" / ").map(s => s.trim()).includes(another)) return false;
 
   // 発売弾フィルター
-  if (pack && !c.pack.split(" / ").map(p => p.trim()).includes(pack)) return false;
+  if (pack && !c.pack.includes(pack)) return false;
 
   return true;
 }
