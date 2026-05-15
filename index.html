@@ -24,12 +24,12 @@
 /* ── 宇宙背景画像 ── */
 #bg-image {
 position: fixed;
-inset: 0;
+top: 0;
+left: 0;
 width: 100%;
 height: 100%;
 object-fit: cover;
-z-index: 0;
-pointer-events: none;
+z-index: -1;
 filter: brightness(0.5);
 }
 
@@ -39,10 +39,7 @@ color: var(–text);
 font-family: ‘Noto Sans JP’, sans-serif;
 min-height: 100vh;
 padding: 2rem 1rem;
-position: relative;
 }
-
-body > * { position: relative; z-index: 1; }
 
 h1 {
 font-family: ‘Rajdhani’, sans-serif;
@@ -9284,7 +9281,7 @@ const cards = [
     link: "-",
     source: "機動戦士ガンダムSEED",
     pack: "SEED Strike [ST04] / Destiny Ignition [ST09] / イベント",
-    images: ["ST04-015", "ST04-015_p1", "ST04-015_p2", "ST04-015_p3", "ST04-015_p5"],
+    images: ["ST04-015", "ST04-015_p1", "ST04-015_p2", "ST04-015_p3", "ST04-015_p4", "ST04-015_p5"],
   },
   {
     id: "ST04-016", block: 1,
