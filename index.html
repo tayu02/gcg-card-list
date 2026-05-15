@@ -21,18 +21,9 @@
 
 - { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* ── 宇宙背景キャンバス ── */
-#space-canvas {
-position: fixed;
-inset: 0;
-width: 100%;
-height: 100%;
-z-index: 0;
-pointer-events: none;
-}
-
+/* ── 宇宙背景画像 ── */
 body {
-background: var(–bg);
+background: url(‘https://tayu02.github.io/gcg-card-list/IMG_7653.jpeg’) fixed center/cover no-repeat;
 color: var(–text);
 font-family: ‘Noto Sans JP’, sans-serif;
 min-height: 100vh;
@@ -40,7 +31,16 @@ padding: 2rem 1rem;
 position: relative;
 }
 
-/* bodyの直接の子を前面に */
+/* 背景を少し暗くしてテキストを読みやすく */
+body::before {
+content: ‘’;
+position: fixed;
+inset: 0;
+background: rgba(2, 5, 15, 0.6);
+z-index: 0;
+pointer-events: none;
+}
+
 body > * { position: relative; z-index: 1; }
 
 h1 {
@@ -152,6 +152,7 @@ font-weight: 700;
 .badge-color-white { background: #e0e0e0; color: #1a1a2e; border: none; box-shadow: 0 0 8px rgba(220,220,220,0.5); }
 
 .badge-terrain { background: #1a1a2e; color: #ce93d8; border: 1px solid #6a1b9a; }
+.badge-block   { background: rgba(255,255,255,0.08); color: #90a4ae; border: 1px solid rgba(255,255,255,0.15); }
 
 .card-stats { display: flex; gap: 1rem; font-family: ‘Rajdhani’, sans-serif; }
 .stat { display: flex; gap: 0.3rem; align-items: center; }
@@ -381,7 +382,7 @@ backdrop-filter: blur(6px);
 background: var(–surface);
 border: 1px solid var(–border);
 border-radius: 12px;
-width: min(92vw, 480px);
+width: min(88vw, 400px);
 max-height: 90vh;
 overflow-y: auto;
 box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 40px var(–blue-glow);
@@ -432,8 +433,9 @@ will-change: transform;
 .slider-track img {
 min-width: 100%;
 width: 100%;
-max-height: 340px;
-object-fit: contain;
+max-height: 300px;
+object-fit: cover;
+object-position: center top;
 display: block;
 user-select: none;
 -webkit-user-drag: none;
@@ -539,7 +541,7 @@ padding: 0.5rem 0.8rem;
 
 .modal-deck-label {
 font-size: 0.72rem;
-color: var(–text);
+color: #ffffff;
 white-space: nowrap;
 }
 
@@ -567,7 +569,7 @@ flex-shrink: 0;
 font-family: ‘Rajdhani’, sans-serif;
 font-weight: 700;
 font-size: 1.1rem;
-color: var(–gold);
+color: #ffffff;
 min-width: 20px;
 text-align: center;
 }
@@ -798,10 +800,6 @@ body { padding: 2rem 2rem; }
 </head>
 <body>
 
-<!-- ── 宇宙背景 ── -->
-
-<canvas id="space-canvas"></canvas>
-
 <h1>アナハイム・エレクトロニクス開発本部</h1>
 
 <!-- ── タブ ── -->
@@ -992,76 +990,6 @@ body { padding: 2rem 2rem; }
 </div>
 
 <script>
-// ── 宇宙背景（星空）描画 ──
-(function() {
-  const canvas = document.getElementById("space-canvas");
-  const ctx = canvas.getContext("2d");
-  let stars = [], nebula = [];
-
-  function resize() {
-    canvas.width  = window.innerWidth;
-    canvas.height = window.innerHeight;
-    init();
-  }
-
-  function init() {
-    // 星を生成
-    stars = Array.from({ length: 220 }, () => ({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      r: Math.random() * 1.4 + 0.2,
-      a: Math.random() * 0.7 + 0.3,
-      speed: Math.random() * 0.3 + 0.05,
-      twinkle: Math.random() * Math.PI * 2,
-    }));
-    // 星雲（淡いぼんやり光）
-    nebula = Array.from({ length: 5 }, () => ({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      r: Math.random() * 180 + 80,
-      hue: [220, 240, 200, 260, 180][Math.floor(Math.random() * 5)],
-    }));
-  }
-
-  function draw(t) {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // 背景グラデーション
-    const bg = ctx.createLinearGradient(0, 0, canvas.width * 0.5, canvas.height);
-    bg.addColorStop(0, "#020510");
-    bg.addColorStop(0.5, "#050d1e");
-    bg.addColorStop(1, "#030812");
-    ctx.fillStyle = bg;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    // 星雲
-    nebula.forEach(n => {
-      const g = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, n.r);
-      g.addColorStop(0, `hsla(${n.hue}, 80%, 60%, 0.04)`);
-      g.addColorStop(1, "transparent");
-      ctx.fillStyle = g;
-      ctx.beginPath();
-      ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
-      ctx.fill();
-    });
-
-    // 星
-    stars.forEach(s => {
-      s.twinkle += s.speed * 0.02;
-      const alpha = s.a * (0.6 + 0.4 * Math.sin(s.twinkle));
-      ctx.beginPath();
-      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(200, 220, 255, ${alpha})`;
-      ctx.fill();
-    });
-
-    requestAnimationFrame(draw);
-  }
-
-  window.addEventListener("resize", resize);
-  resize();
-  requestAnimationFrame(draw);
-})();
 // ─────────────────────────────────────────────
 // カードデータ
 // images: 画像IDの配列
@@ -5071,7 +4999,7 @@ const cards = [
     link: "「バーナード・ワイズマン」",
     source: "機動戦士ガンダム0080 ポケットの中の戦争",
     pack: "Steel Requiem [GD03] / イベント",
-    images: ["GD03-020", "GD03-020_p1", "GD03-020_p2", "GD03-020_p3"],
+    images: ["GD03-020", "GD03-020_p1", "GD03-020_p3"],
   },
   {
     id: "GD03-021", block: 1,
@@ -9563,7 +9491,7 @@ const cards = [
     link: "-",
     source: "機動戦士ガンダム00",
     pack: "Steel Requiem [GD03] / Iron Bloom [ST05] / Celestial Drive [ST07]",
-    images: ["ST05-014", "ST05-014_p1", "ST05-014_p2", "ST05-014_p3", "ST05-014_p4", "ST05-014_p5", "ST05-014_p6"],
+    images: ["ST05-014", "ST05-014_p1", "ST05-014_p2", "ST05-014_p3", "ST05-014_p4"],
   },
   {
     id: "ST05-015", block: 1,
@@ -11182,7 +11110,6 @@ function headerHTML(c) {
   return `<div class="card-header">
     <span class="card-id">${c.id}</span>
     <span class="card-rarity${c.rarityPlus?" plus":""}">${c.rarity}${c.rarityPlus?" +":""}</span>
-    <span class="block-icon" title="ブロックアイコン">${c.block}</span>
   </div>`;
 }
 function badgesHTML(c) {
@@ -11199,10 +11126,13 @@ function badgesHTML(c) {
   // colorが「-」のトークンはカラーバッジ非表示
   const colorBadge = c.color !== "-"
     ? `<span class="badge ${colorClass}">${c.color}</span>` : "";
+  // ブロックバッジ
+  const blockBadge = c.block ? `<span class="badge badge-block">ブロック${c.block}</span>` : "";
   return `<div class="card-badges">
     <span class="badge badge-type">${c.type}</span>
     ${colorBadge}
     ${terrainBadge}
+    ${blockBadge}
   </div>`;
 }
 function statsHTML(c) {
