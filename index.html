@@ -270,7 +270,7 @@ padding: 0.5rem 1rem 0.5rem 2.8rem;
 background: rgba(4, 8, 15, 0.85);
 border: 1px solid var(–border);
 border-radius: 8px;
-color: var(–text);
+color: #ffffff !important;
 font-size: 0.85rem;
 font-family: ‘Noto Sans JP’, sans-serif;
 outline: none;
@@ -278,7 +278,9 @@ transition: border-color 0.2s, box-shadow 0.2s;
 background-image: url(“data:image/svg+xml,%3Csvg xmlns=‘http://www.w3.org/2000/svg’ width=‘16’ height=‘16’ fill=’%237a8daa’ viewBox=‘0 0 16 16’%3E%3Cpath d=‘M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398l3.85 3.85a1 1 0 0 0 1.415-1.415l-3.868-3.833zm-5.242 1.156a5 5 0 1 1 0-10 5 5 0 0 1 0 10z’/%3E%3C/svg%3E”);
 background-repeat: no-repeat;
 background-position: 0.9rem center;
+-webkit-text-fill-color: #ffffff;
 }
+#search-input::placeholder, #link-input::placeholder { color: var(–text-muted); -webkit-text-fill-color: var(–text-muted); }
 
 #search-input:focus, #link-input:focus { border-color: var(–blue-accent); box-shadow: 0 0 0 3px var(–blue-glow); }
 #search-input::placeholder, #link-input::placeholder { color: var(–text-muted); }
