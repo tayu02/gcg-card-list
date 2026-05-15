@@ -186,10 +186,58 @@ gap: 0.5rem;
 align-items: center;
 }
 
-/* ── クリアボタン行 ── */
+/* ── クリアボタン行（Lv・COST左＋クリア右） ── */
 .clear-row {
 display: flex;
-justify-content: flex-end;
+justify-content: space-between;
+align-items: center;
+gap: 0.5rem;
+}
+
+/* ── Lv・COSTフィルター ── */
+.num-filters {
+display: flex;
+gap: 0.6rem;
+flex-wrap: wrap;
+align-items: center;
+}
+
+.num-filter-group {
+display: flex;
+align-items: center;
+gap: 0.3rem;
+}
+
+.num-label {
+font-family: ‘Rajdhani’, sans-serif;
+font-weight: 700;
+font-size: 0.75rem;
+color: var(–text);
+letter-spacing: 0.05em;
+white-space: nowrap;
+}
+
+.num-select {
+width: 52px;
+padding: 0.4rem 0.2rem;
+background: rgba(4, 8, 15, 0.85);
+border: 1px solid var(–border);
+border-radius: 6px;
+color: var(–text);
+font-size: 0.78rem;
+font-family: ‘Rajdhani’, sans-serif;
+font-weight: 700;
+text-align: center;
+outline: none;
+cursor: pointer;
+appearance: none;
+-webkit-appearance: none;
+}
+.num-select:focus { border-color: var(–blue-accent); box-shadow: 0 0 0 2px var(–blue-glow); }
+
+.num-sep {
+font-size: 0.7rem;
+color: var(–text);
 }
 
 /* ── クリアボタン ── */
@@ -219,7 +267,7 @@ box-sizing: border-box;
 width: 100%;
 box-sizing: border-box;
 padding: 0.5rem 1rem 0.5rem 2.8rem;
-background: var(–surface);
+background: rgba(4, 8, 15, 0.85);
 border: 1px solid var(–border);
 border-radius: 8px;
 color: var(–text);
@@ -250,7 +298,7 @@ grid-template-columns: repeat(3, 1fr);
 .filter-select {
 width: 100%;
 padding: 0.5rem 1.6rem 0.5rem 0.5rem;
-background: var(–surface);
+background: rgba(4, 8, 15, 0.85);
 border: 1px solid var(–border);
 border-radius: 8px;
 color: var(–text);
@@ -442,6 +490,15 @@ gap: 0.65rem;
 .modal-body .card-effect { font-size: 0.82rem; }
 .modal-body .card-feature { color: #a0b4cc; }
 .modal-body .card-source  { color: #7a8daa; }
+.modal-body .card-stats {
+background: rgba(30, 58, 95, 0.4);
+border: 1px solid var(–border);
+border-radius: 8px;
+padding: 0.5rem 0.8rem;
+gap: 1.2rem;
+}
+.modal-body .stat-label { color: #90b4d8; font-size: 0.7rem; letter-spacing: 0.05em; }
+.modal-body .stat-value { color: #ffd54f; font-size: 1.3rem; }
 
 /* ── モーダル内 絵柄サムネイル ── */
 .art-thumbs {
@@ -759,11 +816,7 @@ body { padding: 2rem 2rem; }
 <!-- フィルターエリア -->
 
 <div class="filter-area">
-  <!-- 行1：クリアボタン（右寄せ） -->
-  <div class="clear-row">
-    <button class="clear-btn" id="clear-btn">クリア</button>
-  </div>
-  <!-- 行2：検索欄（全幅／デスクトップは横並び） -->
+  <!-- 行1：検索欄（全幅／デスクトップは横並び） -->
   <div class="search-row-desktop">
     <div class="search-wrap">
       <input type="text" id="search-input" placeholder="カード名・効果・特徴で検索…" autocomplete="off">
@@ -773,7 +826,45 @@ body { padding: 2rem 2rem; }
       <input type="text" id="link-input" placeholder="リンク（パイロット名）で検索…" autocomplete="off">
     </div>
   </div>
-  <!-- 行2：色1、色2、タイプ、発売弾 -->
+  <!-- 行2：コスト・レベル（左）＋クリア（右） -->
+  <div class="clear-row">
+    <div class="num-filters">
+      <div class="num-filter-group">
+        <label class="num-label">Lv</label>
+        <select class="num-select" id="filter-lv-min">
+          <option value="">下限</option>
+          <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+          <option value="4">4</option><option value="5">5</option><option value="6">6</option>
+          <option value="7">7</option><option value="8">8</option><option value="9">9</option>
+        </select>
+        <span class="num-sep">〜</span>
+        <select class="num-select" id="filter-lv-max">
+          <option value="">上限</option>
+          <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+          <option value="4">4</option><option value="5">5</option><option value="6">6</option>
+          <option value="7">7</option><option value="8">8</option><option value="9">9</option>
+        </select>
+      </div>
+      <div class="num-filter-group">
+        <label class="num-label">COST</label>
+        <select class="num-select" id="filter-cost-min">
+          <option value="">下限</option>
+          <option value="0">0</option><option value="1">1</option><option value="2">2</option>
+          <option value="3">3</option><option value="4">4</option><option value="5">5</option>
+          <option value="6">6</option><option value="7">7</option><option value="8">8</option>
+        </select>
+        <span class="num-sep">〜</span>
+        <select class="num-select" id="filter-cost-max">
+          <option value="">上限</option>
+          <option value="0">0</option><option value="1">1</option><option value="2">2</option>
+          <option value="3">3</option><option value="4">4</option><option value="5">5</option>
+          <option value="6">6</option><option value="7">7</option><option value="8">8</option>
+        </select>
+      </div>
+    </div>
+    <button class="clear-btn" id="clear-btn">クリア</button>
+  </div>
+  <!-- 行3：色1、色2、タイプ、発売弾 -->
   <div class="filter-selects">
     <select class="filter-select" id="filter-color1">
       <option value="">色1</option>
@@ -803,7 +894,7 @@ body { padding: 2rem 2rem; }
       <option value="">発売弾</option>
     </select>
   </div>
-  <!-- 行3：宇宙世紀、アナザー世紀、キーワード -->
+  <!-- 行4：宇宙世紀、アナザー世紀、キーワード -->
   <div class="filter-selects row3">
     <select class="filter-select" id="filter-uc">
       <option value="">宇宙世紀</option>
@@ -853,6 +944,16 @@ body { padding: 2rem 2rem; }
       <button class="deck-clear-btn" id="deck-url-btn">🔗 URLをコピー</button>
       <button class="deck-clear-btn" id="deck-clear-btn">クリア</button>
     </div>
+  </div>
+
+  <!-- 画像チェックツール -->
+
+  <div style="max-width:960px;margin:0 auto 1rem;text-align:right;">
+    <button class="deck-clear-btn" id="img-check-btn">🔍 画像チェック</button>
+  </div>
+  <div id="img-check-result" style="max-width:960px;margin:0 auto 1rem;display:none;
+    background:rgba(13,21,37,0.85);border:1px solid var(--border);border-radius:10px;padding:1rem;
+    font-size:0.78rem;font-family:'Rajdhani',sans-serif;line-height:1.8;">
   </div>
   <div class="deck-grid" id="deck-grid">
     <div class="empty-state" style="grid-column:1/-1">デッキにカードがありません</div>
@@ -953,8 +1054,8 @@ body { padding: 2rem 2rem; }
 // block: ブロックアイコン番号（公式の括り）
 // ap/hp: PILOTは+表記用の数値のみ（表示はstatsHTMLで制御）
 // ─────────────────────────────────────────────
-const BASE   = "https://www.gundam-gcg.com/jp/images/cards/card/";
-const QS     = "?260424";
+const BASE   = "https://tayu02.github.io/gcg-card-list/画像/";
+const QS     = "";
 const imgUrl = id => `${BASE}${id}.webp${QS}`;
 
 
@@ -3817,8 +3918,8 @@ const cards = [
     feature: "〔エゥーゴ〕",
     link: "「カミーユ・ビダン」",
     source: "機動戦士Zガンダム",
-    pack: "Dual Impact [GD02]",
-    images: ["GD02-069", "GD02-069_p1"],
+    pack: "Dual Impact [GD02] / ニュータイプチャレンジ 2025 MISSION2",
+    images: ["GD02-069", "GD02-069_p1", "GD02-069_p2"],
   },
   {
     id: "GD02-070", block: 1,
@@ -4083,8 +4184,8 @@ const cards = [
     feature: "〔地球連邦〕〔アスノ家〕〔Xラウンダー〕",
     link: "-",
     source: "機動戦士ガンダムAGE",
-    pack: "Dual Impact [GD02]",
-    images: ["GD02-088", "GD02-088_p1"],
+    pack: "Dual Impact [GD02] / ブースターパックリリースイベント [GD02]",
+    images: ["GD02-088", "GD02-088_p1", "GD02-088_p2"],
   },
   {
     id: "GD02-089", block: 1,
@@ -4111,8 +4212,8 @@ const cards = [
     feature: "〔ジオン〕〔ニュータイプ〕",
     link: "-",
     source: "機動戦士Gundam GQuuuuuuX(ジークアクス)",
-    pack: "Dual Impact [GD02]",
-    images: ["GD02-090"],
+    pack: "Dual Impact [GD02] / ショップバトル2026 SEASON2 参加者パック / ショップバトル2026 SEASON2 優勝者パック",
+    images: ["GD02-090", "GD02-090_p1", "GD02-090_p2"],
   },
   {
     id: "GD02-091", block: 1,
@@ -4125,8 +4226,8 @@ const cards = [
     feature: "〔ネオ・ジオン〕〔ニュータイプ〕",
     link: "-",
     source: "機動戦士Zガンダム",
-    pack: "Dual Impact [GD02]",
-    images: ["GD02-091", "GD02-091_p1"],
+    pack: "Dual Impact [GD02] / ガンダムエース 1月号 付録カード / ニュータイプチャレンジ 2025 MISSION3 上位入賞記念",
+    images: ["GD02-091", "GD02-091_p1", "GD02-091_p2", "GD02-091_p3"],
   },
   {
     id: "GD02-092", block: 1,
@@ -4195,8 +4296,8 @@ const cards = [
     feature: "〔ヴェイガン〕〔Xラウンダー〕",
     link: "-",
     source: "機動戦士ガンダムAGE",
-    pack: "Dual Impact [GD02]",
-    images: ["GD02-096"],
+    pack: "Dual Impact [GD02] / ショップバトル2026 SEASON2 参加者パック / ショップバトル2026 SEASON2 優勝者パック",
+    images: ["GD02-096", "GD02-096_p1", "GD02-096_p2"],
   },
   {
     id: "GD02-097", block: 1,
@@ -4209,8 +4310,8 @@ const cards = [
     feature: "〔エゥーゴ〕〔ニュータイプ〕",
     link: "-",
     source: "機動戦士Zガンダム",
-    pack: "Dual Impact [GD02]",
-    images: ["GD02-097", "GD02-097_p1"],
+    pack: "Dual Impact [GD02] / ニュータイプチャレンジ 2025 MISSION2",
+    images: ["GD02-097", "GD02-097_p1", "GD02-097_p2"],
   },
   {
     id: "GD02-098", block: 1,
@@ -4223,8 +4324,8 @@ const cards = [
     feature: "〔エゥーゴ〕〔ニュータイプ〕",
     link: "-",
     source: "機動戦士Zガンダム",
-    pack: "Dual Impact [GD02]",
-    images: ["GD02-098"],
+    pack: "Dual Impact [GD02] / ショップバトル2025 SEASON2 参加者パック / ショップバトル2025 SEASON2 優勝者パック",
+    images: ["GD02-098", "GD02-098_p1", "GD02-098_p2"],
   },
   {
     id: "GD02-099", block: 1,
@@ -4307,8 +4408,8 @@ const cards = [
     feature: "-",
     link: "-",
     source: "機動戦士Gundam GQuuuuuuX(ジークアクス)",
-    pack: "Dual Impact [GD02]",
-    images: ["GD02-104"],
+    pack: "Dual Impact [GD02] / ショップバトル2026 SEASON2 参加者パック / ショップバトル2026 SEASON2 優勝者パック",
+    images: ["GD02-104", "GD02-104_p1", "GD02-104_p2"],
   },
   {
     id: "GD02-105", block: 1,
@@ -4335,8 +4436,8 @@ const cards = [
     feature: "〔地球連邦〕",
     link: "-",
     source: "機動戦士ガンダムAGE",
-    pack: "Dual Impact [GD02]",
-    images: ["GD02-106"],
+    pack: "Dual Impact [GD02] / ショップバトル2025 SEASON2 参加者パック / ショップバトル2025 SEASON2 優勝者パック",
+    images: ["GD02-106", "GD02-106_p1", "GD02-106_p2"],
   },
   {
     id: "GD02-107", block: 1,
@@ -4349,8 +4450,8 @@ const cards = [
     feature: "-",
     link: "-",
     source: "機動戦士Zガンダム",
-    pack: "Dual Impact [GD02]",
-    images: ["GD02-107", "GD02-107_p1"],
+    pack: "Dual Impact [GD02] / ニュータイプチャレンジ 2025 MISSION3 参加記念",
+    images: ["GD02-107", "GD02-107_p1", "GD02-107_p2"],
   },
   {
     id: "GD02-108", block: 1,
@@ -4419,8 +4520,8 @@ const cards = [
     feature: "-",
     link: "-",
     source: "機動戦士ガンダム 鉄血のオルフェンズ",
-    pack: "Dual Impact [GD02]",
-    images: ["GD02-112", "GD02-112_p1"],
+    pack: "Dual Impact [GD02] / ショップバトル2025 SEASON2 参加者パック / ショップバトル2025 SEASON2 優勝者パック",
+    images: ["GD02-112", "GD02-112_p1", "GD02-112_p2", "GD02-112_p3"],
   },
   {
     id: "GD02-113", block: 1,
@@ -4489,8 +4590,8 @@ const cards = [
     feature: "-",
     link: "-",
     source: "機動戦士Zガンダム",
-    pack: "Dual Impact [GD02]",
-    images: ["GD02-117"],
+    pack: "Dual Impact [GD02] / ニュータイプチャレンジ 2025 MISSION2",
+    images: ["GD02-117", "GD02-117_p1"],
   },
   {
     id: "GD02-118", block: 1,
@@ -4813,8 +4914,8 @@ const cards = [
     feature: "〔民間〕",
     link: "「バナージ・リンクス」",
     source: "機動戦士ガンダムUC",
-    pack: "Steel Requiem [GD03]",
-    images: ["GD03-010", "GD03-010_p1"],
+    pack: "Steel Requiem [GD03] / ショップバトル 2026 SEASON1 参加者パック03 / ショップバトル 2026 SEASON1 優勝者パック03",
+    images: ["GD03-010", "GD03-010_p1", "GD03-010_p2", "GD03-010_p3"],
   },
   {
     id: "GD03-011", block: 1,
@@ -4953,8 +5054,8 @@ const cards = [
     feature: "〔ジオン〕〔サイクロプス隊〕",
     link: "「バーナード・ワイズマン」",
     source: "機動戦士ガンダム0080 ポケットの中の戦争",
-    pack: "Steel Requiem [GD03]",
-    images: ["GD03-020", "GD03-020_p1", "GD03-020_p2"],
+    pack: "Steel Requiem [GD03] / 新弾限定戦 [ST07][ST08][GD03]",
+    images: ["GD03-020", "GD03-020_p1", "GD03-020_p2", "GD03-020_p3"],
   },
   {
     id: "GD03-021", block: 1,
@@ -4967,8 +5068,8 @@ const cards = [
     feature: "〔Gチーム〕",
     link: "「デュオ・マックスウェル」",
     source: "新機動戦記ガンダムW",
-    pack: "Steel Requiem [GD03]",
-    images: ["GD03-021"],
+    pack: "Steel Requiem [GD03] / ショップバトル 2026 SEASON1 参加者パック03 / ショップバトル 2026 SEASON1 優勝者パック03",
+    images: ["GD03-021", "GD03-021_p1", "GD03-021_p2"],
   },
   {
     id: "GD03-022", block: 1,
@@ -5051,8 +5152,8 @@ const cards = [
     feature: "〔ジオン〕〔サイクロプス隊〕",
     link: "特徴〔サイクロプス隊〕",
     source: "機動戦士ガンダム0080 ポケットの中の戦争",
-    pack: "Steel Requiem [GD03]",
-    images: ["GD03-027"],
+    pack: "Steel Requiem [GD03] / WORLD CHAMPIONSHIPS 26-27 参加賞パック Vol.1",
+    images: ["GD03-027", "GD03-027_p1"],
   },
   {
     id: "GD03-028", block: 1,
@@ -5149,8 +5250,8 @@ const cards = [
     feature: "〔クラン〕",
     link: "「アマテ・ユズリハ（マチュ）」「ニャアン」",
     source: "機動戦士Gundam GQuuuuuuX(ジークアクス)",
-    pack: "Steel Requiem [GD03]",
-    images: ["GD03-034", "GD03-034_p1"],
+    pack: "Steel Requiem [GD03] / WORLD CHAMPIONSHIPS 26-27 Season 1優勝記念",
+    images: ["GD03-034", "GD03-034_p1", "GD03-034_p2"],
   },
   {
     id: "GD03-035", block: 1,
@@ -5373,8 +5474,8 @@ const cards = [
     feature: "〔鉄華団〕〔ガンダム・フレーム〕",
     link: "「三日月・オーガス」",
     source: "機動戦士ガンダム 鉄血のオルフェンズ",
-    pack: "Steel Requiem [GD03]",
-    images: ["GD03-050", "GD03-050_p1"],
+    pack: "Steel Requiem [GD03] / ニュータイプチャレンジ 2026 MISSION 3 優勝記念",
+    images: ["GD03-050", "GD03-050_p1", "GD03-050_p3"],
   },
   {
     id: "GD03-051", block: 1,
@@ -5443,8 +5544,8 @@ const cards = [
     feature: "〔民間〕〔ガンダム・フレーム〕",
     link: "「ウィスタリオ・アファム」",
     source: "機動戦士ガンダム 鉄血のオルフェンズ",
-    pack: "Steel Requiem [GD03]",
-    images: ["GD03-055"],
+    pack: "Steel Requiem [GD03] / WORLD CHAMPIONSHIPS 26-27 参加賞パック Vol.1",
+    images: ["GD03-055", "GD03-055_p1"],
   },
   {
     id: "GD03-056", block: 1,
@@ -5681,8 +5782,8 @@ const cards = [
     feature: "〔三隻同盟〕",
     link: "「ムウ・ラ・フラガ」",
     source: "機動戦士ガンダムSEED",
-    pack: "Steel Requiem [GD03]",
-    images: ["GD03-072"],
+    pack: "Steel Requiem [GD03] / ショップバトル 2026 SEASON1 参加者パック03 / ショップバトル 2026 SEASON1 優勝者パック03",
+    images: ["GD03-072", "GD03-072_p1", "GD03-072_p2"],
   },
   {
     id: "GD03-073", block: 1,
@@ -5737,8 +5838,8 @@ const cards = [
     feature: "〔三隻同盟〕",
     link: "「キラ・ヤマト」",
     source: "機動戦士ガンダムSEED",
-    pack: "Steel Requiem [GD03]",
-    images: ["GD03-076"],
+    pack: "Steel Requiem [GD03] / ビギナーズバトル2026 SEASON1 参加記念",
+    images: ["GD03-076", "GD03-076_p1"],
   },
   {
     id: "GD03-077", block: 1,
@@ -5807,8 +5908,8 @@ const cards = [
     feature: "〔超大国群〕",
     link: "特徴〔超大国群〕",
     source: "機動戦士ガンダム00",
-    pack: "Steel Requiem [GD03]",
-    images: ["GD03-081"],
+    pack: "Steel Requiem [GD03] / ショップバトル 2026 SEASON1 参加者パック03 / ショップバトル 2026 SEASON1 優勝者パック03",
+    images: ["GD03-081", "GD03-081_p1", "GD03-081_p2"],
   },
   {
     id: "GD03-082", block: 1,
@@ -5891,8 +5992,8 @@ const cards = [
     feature: "〔ティターンズ〕〔ジュピトリス〕〔ニュータイプ〕",
     link: "-",
     source: "機動戦士Zガンダム",
-    pack: "Steel Requiem [GD03]",
-    images: ["GD03-087"],
+    pack: "Steel Requiem [GD03] / ショップバトル2026 SEASON2 参加者パック / ショップバトル2026 SEASON2 優勝者パック",
+    images: ["GD03-087", "GD03-087_p1", "GD03-087_p2"],
   },
   {
     id: "GD03-088", block: 1,
@@ -5919,7 +6020,7 @@ const cards = [
     feature: "〔ジオン〕〔サイクロプス隊〕",
     link: "-",
     source: "機動戦士ガンダム0080 ポケットの中の戦争",
-    pack: "Steel Requiem [GD03]",
+    pack: "Steel Requiem [GD03] / 新弾限定戦 [ST07][ST08][GD03]",
     images: ["GD03-089", "GD03-089_p1"],
   },
   {
@@ -5961,8 +6062,8 @@ const cards = [
     feature: "〔ジオン〕〔ニュータイプ〕",
     link: "-",
     source: "機動戦士Gundam GQuuuuuuX(ジークアクス)",
-    pack: "Steel Requiem [GD03]",
-    images: ["GD03-092"],
+    pack: "Steel Requiem [GD03] / ショップバトル 2026 SEASON1 参加者パック03 / ショップバトル 2026 SEASON1 優勝者パック03",
+    images: ["GD03-092", "GD03-092_p1", "GD03-092_p2"],
   },
   {
     id: "GD03-093", block: 1,
@@ -6073,8 +6174,8 @@ const cards = [
     feature: "〔超大国群〕〔国連〕〔超兵〕",
     link: "-",
     source: "機動戦士ガンダム00",
-    pack: "Steel Requiem [GD03]",
-    images: ["GD03-100"],
+    pack: "Steel Requiem [GD03] / WORLD CHAMPIONSHIPS 26-27 参加賞パック Vol.1",
+    images: ["GD03-100", "GD03-100_p1"],
   },
   {
     id: "GD03-101", block: 1,
@@ -6199,8 +6300,8 @@ const cards = [
     feature: "-",
     link: "-",
     source: "機動戦士Gundam GQuuuuuuX(ジークアクス)",
-    pack: "Steel Requiem [GD03]",
-    images: ["GD03-109", "GD03-109_p1"],
+    pack: "Steel Requiem [GD03] / WORLD CHAMPIONSHIPS 26-27 参加賞パック Vol.1",
+    images: ["GD03-109", "GD03-109_p1", "GD03-109_p2"],
   },
   {
     id: "GD03-110", block: 1,
@@ -6255,8 +6356,8 @@ const cards = [
     feature: "-",
     link: "-",
     source: "機動戦士ガンダムSEED",
-    pack: "Steel Requiem [GD03]",
-    images: ["GD03-113"],
+    pack: "Steel Requiem [GD03] / ショップバトル2026 SEASON2 参加者パック / ショップバトル2026 SEASON2 優勝者パック",
+    images: ["GD03-113", "GD03-113_p1", "GD03-113_p2"],
   },
   {
     id: "GD03-114", block: 1,
@@ -6269,8 +6370,8 @@ const cards = [
     feature: "-",
     link: "-",
     source: "機動戦士ガンダム 鉄血のオルフェンズ",
-    pack: "Steel Requiem [GD03]",
-    images: ["GD03-114", "GD03-114_p1"],
+    pack: "Steel Requiem [GD03] / ニュータイプチャレンジ 2026 MISSION2 参加記念",
+    images: ["GD03-114", "GD03-114_p1", "GD03-114_p2"],
   },
   {
     id: "GD03-115", block: 1,
@@ -6325,8 +6426,8 @@ const cards = [
     feature: "-",
     link: "-",
     source: "機動戦士ガンダムSEED",
-    pack: "Steel Requiem [GD03]",
-    images: ["GD03-118", "GD03-118_p1"],
+    pack: "Steel Requiem [GD03] / ショップバトル 2026 SEASON1 参加者パック03 / ショップバトル 2026 SEASON1 優勝者パック03 / ニュータイプチャレンジ 2026 MISSION1 参加記念",
+    images: ["GD03-118", "GD03-118_p1", "GD03-118_p2", "GD03-118_p3", "GD03-118_p4"],
   },
   {
     id: "GD03-119", block: 1,
@@ -6859,8 +6960,8 @@ const cards = [
     feature: "〔学園〕",
     link: "「スレッタ・マーキュリー」",
     source: "機動戦士ガンダム 水星の魔女",
-    pack: "Phantom Aria [GD04]",
-    images: ["GD04-024"],
+    pack: "Phantom Aria [GD04] / 新弾構築戦 [GD04] 参加・優勝記念",
+    images: ["GD04-024", "GD04-024_p1"],
   },
   {
     id: "GD04-025", block: 1,
@@ -7713,8 +7814,8 @@ const cards = [
     feature: "〔学園〕",
     link: "-",
     source: "機動戦士ガンダム 水星の魔女",
-    pack: "Phantom Aria [GD04]",
-    images: ["GD04-085", "GD04-085_p1"],
+    pack: "Phantom Aria [GD04] / 新弾構築戦 [GD04] 参加・優勝記念",
+    images: ["GD04-085", "GD04-085_p1", "GD04-085_p2"],
   },
   {
     id: "GD04-086", block: 1,
@@ -10589,6 +10690,10 @@ const filterKeyword = document.getElementById("filter-keyword");
 const filterUC      = document.getElementById("filter-uc");
 const filterAnother = document.getElementById("filter-another");
 const filterPack    = document.getElementById("filter-pack");
+const filterLvMin   = document.getElementById("filter-lv-min");
+const filterLvMax   = document.getElementById("filter-lv-max");
+const filterCostMin = document.getElementById("filter-cost-min");
+const filterCostMax = document.getElementById("filter-cost-max");
 const clearBtn      = document.getElementById("clear-btn");
 
 // ── プルダウンの選択肢を動的生成（重複排除・ソート） ──
@@ -10622,6 +10727,10 @@ function matchCard(c) {
   const uc      = filterUC.value;
   const another = filterAnother.value;
   const pack    = filterPack.value;
+  const lvMin   = filterLvMin.value   !== "" ? parseInt(filterLvMin.value)   : null;
+  const lvMax   = filterLvMax.value   !== "" ? parseInt(filterLvMax.value)   : null;
+  const costMin = filterCostMin.value !== "" ? parseInt(filterCostMin.value) : null;
+  const costMax = filterCostMax.value !== "" ? parseInt(filterCostMax.value) : null;
 
   // テキスト検索：名前・効果・特徴のみ
   if (q) {
@@ -10631,6 +10740,22 @@ function matchCard(c) {
 
   // リンク検索
   if (lq && !c.link.toLowerCase().includes(lq)) return false;
+
+  // Lvフィルター（"-"のトークン等はスキップ）
+  if (lvMin !== null || lvMax !== null) {
+    const lv = parseInt(c.lv);
+    if (isNaN(lv)) return false;
+    if (lvMin !== null && lv < lvMin) return false;
+    if (lvMax !== null && lv > lvMax) return false;
+  }
+
+  // COSTフィルター
+  if (costMin !== null || costMax !== null) {
+    const cost = parseInt(c.cost);
+    if (isNaN(cost)) return false;
+    if (costMin !== null && cost < costMin) return false;
+    if (costMax !== null && cost > costMax) return false;
+  }
 
   // 色フィルター（OR条件：選んだ色のどちらかに一致）
   if (color1 || color2) {
@@ -10678,7 +10803,11 @@ function renderList() {
   const uc      = filterUC.value;
   const another = filterAnother.value;
   const pack    = filterPack.value;
-  const hasFilter = q || lq || color1 || color2 || type || keyword || uc || another || pack;
+  const lvMin   = filterLvMin.value;
+  const lvMax   = filterLvMax.value;
+  const costMin = filterCostMin.value;
+  const costMax = filterCostMax.value;
+  const hasFilter = q || lq || color1 || color2 || type || keyword || uc || another || pack || lvMin || lvMax || costMin || costMax;
 
   if (!hasFilter) {
     list.innerHTML = `<div class="empty-state">検索・フィルターを設定するとカードが表示されます</div>`;
@@ -10871,7 +11000,45 @@ deckClearBtn.addEventListener("click", () => {
   renderList();
 });
 
-// ── Firebase Realtime Database でURL短縮 ──
+// ── 画像チェック ──
+document.getElementById("img-check-btn").addEventListener("click", async () => {
+  const btn = document.getElementById("img-check-btn");
+  const result = document.getElementById("img-check-result");
+  btn.textContent = "⏳ チェック中...";
+  btn.disabled = true;
+  result.style.display = "block";
+  result.innerHTML = "チェック中です。しばらくお待ちください…";
+
+  // 全画像IDを収集
+  const allImages = [];
+  cards.forEach(c => c.images.forEach(id => allImages.push(id)));
+
+  const missing = [];
+  let ok = 0;
+
+  await Promise.all(allImages.map(id => {
+    return new Promise(resolve => {
+      const img = new Image();
+      const url = imgUrl(id);
+      img.onload  = () => { ok++; resolve(); };
+      img.onerror = () => { missing.push(id); resolve(); };
+      img.src = url;
+    });
+  }));
+
+  btn.textContent = "🔍 画像チェック";
+  btn.disabled = false;
+
+  if (missing.length === 0) {
+    result.innerHTML = `<span style="color:#4caf50;">✅ 全${ok}件の画像が確認できました！</span>`;
+  } else {
+    result.innerHTML = `
+      <span style="color:#f44336;">❌ ${missing.length}件の画像が見つかりませんでした（OK: ${ok}件）</span><br><br>
+      <span style="color:var(--text-muted);">不足している画像：</span><br>
+      <span style="color:#ff8a65;">${missing.join('<br>')}</span>
+    `;
+  }
+});
 const FIREBASE_URL = "https://acg-original-default-rtdb.firebaseio.com";
 
 function encodeDeck() {
@@ -10982,12 +11149,20 @@ clearBtn.addEventListener("click", () => {
   filterUC.value = "";
   filterAnother.value = "";
   filterPack.value = "";
+  filterLvMin.value = "";
+  filterLvMax.value = "";
+  filterCostMin.value = "";
+  filterCostMax.value = "";
   renderList();
 });
 
 // ── イベント登録 ──
 searchInput.addEventListener("input", renderList);
 linkInput.addEventListener("input", renderList);
+filterLvMin.addEventListener("change", renderList);
+filterLvMax.addEventListener("change", renderList);
+filterCostMin.addEventListener("change", renderList);
+filterCostMax.addEventListener("change", renderList);
 filterColor1.addEventListener("change", renderList);
 filterColor2.addEventListener("change", renderList);
 filterType.addEventListener("change", renderList);
