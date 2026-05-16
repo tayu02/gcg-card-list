@@ -11059,9 +11059,9 @@ document.getElementById("deck-sheet-btn").addEventListener("click", async () => 
 
   if (logo) {
     ctx.globalAlpha = 0.18;
-    // 横幅の80%で横長に表示
+    // 横幅80%・縦は横の1/3で横長に強制
     const lw = TOTAL_W * 0.8;
-    const lh = lw * (logo.height / logo.width);
+    const lh = lw * 0.3;
     const lx = (TOTAL_W - lw) / 2;
     const ly = (TOTAL_H - lh) / 2;
     ctx.drawImage(logo, lx, ly, lw, lh);
