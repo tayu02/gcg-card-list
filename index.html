@@ -971,10 +971,12 @@ body { padding: 2rem 2rem; }
 </div><!-- /content-search -->
 
 <!-- ── デッキタブ ── -->
+
 <div class="tab-content" id="content-deck">
   <div class="deck-header">
     <div class="deck-count-bar" id="deck-count-bar">0 / 50枚</div>
-    <div style="display:flex;gap:0.4rem;">
+    <div style="display:flex;gap:0.4rem;flex-wrap:wrap;">
+      <button class="deck-clear-btn" id="deck-sheet-btn">🖼️ シート保存</button>
       <button class="deck-clear-btn" id="deck-url-btn">🔗 URLをコピー</button>
       <button class="deck-clear-btn" id="deck-clear-btn">クリア</button>
     </div>
@@ -8862,6 +8864,7 @@ const cards = [
     link: "-",
     source: "新機動戦記ガンダムW",
     pack: "Wings of Advance [ST02]",
+    limit: 2,
     images: ["ST02-016", "ST02-016_p1"],
   },
 
@@ -10793,12 +10796,13 @@ function renderList() {
     // トークンはデッキ追加不可
     if (!isToken) {
       const cardTotal = deckCardTotal(c.id);
+      const maxCopies = c.limit || 4;
       const row = document.createElement("div");
       row.className = "card-count-row";
       row.innerHTML = `
         <button class="deck-btn minus" ${cardTotal === 0 ? "disabled" : ""}>－</button>
         <span class="card-count-num">${cardTotal > 0 ? cardTotal : "·"}</span>
-        <button class="deck-btn plus" ${cardTotal >= 4 || totalDeck >= 50 ? "disabled" : ""}>＋</button>
+        <button class="deck-btn plus" ${cardTotal >= maxCopies || totalDeck >= 50 ? "disabled" : ""}>＋</button>
       `;
       row.querySelector(".minus").addEventListener("click", e => {
         e.stopPropagation();
@@ -10865,7 +10869,8 @@ function deckAdd(c, imgIdx) {
   if (c.type === "UNIT TOKEN") return;
   const key = deckKey(c.id, imgIdx);
   const cardTotal = deckCardTotal(c.id);
-  if (cardTotal >= 4) return;
+  const maxCopies = c.limit || 4;
+  if (cardTotal >= maxCopies) return;
   if (deckTotal() >= 50) return;
   deck[key] = (deck[key] || 0) + 1;
   updateDeckBadge();
@@ -10921,10 +10926,11 @@ function renderDeck() {
       const countRow = document.createElement("div");
       countRow.className = "deck-card-count";
       const cardTotal = deckCardTotal(c.id);
+      const maxCopies = c.limit || 4;
       countRow.innerHTML = `
         <button class="deck-btn minus">－</button>
         <span class="deck-card-qty">${qty}</span>
-        <button class="deck-btn plus" ${cardTotal >= 4 || total >= 50 ? "disabled" : ""}>＋</button>
+        <button class="deck-btn plus" ${cardTotal >= maxCopies || total >= 50 ? "disabled" : ""}>＋</button>
       `;
       countRow.querySelector(".minus").addEventListener("click", () => {
         deckRemove(c, idx);
@@ -10947,6 +10953,155 @@ deckClearBtn.addEventListener("click", () => {
   updateDeckBadge();
   renderDeck();
   renderList();
+});
+
+// ── デッキシート画像生成 ──
+document.getElementById("deck-sheet-btn").addEventListener("click", async () => {
+  const btn = document.getElementById("deck-sheet-btn");
+  if (deckTotal() === 0) { alert("デッキにカードがありません"); return; }
+  btn.textContent = "⏳ 生成中...";
+  btn.disabled = true;
+
+  // デッキのカード一覧を作成（カードオブジェクト・imgIdx・枚数）
+  const entries = [];
+  cards.forEach(c => {
+    c.images.forEach((imgId, idx) => {
+      const key = deckKey(c.id, idx);
+      const qty = deck[key];
+      if (qty) entries.push({ c, imgId, qty });
+    });
+  });
+
+  // Canvas設定
+  const COLS = 5;
+  const CARD_W = 160;
+  const CARD_H = 220;
+  const PAD = 20;
+  const GAP = 10;
+  const RIGHT_W = 340;
+  const ROWS = Math.ceil(entries.length / COLS);
+  const LEFT_W = PAD + COLS * CARD_W + (COLS - 1) * GAP + PAD;
+  const TOTAL_H = Math.max(PAD + ROWS * (CARD_H + GAP) + PAD, 200);
+  const TOTAL_W = LEFT_W + RIGHT_W + PAD;
+
+  const canvas = document.createElement("canvas");
+  canvas.width  = TOTAL_W;
+  canvas.height = TOTAL_H;
+  const ctx = canvas.getContext("2d");
+
+  // 背景ロゴ画像を読み込む
+  const loadImg = src => new Promise(resolve => {
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.onload  = () => resolve(img);
+    img.onerror = () => resolve(null);
+    img.src = src;
+  });
+
+  const logo = await loadImg("https://tayu02.github.io/gcg-card-list/画像/ロゴ.png");
+
+  // 背景
+  ctx.fillStyle = "#04080f";
+  ctx.fillRect(0, 0, TOTAL_W, TOTAL_H);
+  if (logo) {
+    ctx.globalAlpha = 0.15;
+    ctx.drawImage(logo, 0, 0, TOTAL_W, TOTAL_H);
+    ctx.globalAlpha = 1.0;
+  }
+
+  // 区切り線
+  ctx.strokeStyle = "rgba(33,150,243,0.4)";
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(LEFT_W, 0);
+  ctx.lineTo(LEFT_W, TOTAL_H);
+  ctx.stroke();
+
+  // カード画像を並べる
+  for (let i = 0; i < entries.length; i++) {
+    const { c, imgId, qty } = entries[i];
+    const col = i % COLS;
+    const row = Math.floor(i / COLS);
+    const x = PAD + col * (CARD_W + GAP);
+    const y = PAD + row * (CARD_H + GAP);
+
+    const cardImg = await loadImg(imgUrl(imgId));
+    if (cardImg) {
+      ctx.drawImage(cardImg, x, y, CARD_W, CARD_H);
+    } else {
+      ctx.fillStyle = "#1e3a5f";
+      ctx.fillRect(x, y, CARD_W, CARD_H);
+    }
+
+    // ×N バッジ
+    const badge = `×${qty}`;
+    ctx.fillStyle = "rgba(0,0,0,0.75)";
+    ctx.fillRect(x, y + CARD_H - 28, CARD_W, 28);
+    ctx.fillStyle = "#ffd54f";
+    ctx.font = "bold 18px 'Rajdhani', sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText(badge, x + CARD_W / 2, y + CARD_H - 8);
+  }
+
+  // 右側：カードリスト
+  const RX = LEFT_W + PAD;
+  let ry = PAD + 10;
+
+  ctx.fillStyle = "#2196f3";
+  ctx.font = "bold 16px sans-serif";
+  ctx.textAlign = "left";
+  ctx.fillText(`デッキ（${deckTotal()}枚）`, RX, ry);
+  ry += 28;
+
+  ctx.fillStyle = "rgba(33,150,243,0.4)";
+  ctx.fillRect(RX, ry, RIGHT_W - PAD, 1);
+  ry += 12;
+
+  entries.forEach(({ c, qty }) => {
+    if (ry > TOTAL_H - 20) return;
+    // 枚数バッジ
+    ctx.fillStyle = "#2196f3";
+    ctx.fillRect(RX, ry - 13, 28, 18);
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "bold 13px sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText(`×${qty}`, RX + 14, ry);
+
+    // カード名
+    ctx.fillStyle = "#e0eaff";
+    ctx.font = "13px sans-serif";
+    ctx.textAlign = "left";
+    const name = c.name.length > 16 ? c.name.slice(0, 15) + "…" : c.name;
+    ctx.fillText(name, RX + 36, ry);
+    ry += 22;
+  });
+
+  // 画像として出力
+  const dataURL = canvas.toDataURL("image/png");
+  const isMobile = /iPhone|iPad|Android/i.test(navigator.userAgent);
+
+  if (isMobile) {
+    // スマホ：タップで保存できる画像を表示
+    const overlay = document.createElement("div");
+    overlay.style.cssText = `position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:9999;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;`;
+    overlay.innerHTML = `
+      <p style="color:#fff;font-size:0.85rem;">長押しして「画像を保存」を選んでください</p>
+      <img src="${dataURL}" style="max-width:90vw;max-height:80vh;border-radius:8px;">
+      <button style="padding:0.6rem 1.6rem;background:#2196f3;color:#fff;border:none;border-radius:8px;font-size:1rem;cursor:pointer;">閉じる</button>
+    `;
+    overlay.querySelector("button").addEventListener("click", () => document.body.removeChild(overlay));
+    document.body.appendChild(overlay);
+  } else {
+    // PC：ダウンロード
+    const a = document.createElement("a");
+    a.href = dataURL;
+    a.download = "deck-sheet.png";
+    a.click();
+  }
+
+  btn.textContent = "🖼️ シート保存";
+  btn.disabled = false;
 });
 
 /* ── 画像チェック（非表示中）──
@@ -11227,7 +11382,7 @@ function openModal(c, startIdx = 0) {
   // デッキ追加行（トークン以外）
   const deckRowHTML = !isToken
     ? `<div class="modal-deck-row" id="modal-deck-row">
-        <span class="modal-deck-label">この絵柄をデッキに：</span>
+        <span class="modal-deck-label">この絵柄をデッキに：${c.limit ? `<span style="color:#ff8a65;font-size:0.65rem;">（最大${c.limit}枚）</span>` : ""}</span>
         <button class="modal-deck-btn minus" id="modal-minus">－</button>
         <span class="modal-deck-qty" id="modal-qty">·</span>
         <button class="modal-deck-btn plus" id="modal-plus">＋</button>
@@ -11277,9 +11432,10 @@ function updateModalDeckRow(c) {
   const key = deckKey(c.id, currentSlide);
   const qty = deck[key] || 0;
   const cardTotal = deckCardTotal(c.id);
+  const maxCopies = c.limit || 4;
   qtyEl.textContent  = qty > 0 ? qty : "·";
   minusEl.disabled   = qty === 0;
-  plusEl.disabled    = cardTotal >= 4 || deckTotal() >= 50;
+  plusEl.disabled    = cardTotal >= maxCopies || deckTotal() >= 50;
 }
 
 function closeModal() {
