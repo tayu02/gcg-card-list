@@ -10867,16 +10867,16 @@ function deckCardTotal(cardId) {
 
 // デッキ枚数バッジだけ更新（renderListより軽い）
 function updateCardCountBadges() {
-  document.querySelectorAll(".card-item").forEach(el => {
+  document.querySelectorAll(".card-wrap").forEach(el => {
     const cardId = el.dataset.id;
     if (!cardId) return;
     const card = cards.find(c => c.id === cardId);
     if (!card) return;
     const cardTotal = deckCardTotal(cardId);
-    const numEl = el.querySelector(".card-count-num");
-    if (numEl) numEl.textContent = cardTotal > 0 ? cardTotal : "·";
     const maxCopies = card.limit || 4;
     const totalDeck = deckTotal();
+    const numEl = el.querySelector(".card-count-num");
+    if (numEl) numEl.textContent = cardTotal > 0 ? cardTotal : "·";
     const minusBtn = el.querySelector(".deck-btn.minus");
     const plusBtn  = el.querySelector(".deck-btn.plus");
     if (minusBtn) minusBtn.disabled = cardTotal === 0;
@@ -11044,14 +11044,22 @@ document.getElementById("deck-sheet-btn").addEventListener("click", async () => 
   });
 
   // ロゴ背景
-  const logo = await loadImg("https://tayu02.github.io/gcg-card-list/ロゴ.png");
+  const logo = await loadImg("https://tayu02.github.io/gcg-card-list/3222.png");
 
   // 背景
-  ctx.fillStyle = "#04080f";
+  const grad = ctx.createLinearGradient(0, 0, TOTAL_W, TOTAL_H);
+  grad.addColorStop(0, "#04080f");
+  grad.addColorStop(0.5, "#0a1628");
+  grad.addColorStop(1, "#04080f");
+  ctx.fillStyle = grad;
   ctx.fillRect(0, 0, TOTAL_W, TOTAL_H);
+
   if (logo) {
-    ctx.globalAlpha = 0.15;
-    ctx.drawImage(logo, 0, 0, TOTAL_W, TOTAL_H);
+    // ロゴを中央に薄く表示
+    ctx.globalAlpha = 0.12;
+    const lw = Math.min(TOTAL_W * 0.6, logo.width);
+    const lh = lw * (logo.height / logo.width);
+    ctx.drawImage(logo, (TOTAL_W - lw) / 2, (TOTAL_H - lh) / 2, lw, lh);
     ctx.globalAlpha = 1.0;
   }
 
