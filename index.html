@@ -10872,6 +10872,25 @@ function deckAdd(c, imgIdx) {
   const maxCopies = c.limit || 4;
   if (cardTotal >= maxCopies) return;
   if (deckTotal() >= 50) return;
+
+  // 2色制限チェック（colorが"-"のカードは除外）
+  if (c.color !== "-") {
+    const currentColors = [...new Set(
+      Object.keys(deck)
+        .filter(k => deck[k] > 0)
+        .map(k => {
+          const cardId = k.split(":")[0];
+          const card = cards.find(cd => cd.id === cardId);
+          return card && card.color !== "-" ? card.color : null;
+        })
+        .filter(Boolean)
+    )];
+    if (!currentColors.includes(c.color) && currentColors.length >= 2) {
+      alert(`デッキには2色までしか入れられません（現在：${currentColors.join("・")}）`);
+      return;
+    }
+  }
+
   deck[key] = (deck[key] || 0) + 1;
   updateDeckBadge();
   renderList();
@@ -10963,6 +10982,7 @@ document.getElementById("deck-sheet-btn").addEventListener("click", async () => 
   btn.disabled = true;
 
   // デッキのカード一覧を作成（カードオブジェクト・imgIdx・枚数）
+  const typeOrder = { "UNIT": 0, "PILOT": 1, "COMMAND": 2, "BASE": 3 };
   const entries = [];
   cards.forEach(c => {
     c.images.forEach((imgId, idx) => {
@@ -10970,6 +10990,12 @@ document.getElementById("deck-sheet-btn").addEventListener("click", async () => 
       const qty = deck[key];
       if (qty) entries.push({ c, imgId, qty });
     });
+  });
+  // コスト昇順→タイプ順でソート
+  entries.sort((a, b) => {
+    const typeDiff = (typeOrder[a.c.type] ?? 9) - (typeOrder[b.c.type] ?? 9);
+    if (typeDiff !== 0) return typeDiff;
+    return (parseInt(a.c.cost) || 0) - (parseInt(b.c.cost) || 0);
   });
 
   // Canvas設定
