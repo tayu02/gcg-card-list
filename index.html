@@ -679,8 +679,9 @@ cursor: not-allowed;
 .card-count-num {
 font-family: ‘Rajdhani’, sans-serif;
 font-weight: 700;
-font-size: 0.85rem;
-color: var(–gold);
+font-size: 0.95rem;
+color: #ffffff !important;
+-webkit-text-fill-color: #ffffff !important;
 min-width: 14px;
 text-align: center;
 }
@@ -11057,11 +11058,13 @@ document.getElementById("deck-sheet-btn").addEventListener("click", async () => 
   ctx.fillRect(0, 0, TOTAL_W, TOTAL_H);
 
   if (logo) {
-    // ロゴを中央に薄く表示
-    ctx.globalAlpha = 0.12;
-    const lw = Math.min(TOTAL_W * 0.6, logo.width);
+    ctx.globalAlpha = 0.18;
+    // 横幅の80%で横長に表示
+    const lw = TOTAL_W * 0.8;
     const lh = lw * (logo.height / logo.width);
-    ctx.drawImage(logo, (TOTAL_W - lw) / 2, (TOTAL_H - lh) / 2, lw, lh);
+    const lx = (TOTAL_W - lw) / 2;
+    const ly = (TOTAL_H - lh) / 2;
+    ctx.drawImage(logo, lx, ly, lw, lh);
     ctx.globalAlpha = 1.0;
   }
 
