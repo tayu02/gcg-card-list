@@ -10865,6 +10865,25 @@ function deckCardTotal(cardId) {
     .reduce((a, [, v]) => a + v, 0);
 }
 
+// デッキ枚数バッジだけ更新（renderListより軽い）
+function updateCardCountBadges() {
+  document.querySelectorAll(".card-item").forEach(el => {
+    const cardId = el.dataset.id;
+    if (!cardId) return;
+    const card = cards.find(c => c.id === cardId);
+    if (!card) return;
+    const cardTotal = deckCardTotal(cardId);
+    const numEl = el.querySelector(".card-count-num");
+    if (numEl) numEl.textContent = cardTotal > 0 ? cardTotal : "·";
+    const maxCopies = card.limit || 4;
+    const totalDeck = deckTotal();
+    const minusBtn = el.querySelector(".deck-btn.minus");
+    const plusBtn  = el.querySelector(".deck-btn.plus");
+    if (minusBtn) minusBtn.disabled = cardTotal === 0;
+    if (plusBtn)  plusBtn.disabled  = cardTotal >= maxCopies || totalDeck >= 50;
+  });
+}
+
 function deckAdd(c, imgIdx) {
   if (c.type === "UNIT TOKEN") return;
   const key = deckKey(c.id, imgIdx);
@@ -10893,6 +10912,7 @@ function deckAdd(c, imgIdx) {
 
   deck[key] = (deck[key] || 0) + 1;
   updateDeckBadge();
+  updateCardCountBadges();
   updateModalDeckRow(c);
 }
 
@@ -10902,6 +10922,7 @@ function deckRemove(c, imgIdx) {
   deck[key]--;
   if (deck[key] === 0) delete deck[key];
   updateDeckBadge();
+  updateCardCountBadges();
   updateModalDeckRow(c);
 }
 
@@ -11019,10 +11040,10 @@ document.getElementById("deck-sheet-btn").addEventListener("click", async () => 
     img.crossOrigin = "anonymous";
     img.onload  = () => resolve(img);
     img.onerror = () => resolve(null);
-    img.src = src + (src.includes("?") ? "&" : "?") + Date.now(); // キャッシュバスター
-    return img;
+    img.src = src;
   });
 
+  // ロゴ背景
   const logo = await loadImg("https://tayu02.github.io/gcg-card-list/ロゴ.png");
 
   // 背景
