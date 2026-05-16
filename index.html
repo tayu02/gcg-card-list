@@ -11025,8 +11025,10 @@ document.getElementById("deck-sheet-btn").addEventListener("click", async () => 
   const GAP = 10;
   const RIGHT_W = 340;
   const ROWS = Math.ceil(entries.length / COLS);
+  const MIN_ROWS = 10; // 50枚÷5列=10行を最小
+  const ACTUAL_ROWS = Math.max(ROWS, MIN_ROWS);
   const LEFT_W = PAD + COLS * CARD_W + (COLS - 1) * GAP + PAD;
-  const TOTAL_H = Math.max(PAD + ROWS * (CARD_H + GAP) + PAD, 200);
+  const TOTAL_H = PAD + ACTUAL_ROWS * (CARD_H + GAP) + PAD;
   const TOTAL_W = LEFT_W + RIGHT_W + PAD;
 
   const canvas = document.createElement("canvas");
