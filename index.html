@@ -10873,7 +10873,7 @@ function deckAdd(c, imgIdx) {
   if (cardTotal >= maxCopies) return;
   if (deckTotal() >= 50) return;
 
-  // 2色制限チェック（colorが"-"のカードは除外）
+  // 2色制限チェック
   if (c.color !== "-") {
     const currentColors = [...new Set(
       Object.keys(deck)
@@ -10893,7 +10893,6 @@ function deckAdd(c, imgIdx) {
 
   deck[key] = (deck[key] || 0) + 1;
   updateDeckBadge();
-  renderList();
   updateModalDeckRow(c);
 }
 
@@ -10903,7 +10902,6 @@ function deckRemove(c, imgIdx) {
   deck[key]--;
   if (deck[key] === 0) delete deck[key];
   updateDeckBadge();
-  renderList();
   updateModalDeckRow(c);
 }
 
@@ -11021,7 +11019,8 @@ document.getElementById("deck-sheet-btn").addEventListener("click", async () => 
     img.crossOrigin = "anonymous";
     img.onload  = () => resolve(img);
     img.onerror = () => resolve(null);
-    img.src = src;
+    img.src = src + (src.includes("?") ? "&" : "?") + Date.now(); // キャッシュバスター
+    return img;
   });
 
   const logo = await loadImg("https://tayu02.github.io/gcg-card-list/ロゴ.png");
@@ -11102,29 +11101,22 @@ document.getElementById("deck-sheet-btn").addEventListener("click", async () => 
     ry += 22;
   });
 
-  // 画像として出力
+  // 画像として出力（PC・スマホ共通モーダル）
   const dataURL = canvas.toDataURL("image/png");
-  const isMobile = /iPhone|iPad|Android/i.test(navigator.userAgent);
+  const sheetOverlay = document.createElement("div");
+  sheetOverlay.style.cssText = `position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:9999;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:16px;`;
 
-  if (isMobile) {
-    // スマホ：タップで保存できる画像を表示
-    const overlay = document.createElement("div");
-    overlay.style.cssText = `position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:9999;
-      display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;`;
-    overlay.innerHTML = `
-      <p style="color:#fff;font-size:0.85rem;">長押しして「画像を保存」を選んでください</p>
-      <img src="${dataURL}" style="max-width:90vw;max-height:80vh;border-radius:8px;">
-      <button style="padding:0.6rem 1.6rem;background:#2196f3;color:#fff;border:none;border-radius:8px;font-size:1rem;cursor:pointer;">閉じる</button>
-    `;
-    overlay.querySelector("button").addEventListener("click", () => document.body.removeChild(overlay));
-    document.body.appendChild(overlay);
-  } else {
-    // PC：ダウンロード
-    const a = document.createElement("a");
-    a.href = dataURL;
-    a.download = "deck-sheet.png";
-    a.click();
-  }
+  const isMobile = /iPhone|iPad|Android/i.test(navigator.userAgent);
+  const hint = isMobile ? "長押しして「画像を保存」を選んでください" : "右クリック→「名前を付けて画像を保存」で保存できます";
+
+  sheetOverlay.innerHTML = `
+    <p style="color:#a0b4cc;font-size:0.82rem;">${hint}</p>
+    <img src="${dataURL}" style="max-width:90vw;max-height:80vh;border-radius:8px;object-fit:contain;">
+    <button id="sheet-close-btn" style="padding:0.6rem 1.6rem;background:#2196f3;color:#fff;border:none;border-radius:8px;font-size:1rem;cursor:pointer;">閉じる</button>
+  `;
+  sheetOverlay.querySelector("#sheet-close-btn").addEventListener("click", () => document.body.removeChild(sheetOverlay));
+  document.body.appendChild(sheetOverlay);
 
   btn.textContent = "🖼️ シート保存";
   btn.disabled = false;
