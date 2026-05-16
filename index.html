@@ -802,9 +802,9 @@ body { padding: 2rem 2rem; }
 .num-sep { font-size: 0.95rem; }
 #search-input, #link-input { font-size: 1rem; }
 
-/* カードグリッドをもう少し細かく */
-.card-list { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
-.deck-grid  { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
+/* カードグリッドを6列固定で大きく */
+.card-list { grid-template-columns: repeat(6, 1fr); }
+.deck-grid  { grid-template-columns: repeat(6, 1fr); }
 
 /* モーダルを大きく */
 .modal { width: min(85vw, 720px); }
