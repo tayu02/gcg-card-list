@@ -11059,8 +11059,11 @@ document.getElementById("deck-sheet-btn").addEventListener("click", async () => 
 
   if (logo) {
     ctx.globalAlpha = 0.15;
-    // 全体に横長で引き伸ばす（左エリア全体）
-    ctx.drawImage(logo, 0, 0, LEFT_W, TOTAL_H);
+    // 横幅全体・縦はTOTAL_Wの15%に圧縮して横長に
+    const lw = LEFT_W;
+    const lh = LEFT_W * 0.15;
+    const ly = (TOTAL_H - lh) / 2;
+    ctx.drawImage(logo, 0, ly, lw, lh);
     ctx.globalAlpha = 1.0;
   }
 
