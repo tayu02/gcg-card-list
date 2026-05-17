@@ -11026,10 +11026,8 @@ document.getElementById("deck-sheet-btn").addEventListener("click", async () => 
   const GAP = 10;
   const RIGHT_W = 340;
   const ROWS = Math.ceil(entries.length / COLS);
-  const MIN_ROWS = 10; // 50枚÷5列=10行を最小
-  const ACTUAL_ROWS = Math.max(ROWS, MIN_ROWS);
   const LEFT_W = PAD + COLS * CARD_W + (COLS - 1) * GAP + PAD;
-  const TOTAL_H = PAD + ACTUAL_ROWS * (CARD_H + GAP) + PAD;
+  const TOTAL_H = PAD + ROWS * (CARD_H + GAP) + PAD;
   const TOTAL_W = LEFT_W + RIGHT_W + PAD;
 
   const canvas = document.createElement("canvas");
@@ -11059,11 +11057,8 @@ document.getElementById("deck-sheet-btn").addEventListener("click", async () => 
 
   if (logo) {
     ctx.globalAlpha = 0.15;
-    // 横幅全体・縦はTOTAL_Wの15%に圧縮して横長に
-    const lw = LEFT_W;
-    const lh = LEFT_W * 0.15;
-    const ly = (TOTAL_H - lh) / 2;
-    ctx.drawImage(logo, 0, ly, lw, lh);
+    // Canvas全体に横長で引き伸ばす
+    ctx.drawImage(logo, 0, 0, TOTAL_W, TOTAL_H);
     ctx.globalAlpha = 1.0;
   }
 
