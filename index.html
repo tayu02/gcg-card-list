@@ -11098,35 +11098,35 @@ document.getElementById("deck-sheet-btn").addEventListener("click", async () => 
 
   // 右側：カードリスト
   const RX = LEFT_W + PAD;
-  let ry = PAD + 20;
+  let ry = PAD + 24;
 
   ctx.fillStyle = "#2196f3";
-  ctx.font = "bold 24px sans-serif";
+  ctx.font = "bold 30px sans-serif";
   ctx.textAlign = "left";
   ctx.fillText(`デッキ（${deckTotal()}枚）`, RX, ry);
-  ry += 40;
+  ry += 50;
 
   ctx.fillStyle = "rgba(33,150,243,0.4)";
   ctx.fillRect(RX, ry, RIGHT_W - PAD, 1);
-  ry += 18;
+  ry += 22;
 
   entries.forEach(({ c, qty }) => {
     if (ry > TOTAL_H - 20) return;
     // 枚数バッジ
     ctx.fillStyle = "#2196f3";
-    ctx.fillRect(RX, ry - 18, 36, 24);
+    ctx.fillRect(RX, ry - 22, 44, 28);
     ctx.fillStyle = "#ffffff";
-    ctx.font = "bold 17px sans-serif";
+    ctx.font = "bold 21px sans-serif";
     ctx.textAlign = "center";
-    ctx.fillText(`×${qty}`, RX + 18, ry);
+    ctx.fillText(`×${qty}`, RX + 22, ry);
 
     // カード名
     ctx.fillStyle = "#e0eaff";
-    ctx.font = "17px sans-serif";
+    ctx.font = "21px sans-serif";
     ctx.textAlign = "left";
-    const name = c.name.length > 18 ? c.name.slice(0, 17) + "…" : c.name;
-    ctx.fillText(name, RX + 46, ry);
-    ry += 30;
+    const name = c.name.length > 16 ? c.name.slice(0, 15) + "…" : c.name;
+    ctx.fillText(name, RX + 54, ry);
+    ry += 36;
   });
 
   // 画像として出力（PC・スマホ共通モーダル）
