@@ -11007,14 +11007,15 @@ document.getElementById("deck-sheet-btn").addEventListener("click", async () => 
       if (qty) entries.push({ c, imgId, qty });
     });
   });
-  // カード色の順序（デッキの色構成に合わせて自動ソート）
-  const deckColors = [...new Set(
-    Object.keys(deck).filter(k => deck[k] > 0).map(k => {
-      const card = cards.find(c => c.id === k.split(":")[0]);
-      return card ? card.color : null;
-    }).filter(Boolean)
-  )].sort();
-
+  // カード色の順序（デッキ内の枚数が多い色を先に）
+  const colorCount = {};
+  Object.keys(deck).filter(k => deck[k] > 0).forEach(k => {
+    const card = cards.find(c => c.id === k.split(":")[0]);
+    if (card && card.color !== "-") {
+      colorCount[card.color] = (colorCount[card.color] || 0) + deck[k];
+    }
+  });
+  const deckColors = Object.keys(colorCount).sort((a, b) => colorCount[b] - colorCount[a]);
   const colorOrder = Object.fromEntries(deckColors.map((c, i) => [c, i]));
 
   const cardBarColor = {
