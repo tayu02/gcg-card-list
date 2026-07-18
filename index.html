@@ -104,6 +104,30 @@
     letter-spacing: 0.05em;
   }
 
+  /* 禁止・制限バッジ（カード画像の左上・絵の邪魔にならない小型表示） */
+  .ban-badge {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    font-size: 0.56rem;
+    font-weight: 700;
+    font-family: 'Noto Sans JP', sans-serif;
+    padding: 1px 6px;
+    border-radius: 3px;
+    letter-spacing: 0.02em;
+    color: #fff;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.5);
+    z-index: 2;
+    pointer-events: none;
+    line-height: 1.5;
+  }
+  .ban-badge.banned     { background: #c62828; }              /* 禁止：赤 */
+  .ban-badge.pair       { background: #ad1457; }              /* ペア禁止：マゼンタ */
+  .ban-badge.restricted { background: #e65100; }              /* 制限N：オレンジ */
+  .ban-badge.group      { background: #6a1b9a; }              /* 特殊制限：紫 */
+  /* モーダル内は少し大きめ */
+  .modal-body .ban-badge { font-size: 0.72rem; padding: 2px 9px; top: 8px; left: 8px; }
+
   .card-info { display: flex; flex-direction: column; gap: 0.45rem; }
   .card-header { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
 
@@ -14002,6 +14026,68 @@ const cards = [
     images: ["T-027"],
   },
 ];
+/* ══════════════════════════════════════════════════════
+   禁止・制限リスト（2026年7月25日施行）
+   ここを書き換えるだけで改定に対応できる。
+   ══════════════════════════════════════════════════════ */
+const BANLIST = {
+  effectiveDate: "2026年7月25日",
+  banned: ["GD01-020"],
+  restricted: { "ST02-016": 2 },
+  bannedPairs: [
+    ["ST01-010", "ST05-010"],
+    ["GD01-008", "GD05-015"],
+  ],
+  specialGroups: [
+    {
+      id: "lv2c1ap2hp2",
+      label: "Lv.2/コスト1/AP2/HP2ユニット",
+      note: "Lv.2・コスト1・AP2・HP2のユニットカードは、1種類のみ・合計4枚までしかデッキに入れられません。",
+      match: c => (c.type === "UNIT" || c.type === "UNIT TOKEN") &&
+                  c.lv === 2 && c.cost === 1 && c.ap === 2 && c.hp === 2,
+    },
+  ],
+};
+
+function banStatus(c) {
+  if (BANLIST.banned.includes(c.id)) return { kind: "banned", label: "禁止" };
+  if (c.id in BANLIST.restricted) return { kind: "restricted", label: "制限" + BANLIST.restricted[c.id] };
+  if (BANLIST.bannedPairs.some(p => p.includes(c.id))) return { kind: "pair", label: "ペア禁止" };
+  if (BANLIST.specialGroups.some(g => g.match(c))) return { kind: "group", label: "制限" };
+  return null;
+}
+function pairPartners(id) {
+  const out = [];
+  BANLIST.bannedPairs.forEach(p => {
+    if (p[0] === id) out.push(p[1]);
+    if (p[1] === id) out.push(p[0]);
+  });
+  return out;
+}
+function deckLimitOf(c) {
+  if (BANLIST.banned.includes(c.id)) return { max: 0, reason: "禁止カードのためデッキに入れられません。" };
+  const partners = pairPartners(c.id).filter(pid => deckCardTotal(pid) > 0);
+  if (partners.length) {
+    const nm = partners.map(pid => (cards.find(x => x.id === pid) || {}).name || pid).join("・");
+    return { max: 0, reason: `禁止ペア：「${nm}」と同時に使用できません。` };
+  }
+  for (const g of BANLIST.specialGroups) {
+    if (!g.match(c)) continue;
+    const usedKinds = new Set();
+    Object.keys(deck).forEach(k => {
+      if (deck[k] <= 0) return;
+      const oid = k.split(":")[0];
+      const oc = cards.find(x => x.id === oid);
+      if (oc && g.match(oc)) usedKinds.add(oid);
+    });
+    const otherKind = [...usedKinds].some(id => id !== c.id);
+    if (otherKind) return { max: 0, reason: `${g.label}は1種類のみ。既に別の該当カードが入っています。` };
+    return { max: 4, reason: `${g.label}は1種類のみ・合計4枚まで。` };
+  }
+  if (c.id in BANLIST.restricted) return { max: BANLIST.restricted[c.id], reason: `制限カード：${BANLIST.restricted[c.id]}枚まで。` };
+  return { max: 4, reason: "" };
+}
+
 
 
 
@@ -14153,9 +14239,11 @@ function renderList() {
 
     const cardEl = document.createElement("div");
     cardEl.className = "card-item";
+    const bs = banStatus(c);
     cardEl.innerHTML = `
       <div class="card-img-wrap">
         <img src="${imgUrl(c.images[0])}" alt="${c.name}" loading="lazy">
+        ${bs ? `<span class="ban-badge ${bs.kind}">${bs.label}</span>` : ""}
         ${multi ? `<span class="multi-badge">${c.images.length} ART</span>` : ""}
       </div>
     `;
@@ -14166,13 +14254,15 @@ function renderList() {
     // トークンはデッキ追加不可
     if (!isToken) {
       const cardTotal = deckCardTotal(c.id);
-      const maxCopies = c.limit || 4;
+      const lim = deckLimitOf(c);
+      const maxCopies = lim.max;
       const row = document.createElement("div");
       row.className = "card-count-row";
+      const plusDisabled = cardTotal >= maxCopies || totalDeck >= 50;
       row.innerHTML = `
         <button class="deck-btn minus" ${cardTotal === 0 ? "disabled" : ""}>－</button>
         <span class="card-count-num">${cardTotal > 0 ? cardTotal : "·"}</span>
-        <button class="deck-btn plus" ${cardTotal >= maxCopies || totalDeck >= 50 ? "disabled" : ""}>＋</button>
+        <button class="deck-btn plus" ${plusDisabled ? "disabled" : ""} ${maxCopies === 0 ? `title="${lim.reason}"` : ""}>＋</button>
       `;
       row.querySelector(".minus").addEventListener("click", e => {
         e.stopPropagation();
@@ -14237,14 +14327,14 @@ function deckCardTotal(cardId) {
 
 // デッキ枚数バッジだけ更新（renderListより軽い）
 function updateCardCountBadges() {
+  const totalDeck = deckTotal();
   document.querySelectorAll(".card-wrap").forEach(el => {
     const cardId = el.dataset.id;
     if (!cardId) return;
     const card = cards.find(c => c.id === cardId);
     if (!card) return;
     const cardTotal = deckCardTotal(cardId);
-    const maxCopies = card.limit || 4;
-    const totalDeck = deckTotal();
+    const maxCopies = deckLimitOf(card).max;   // 禁止=0・制限N・ペア・特殊制限を反映
     const numEl = el.querySelector(".card-count-num");
     if (numEl) numEl.textContent = cardTotal > 0 ? cardTotal : "·";
     const minusBtn = el.querySelector(".deck-btn.minus");
@@ -14258,8 +14348,10 @@ function deckAdd(c, imgIdx) {
   if (c.type === "UNIT TOKEN") return;
   const key = deckKey(c.id, imgIdx);
   const cardTotal = deckCardTotal(c.id);
-  const maxCopies = c.limit || 4;
-  if (cardTotal >= maxCopies) return;
+  const lim = deckLimitOf(c);
+  const maxCopies = lim.max;
+  if (maxCopies === 0) { if (lim.reason) alert(lim.reason); return; }
+  if (cardTotal >= maxCopies) { if (lim.reason) alert(lim.reason); return; }
   if (deckTotal() >= 50) return;
 
   // 2色制限チェック
@@ -14805,8 +14897,12 @@ function openModal(c, startIdx = 0) {
   currentImages = c.images;
   currentSlide  = startIdx;
 
+  const bsModal = banStatus(c);
   track.innerHTML = currentImages
-    .map(id => `<img src="${imgUrl(id)}" alt="${c.name}" draggable="false">`)
+    .map(id => `<div class="slide-img-wrap" style="position:relative;min-width:100%;">
+        <img src="${imgUrl(id)}" alt="${c.name}" draggable="false">
+        ${bsModal ? `<span class="ban-badge ${bsModal.kind}">${bsModal.label}</span>` : ""}
+      </div>`)
     .join("");
 
   dotsWrap.innerHTML = currentImages.length > 1
@@ -14827,9 +14923,15 @@ function openModal(c, startIdx = 0) {
     : "";
 
   // デッキ追加行（トークン以外）
+  const limM = !isToken ? deckLimitOf(c) : null;
+  const limNote = limM
+    ? (limM.max === 0
+        ? `<span style="color:#ef5350;font-size:0.65rem;">（${limM.reason}）</span>`
+        : (limM.reason ? `<span style="color:#ff8a65;font-size:0.65rem;">（最大${limM.max}枚：${limM.reason}）</span>` : ""))
+    : "";
   const deckRowHTML = !isToken
     ? `<div class="modal-deck-row" id="modal-deck-row">
-        <span class="modal-deck-label">この絵柄をデッキに：${c.limit ? `<span style="color:#ff8a65;font-size:0.65rem;">（最大${c.limit}枚）</span>` : ""}</span>
+        <span class="modal-deck-label">この絵柄をデッキに：${limNote}</span>
         <button class="modal-deck-btn minus" id="modal-minus">－</button>
         <span class="modal-deck-qty" id="modal-qty">·</span>
         <button class="modal-deck-btn plus" id="modal-plus">＋</button>
@@ -14879,7 +14981,7 @@ function updateModalDeckRow(c) {
   const key = deckKey(c.id, currentSlide);
   const qty = deck[key] || 0;
   const cardTotal = deckCardTotal(c.id);
-  const maxCopies = c.limit || 4;
+  const maxCopies = deckLimitOf(c).max;
   qtyEl.textContent  = qty > 0 ? qty : "·";
   minusEl.disabled   = qty === 0;
   plusEl.disabled    = cardTotal >= maxCopies || deckTotal() >= 50;
