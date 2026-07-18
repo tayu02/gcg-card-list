@@ -14098,11 +14098,13 @@ function matchCard(c) {
   // キーワードフィルター（効果テキストに含まれるか）
   if (keyword && !c.effect.includes(keyword)) return false;
 
-  // 宇宙世紀フィルター
-  if (uc && !c.source.split(" / ").map(s => s.trim()).includes(uc)) return false;
-
-  // アナザー世紀フィルター
-  if (another && !c.source.split(" / ").map(s => s.trim()).includes(another)) return false;
+  // 宇宙世紀・アナザー世紀フィルター（この2つの間はOR：両方指定ならどちらかに該当すればヒット）
+  if (uc || another) {
+    const srcs = c.source.split(" / ").map(s => s.trim());
+    const hitUC      = uc      && srcs.includes(uc);
+    const hitAnother = another && srcs.includes(another);
+    if (!hitUC && !hitAnother) return false;
+  }
 
   // 発売弾フィルター
   if (pack && !c.pack.includes(pack)) return false;
