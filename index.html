@@ -927,6 +927,7 @@
       <option value="BASE">BASE</option>
       <option value="UNIT TOKEN">UNIT TOKEN</option>
       <option value="EX RESOURCE">EX RESOURCE</option>
+      <option value="EX BASE">EX BASE</option>
     </select>
     <select class="filter-select" id="filter-pack">
       <option value="">発売弾</option>
@@ -2417,7 +2418,7 @@ const cards = [
     link: "-",
     source: "機動戦士ガンダム 水星の魔女",
     pack: "Newtype Rising [GD01] / イベント",
-    images: ["GD01-086", "GD01-086_p2", "GD01-086_p1"],
+    images: ["GD01-086", "GD01-086_p1", "GD01-086_p2"],
     keywords: ["ブロッカー"],
   },
   {
@@ -11066,7 +11067,7 @@ const cards = [
     link: "-",
     source: "機動戦士ガンダム",
     pack: "Heroic Beginnings [ST01] / イベント",
-    images: ["ST01-010", "ST01-010_p1", "ST01-010_p3", "ST01-010_p2", "ST01-010_p4", "ST01-010_p5"],
+    images: ["ST01-010", "ST01-010_p1", "ST01-010_p2", "ST01-010_p3", "ST01-010_p4", "ST01-010_p5"],
     keywords: [],
   },
   {
@@ -11308,7 +11309,7 @@ const cards = [
     link: "-",
     source: "新機動戦記ガンダムW",
     pack: "Wings of Advance [ST02] / イベント",
-    images: ["ST02-010", "ST02-010_p1", "ST02-010_p4", "ST02-010_p3", "ST02-010_p5"],
+    images: ["ST02-010", "ST02-010_p1", "ST02-010_p3", "ST02-010_p4", "ST02-010_p5"],
     keywords: [],
   },
   {
@@ -11521,7 +11522,7 @@ const cards = [
     link: "-",
     source: "機動戦士ガンダム",
     pack: "Zeon's Rush [ST03] / イベント",
-    images: ["ST03-008", "ST03-008_p1", "ST03-008_p4", "ST03-008_p3"],
+    images: ["ST03-008", "ST03-008_p1", "ST03-008_p3", "ST03-008_p4"],
     keywords: [],
   },
   {
@@ -11915,7 +11916,7 @@ const cards = [
     link: "「三日月・オーガス」",
     source: "機動戦士ガンダム 鉄血のオルフェンズ",
     pack: "Iron Bloom [ST05] / イベント",
-    images: ["ST05-002", "ST05-002_p1", "ST05-002_p3", "ST05-002_p2"],
+    images: ["ST05-002", "ST05-002_p1", "ST05-002_p2", "ST05-002_p3"],
     keywords: [],
   },
   {
@@ -12142,7 +12143,7 @@ const cards = [
     link: "「アマテ・ユズリハ（マチュ）」",
     source: "機動戦士Gundam GQuuuuuuX(ジークアクス)",
     pack: "Clan Unity [ST06] / イベント",
-    images: ["ST06-002", "ST06-002_p1", "ST06-002_p3", "ST06-002_p2"],
+    images: ["ST06-002", "ST06-002_p1", "ST06-002_p2", "ST06-002_p3"],
     keywords: [],
   },
   {
@@ -14956,9 +14957,9 @@ const cards = [
     effect: "",
     feature: "-",
     link: "-",
-    source: "機動戦士ガンダムSEED DESTINY",
-    pack: "Destiny Ignition [ST09]",
-    images: ["EXR-001", "EXR-001_p1"],
+    source: "-",
+    pack: "-",
+    images: ["EXR-001_p5", "EXR-001_p6", "EXR-001_p7"],
     keywords: [],
   },
   {
@@ -15142,21 +15143,6 @@ const cards = [
     keywords: [],
   },
   {
-    id: "EXRP-003", block: "β",
-    rarity: "P", rarityPlus: false,
-    name: "EXリソース",
-    type: "EX RESOURCE", color: "-",
-    lv: "-", cost: "-", ap: 0, hp: 0,
-    terrain: "-",
-    effect: "",
-    feature: "-",
-    link: "-",
-    source: "-",
-    pack: "-",
-    images: ["EXRP-003", "EXRP-003_p1", "EXRP-003_p2"],
-    keywords: [],
-  },
-  {
     id: "EXRP-004", block: "β",
     rarity: "P", rarityPlus: false,
     name: "EXリソース",
@@ -15306,6 +15292,293 @@ const cards = [
     images: ["EXRP-013"],
     keywords: [],
   },
+
+  // ── EXベース ──
+  {
+    id: "EXB-001", block: "β",
+    rarity: "C", rarityPlus: false,
+    name: "EXベース",
+    type: "EX BASE", color: "-",
+    lv: "-", cost: "-", ap: 0, hp: 0,
+    terrain: "-",
+    effect: "",
+    feature: "-",
+    link: "-",
+    source: "-",
+    pack: "-",
+    images: ["EXB-001_p5", "EXB-001_p6", "EXB-001_p7"],
+    keywords: [],
+  },
+  {
+    id: "EXB-002", block: 1,
+    rarity: "C", rarityPlus: false,
+    name: "EXベース",
+    type: "EX BASE", color: "-",
+    lv: "-", cost: "-", ap: 0, hp: 0,
+    terrain: "-",
+    effect: "",
+    feature: "-",
+    link: "-",
+    source: "機動戦士ガンダムSEED DESTINY",
+    pack: "Destiny Ignition [ST09]",
+    images: ["EXB-002", "EXB-002_p1"],
+    keywords: [],
+  },
+  {
+    id: "EXB-003", block: 1,
+    rarity: "C", rarityPlus: false,
+    name: "EXベース",
+    type: "EX BASE", color: "-",
+    lv: "-", cost: "-", ap: 0, hp: 0,
+    terrain: "-",
+    effect: "",
+    feature: "-",
+    link: "-",
+    source: "SDガンダム ジージェネレーション エターナル",
+    pack: "Generation Pulse [ST10]",
+    images: ["EXB-003"],
+    keywords: [],
+  },
+  {
+    id: "EXBP-001", block: "β",
+    rarity: "P", rarityPlus: false,
+    name: "EXベース",
+    type: "EX BASE", color: "-",
+    lv: "-", cost: "-", ap: 0, hp: 0,
+    terrain: "-",
+    effect: "",
+    feature: "-",
+    link: "-",
+    source: "機動戦士ガンダム",
+    pack: "-",
+    images: ["EXBP-001"],
+    keywords: [],
+  },
+  {
+    id: "EXBP-002", block: 1,
+    rarity: "P", rarityPlus: false,
+    name: "EXベース",
+    type: "EX BASE", color: "-",
+    lv: "-", cost: "-", ap: 0, hp: 0,
+    terrain: "-",
+    effect: "",
+    feature: "-",
+    link: "-",
+    source: "機動戦士ガンダムSEED",
+    pack: "-",
+    images: ["EXBP-002"],
+    keywords: [],
+  },
+  {
+    id: "EXBP-003", block: 1,
+    rarity: "P", rarityPlus: false,
+    name: "EXベース",
+    type: "EX BASE", color: "-",
+    lv: "-", cost: "-", ap: 0, hp: 0,
+    terrain: "-",
+    effect: "",
+    feature: "-",
+    link: "-",
+    source: "機動戦士ガンダム / 機動戦士Gundam GQuuuuuuX(ジークアクス)",
+    pack: "-",
+    images: ["EXBP-003"],
+    keywords: [],
+  },
+  {
+    id: "EXBP-004", block: "P",
+    rarity: "P", rarityPlus: false,
+    name: "EXベース",
+    type: "EX BASE", color: "-",
+    lv: "-", cost: "-", ap: 0, hp: 0,
+    terrain: "-",
+    effect: "",
+    feature: "-",
+    link: "-",
+    source: "機動戦士ガンダム",
+    pack: "-",
+    images: ["EXBP-004"],
+    keywords: [],
+  },
+  {
+    id: "EXBP-005", block: "P",
+    rarity: "P", rarityPlus: false,
+    name: "EXベース",
+    type: "EX BASE", color: "-",
+    lv: "-", cost: "-", ap: 0, hp: 0,
+    terrain: "-",
+    effect: "",
+    feature: "-",
+    link: "-",
+    source: "機動戦士ガンダム",
+    pack: "-",
+    images: ["EXBP-005"],
+    keywords: [],
+  },
+  {
+    id: "EXBP-006", block: "P",
+    rarity: "P", rarityPlus: false,
+    name: "EXベース",
+    type: "EX BASE", color: "-",
+    lv: "-", cost: "-", ap: 0, hp: 0,
+    terrain: "-",
+    effect: "",
+    feature: "-",
+    link: "-",
+    source: "機動戦士ガンダム",
+    pack: "-",
+    images: ["EXBP-006"],
+    keywords: [],
+  },
+  {
+    id: "EXBP-007", block: "P",
+    rarity: "P", rarityPlus: false,
+    name: "EXベース",
+    type: "EX BASE", color: "-",
+    lv: "-", cost: "-", ap: 0, hp: 0,
+    terrain: "-",
+    effect: "",
+    feature: "-",
+    link: "-",
+    source: "機動戦士ガンダムUC",
+    pack: "-",
+    images: ["EXBP-007"],
+    keywords: [],
+  },
+  {
+    id: "EXBP-008", block: "P",
+    rarity: "P", rarityPlus: false,
+    name: "EXベース",
+    type: "EX BASE", color: "-",
+    lv: "-", cost: "-", ap: 0, hp: 0,
+    terrain: "-",
+    effect: "",
+    feature: "-",
+    link: "-",
+    source: "機動戦士ガンダムSEED",
+    pack: "-",
+    images: ["EXBP-008"],
+    keywords: [],
+  },
+  {
+    id: "EXBP-009", block: "P",
+    rarity: "P", rarityPlus: false,
+    name: "EXベース",
+    type: "EX BASE", color: "-",
+    lv: "-", cost: "-", ap: 0, hp: 0,
+    terrain: "-",
+    effect: "",
+    feature: "-",
+    link: "-",
+    source: "機動戦士ガンダム 水星の魔女",
+    pack: "-",
+    images: ["EXBP-009"],
+    keywords: [],
+  },
+  {
+    id: "EXBP-010", block: "P",
+    rarity: "P", rarityPlus: false,
+    name: "EXベース",
+    type: "EX BASE", color: "-",
+    lv: "-", cost: "-", ap: 0, hp: 0,
+    terrain: "-",
+    effect: "",
+    feature: "-",
+    link: "-",
+    source: "機動戦士Gundam GQuuuuuuX(ジークアクス)",
+    pack: "-",
+    images: ["EXBP-010"],
+    keywords: [],
+  },
+  {
+    id: "EXBP-011", block: "P",
+    rarity: "P", rarityPlus: false,
+    name: "EXベース",
+    type: "EX BASE", color: "-",
+    lv: "-", cost: "-", ap: 0, hp: 0,
+    terrain: "-",
+    effect: "",
+    feature: "-",
+    link: "-",
+    source: "機動戦士ガンダム 鉄血のオルフェンズ",
+    pack: "-",
+    images: ["EXBP-011"],
+    keywords: [],
+  },
+  {
+    id: "EXBP-018", block: "P",
+    rarity: "P", rarityPlus: false,
+    name: "EXベース",
+    type: "EX BASE", color: "-",
+    lv: "-", cost: "-", ap: 0, hp: 0,
+    terrain: "-",
+    effect: "",
+    feature: "-",
+    link: "-",
+    source: "機動戦士ガンダム 閃光のハサウェイ",
+    pack: "-",
+    images: ["EXBP-018"],
+    keywords: [],
+  },
+  {
+    id: "EXBP-019", block: "P",
+    rarity: "P", rarityPlus: false,
+    name: "EXベース",
+    type: "EX BASE", color: "-",
+    lv: "-", cost: "-", ap: 0, hp: 0,
+    terrain: "-",
+    effect: "",
+    feature: "-",
+    link: "-",
+    source: "機動戦士ガンダムSEED DESTINY",
+    pack: "-",
+    images: ["EXBP-019"],
+    keywords: [],
+  },
+  {
+    id: "EXBP-025", block: "P",
+    rarity: "P", rarityPlus: false,
+    name: "EXベース",
+    type: "EX BASE", color: "-",
+    lv: "-", cost: "-", ap: 0, hp: 0,
+    terrain: "-",
+    effect: "",
+    feature: "-",
+    link: "-",
+    source: "機動戦士ガンダム 逆襲のシャア",
+    pack: "-",
+    images: ["EXBP-025"],
+    keywords: [],
+  },
+  {
+    id: "EXBP-026", block: "P",
+    rarity: "P", rarityPlus: false,
+    name: "EXベース",
+    type: "EX BASE", color: "-",
+    lv: "-", cost: "-", ap: 0, hp: 0,
+    terrain: "-",
+    effect: "",
+    feature: "-",
+    link: "-",
+    source: "機動武闘伝Gガンダム",
+    pack: "-",
+    images: ["EXBP-026"],
+    keywords: [],
+  },
+  {
+    id: "EXBP-027", block: "P",
+    rarity: "P", rarityPlus: false,
+    name: "EXベース",
+    type: "EX BASE", color: "-",
+    lv: "-", cost: "-", ap: 0, hp: 0,
+    terrain: "-",
+    effect: "",
+    feature: "-",
+    link: "-",
+    source: "新機動戦記ガンダムW Endless Waltz",
+    pack: "-",
+    images: ["EXBP-027"],
+    keywords: [],
+  },
 ];
 /* ══════════════════════════════════════════════════════
    禁止・制限リスト（2026年7月25日施行）
@@ -15419,8 +15692,8 @@ function matchCard(c) {
   const costMin = filterCostMin.value !== "" ? parseInt(filterCostMin.value) : null;
   const costMax = filterCostMax.value !== "" ? parseInt(filterCostMax.value) : null;
 
-  // EXリソース：タイプで「EX RESOURCE」を選んだときのみ表示（検索・他フィルタ単独では出さない）
-  if (c.type === "EX RESOURCE" && type !== "EX RESOURCE") return false;
+  // EXリソース・EXベース：タイプで明示的に選んだときのみ表示（検索・他フィルタ単独では出さない）
+  if ((c.type === "EX RESOURCE" || c.type === "EX BASE") && type !== c.type) return false;
 
   // テキスト検索：名前・効果・特徴のみ
   if (q) {
@@ -15523,7 +15796,7 @@ function renderList() {
     const multi = c.images.length > 1;
     const qty = deck[c.id] || 0;
     const isToken = c.type === "UNIT TOKEN";
-    const isExRes = c.type === "EX RESOURCE";
+    const isExRes = c.type === "EX RESOURCE" || c.type === "EX BASE";  // EX系共通
     const totalDeck = Object.values(deck).reduce((a, b) => a + b, 0);
 
     const wrap = document.createElement("div");
@@ -15638,7 +15911,7 @@ function updateCardCountBadges() {
 }
 
 function deckAdd(c, imgIdx) {
-  if (c.type === "UNIT TOKEN" || c.type === "EX RESOURCE") return;
+  if (c.type === "UNIT TOKEN" || c.type === "EX RESOURCE" || c.type === "EX BASE") return;
   const key = deckKey(c.id, imgIdx);
   const cardTotal = deckCardTotal(c.id);
   const lim = deckLimitOf(c);
@@ -15993,7 +16266,7 @@ function decodeDeck(str) {
     const mNew = part.match(/^(.+):(\d+)x(\d)$/);
     if (mNew) {
       const [, cardId, imgIdx, qty] = mNew;
-      const card = cards.find(c => c.id === cardId && c.type !== "UNIT TOKEN" && c.type !== "EX RESOURCE");
+      const card = cards.find(c => c.id === cardId && c.type !== "UNIT TOKEN" && c.type !== "EX RESOURCE" && c.type !== "EX BASE");
       if (!card) return;
       const n = parseInt(qty);
       if (n >= 1 && n <= 4) deck[deckKey(cardId, parseInt(imgIdx))] = n;
@@ -16003,7 +16276,7 @@ function decodeDeck(str) {
     const mOld = part.match(/^(.+)x(\d)$/);
     if (mOld) {
       const [, cardId, qty] = mOld;
-      const card = cards.find(c => c.id === cardId && c.type !== "UNIT TOKEN" && c.type !== "EX RESOURCE");
+      const card = cards.find(c => c.id === cardId && c.type !== "UNIT TOKEN" && c.type !== "EX RESOURCE" && c.type !== "EX BASE");
       if (!card) return;
       const n = parseInt(qty);
       if (n >= 1 && n <= 4) deck[deckKey(cardId, 0)] = n;
@@ -16151,7 +16424,7 @@ function statsHTML(c) {
   const isCmd   = c.type === "COMMAND";
   const isBase  = c.type === "BASE";
   const isToken = c.type === "UNIT TOKEN";
-  const isExRes = c.type === "EX RESOURCE";
+  const isExRes = c.type === "EX RESOURCE" || c.type === "EX BASE";  // EX系共通
   // Lv・COSTが「-」のトークンはそのまま表示
   const lvVal   = c.lv === "-" ? "-" : c.lv;
   const costVal = c.cost === "-" ? "-" : c.cost;
@@ -16204,7 +16477,7 @@ function openModal(c, startIdx = 0) {
     : "";
 
   const isToken = c.type === "UNIT TOKEN";
-  const isExRes = c.type === "EX RESOURCE";
+  const isExRes = c.type === "EX RESOURCE" || c.type === "EX BASE";  // EX系共通
 
   // サムネイル（2枚以上のとき表示）
   const thumbsHTML = currentImages.length > 1
